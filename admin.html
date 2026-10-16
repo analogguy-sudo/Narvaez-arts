@@ -120,54 +120,53 @@
     });
 
     document.getElementById("loginForm").addEventListener("submit", async (event) => {
-          document.getElementById("magicLinkButton").addEventListener("click", async () => {
-      const email = document.getElementById("email").value.trim();
+  event.preventDefault();
+  showMessage("Anmeldung wird geprüft …");
 
-      if (!email) {
-        showMessage("Bitte zuerst die E-Mail-Adresse eingeben.");
-        return;
-      }
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-      const button = document.getElementById("magicLinkButton");
-      button.disabled = true;
-      showMessage("Anmeldelink wird angefordert …");
+  const { error } = await client.auth.signInWithPassword({
+    email,
+    password
+  });
 
-      try {
-        const { error } = await client.auth.signInWithOtp({
-          email,
-          options: {
-            emailRedirectTo:
-              "https://analogguy-sudo.github.io/Narvaez-arts/admin.html",
-            shouldCreateUser: false
-          }
-        });
+  if (error) {
+    showMessage("Anmeldung fehlgeschlagen: " + error.message);
+  } else {
+    showMessage("Erfolgreich angemeldet.");
+  }
+});
 
-        if (error) throw error;
+document.getElementById("magicLinkButton").addEventListener("click", async () => {
+  const email = document.getElementById("email").value.trim();
 
-        showMessage("Anfrage gesendet. Bitte E-Mail und Spam-Ordner prüfen.");
-      } catch (error) {
-        showMessage("Anmeldung fehlgeschlagen: " + error.message);
-      } finally {
-        button.disabled = false;
-      }
-    });
-      event.preventDefault();
-      showMessage("Anmeldung wird geprüft …");
+  if (!email) {
+    showMessage("Bitte zuerst die E-Mail-Adresse eingeben.");
+    return;
+  }
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+  const button = document.getElementById("magicLinkButton");
+  button.disabled = true;
+  showMessage("Anmeldelink wird angefordert …");
 
-      const { error } = await client.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        showMessage("Anmeldung fehlgeschlagen: " + error.message);
-      } else {
-        showMessage("Erfolgreich angemeldet.");
+  try {
+    const { error } = await client.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: "https://analogguy-sudo.github.io/Narvaez-arts/admin.html",
+        shouldCreateUser: false
       }
     });
+
+    if (error) throw error;
+    showMessage("Anmeldelink angefordert. Bitte E-Mail und Spam-Ordner prüfen.");
+  } catch (error) {
+    showMessage("Anmeldung fehlgeschlagen: " + error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
 
     document.getElementById("logout").addEventListener("click", async () => {
       const { error } = await client.auth.signOut();
