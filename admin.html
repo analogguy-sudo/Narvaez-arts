@@ -43,10 +43,16 @@
 
   <section id="login">
     <h2>Anmelden</h2>
-    <form id="loginForm">
-      <label for="email">E-Mail</label>
-           <button type="submit">Anmelden</button>
-    </form>
+<form id="loginForm">
+  <label for="email">E-Mail</label>
+  <input id="email" type="email" autocomplete="username" required>
+
+  <label for="password">Passwort</label>
+  <input id="password" type="password"
+         autocomplete="current-password" required>
+
+  <button type="submit">Anmelden</button>
+</form>
 
     <p>Oder ohne Passwort anmelden:</p>
     <button id="magicLinkButton" type="button">
