@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eva Narváez – Bildende Kunst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f8f9f8; --ink:#1a2630; --muted:#5d6b75; --line:#cdd5d9; --accent:#2a3fd0;
+  --c1:#2a3fd0; --c2:#e9b949; --c3:#d9553f; --c4:#1a2630; --c5:#8fb5a8; --c6:#e7dfd2;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--sans)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem clamp(1rem,4vw,3rem);background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+nav{display:flex;gap:1.4rem;flex-wrap:wrap}
+nav a{text-decoration:none;font-size:.95rem;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+.lang{display:flex;gap:.25rem}
+.lang button{font:500 .85rem var(--sans);background:none;border:1px solid transparent;color:var(--muted);padding:.25rem .55rem;border-radius:99px;cursor:pointer}
+.lang button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+main{max-width:1200px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem)}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:center;padding:clamp(2.5rem,8vw,6rem) 0}
+.hero h1{font:400 clamp(3rem,9vw,7rem)/.95 var(--serif);margin:0 0 1.5rem;letter-spacing:-.02em}
+.hero p{max-width:34ch;color:var(--muted);font-size:1.1rem;margin:0 0 2rem}
+.btn{display:inline-block;padding:.7rem 1.4rem;border:1px solid var(--ink);border-radius:99px;text-decoration:none;font-weight:500}
+.btn:hover{background:var(--ink);color:var(--bg)}
+/* placeholder paintings */
+.art{position:relative;overflow:hidden;background:var(--c6);width:100%}
+.art i{position:absolute;display:block}
+.hero .art{aspect-ratio:4/5;box-shadow:0 0 0 10px var(--bg),0 0 0 11px var(--line)}
+h2{font:400 clamp(2rem,4.5vw,3.2rem)/1.1 var(--serif);margin:0 0 2rem;letter-spacing:-.01em}
+section{padding:clamp(2.5rem,7vw,5rem) 0;border-top:1px solid var(--line)}
+.grid{columns:3 260px;column-gap:2rem}
+figure{margin:0 0 2.2rem;break-inside:avoid}
+figcaption{padding-top:.7rem;font-size:.95rem}
+figcaption b{font:400 1.25rem var(--serif);display:block}
+figcaption span{color:var(--muted);font-size:.88rem}
+.about{display:grid;grid-template-columns:1fr 1.4fr;gap:3rem}
+.about p{margin:0 0 1.1rem;max-width:62ch}
+.cv{list-style:none;padding:0;margin:1.5rem 0 0;color:var(--muted);font-size:.95rem}
+.cv span{white-space:pre-line}
+.cv li{display:grid;grid-template-columns:7rem 1fr;padding:.45rem 0;border-top:1px solid var(--line)}
+.contact a.mail{font:400 clamp(1.5rem,4vw,2.6rem) var(--serif);text-decoration:none;border-bottom:1px solid var(--accent)}
+.contact p{color:var(--muted)}
+footer{max-width:1200px;margin:0 auto;padding:2rem clamp(1rem,4vw,3rem);color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+@media (max-width:760px){.hero,.about{grid-template-columns:1fr;gap:2rem}nav{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <nav aria-label="Navigation">
+    <a href="#werk" data-i18n="nav_work">Werk</a>
+    <a href="#ueber" data-i18n="nav_about">Über mich</a>
+    <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Sprache / Idioma / Language">
+    <button data-l="de" aria-pressed="true">DE</button>
+    <button data-l="es" aria-pressed="false">ES</button>
+    <button data-l="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div>
+      <h1>Eva<br>Narváez</h1>
+      <p data-i18n="tagline">Farbe, Emotion und persönliche Erfahrung.</p>
+      <a class="btn" href="#werk" data-i18n="cta">Werk ansehen</a>
+    </div>
+    <div class="art" role="img" aria-label="Platzhalter">
+      <i style="inset:0 40% 35% 0;background:var(--c1)"></i>
+      <i style="right:8%;top:12%;width:34%;aspect-ratio:1;border-radius:50%;background:var(--c2)"></i>
+      <i style="left:30%;bottom:0;width:70%;height:38%;background:var(--c3)"></i>
+      <i style="left:12%;bottom:14%;width:26%;height:3px;background:var(--c4)"></i>
+    </div>
+  </div>
+
+  <section id="werk">
+    <h2 data-i18n="h_work">Ausgewählte Arbeiten</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="ueber">
+    <h2 data-i18n="h_about">Über mich</h2>
+    <div class="about">
+      <div>
+        <ul class="cv">
+          <li><span>2009–2014</span><span data-i18n="cv1">Studium Bildende Kunst
+Universität Alonso Cano, Granada/Spanien</span></li>
+          <li><span data-i18n="cvp2">Dublin</span><span data-i18n="cv2">Ein Jahr mit Schwerpunkt Sketching</span></li>
+          <li><span>Chiclana</span><span data-i18n="cv3">Zwei Vernissagen: „Color y Vida“ und „Perfectamente Imperfecta“</span></li>
+        </ul>
+      </div>
+      <div>
+        <p data-i18n="bio1">Eva Narváez stammt aus Cádiz, Spanien. Sie studierte Bildende Kunst an der Universität Alonso Cano in Granada, wo sie ihre künstlerischen Fähigkeiten und ihren persönlichen Stil weiterentwickelte. Anschließend verbrachte sie ein Jahr in Dublin, wo sie sich intensiv mit Sketching beschäftigte und neue Eindrücke und Inspirationen sammelte.</p>
+        <p data-i18n="bio2">Ihre künstlerische Arbeit konnte sie bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen spiegeln ihre kreative Ausdruckskraft und ihre Leidenschaft für die Kunst wider.</p>
+        <p data-i18n="bio3">Mit ihrer Kunst verbindet Eva Narváez persönliche Erfahrungen, Farben und Emotionen und lädt dazu ein, die Welt aus einer individuellen Perspektive zu entdecken.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" class="contact">
+    <h2 data-i18n="h_contact">Kontakt</h2>
+    <a class="mail" href="mailto:atelier@example.com">atelier@example.com</a>
+    <p data-i18n="contact_p">Anfragen zu Ausstellungen, Ankäufen und Atelierbesuchen sind willkommen.</p>
+  </section>
+</main>
+<footer>© <span id="y"></span> Eva Narváez · <span data-i18n="rights">Alle Rechte vorbehalten.</span></footer>
+
+<script>
+var T={
+de:{nav_work:"Werk",nav_about:"Über mich",nav_contact:"Kontakt",tagline:"Farbe, Emotion und persönliche Erfahrung.",cta:"Werk ansehen",h_work:"Ausgewählte Arbeiten",h_about:"Über mich",h_contact:"Kontakt",
+cv1:"Studium Bildende Kunst\nUniversität Alonso Cano, Granada/Spanien",cv2:"Ein Jahr mit Schwerpunkt Sketching",cv3:"Zwei Vernissagen: „Color y Vida“ und „Perfectamente Imperfecta“",cvp2:"Dublin",
+bio1:"Eva Narváez stammt aus Cádiz, Spanien. Sie studierte Bildende Kunst an der Universität Alonso Cano in Granada, wo sie ihre künstlerischen Fähigkeiten und ihren persönlichen Stil weiterentwickelte. Anschließend verbrachte sie ein Jahr in Dublin, wo sie sich intensiv mit Sketching beschäftigte und neue Eindrücke und Inspirationen sammelte.",
+bio2:"Ihre künstlerische Arbeit konnte sie bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen spiegeln ihre kreative Ausdruckskraft und ihre Leidenschaft für die Kunst wider.",bio3:"Mit ihrer Kunst verbindet Eva Narváez persönliche Erfahrungen, Farben und Emotionen und lädt dazu ein, die Welt aus einer individuellen Perspektive zu entdecken.",
+contact_p:"Anfragen zu Ausstellungen, Ankäufen und Atelierbesuchen sind willkommen.",rights:"Alle Rechte vorbehalten.",
+titles:["Morgenlicht","Zwei Felder","Stille Nachmittage","Rot über Blau","Archiv","Nachtgarten"],tech:"Öl auf Leinwand"},
+es:{nav_work:"Obra",nav_about:"Sobre mí",nav_contact:"Contacto",tagline:"Color, emoción y experiencia personal.",cta:"Ver obra",h_work:"Obra seleccionada",h_about:"Sobre mí",h_contact:"Contacto",
+cv1:"Estudios de Bellas Artes\nUniversidad Alonso Cano, Granada/España",cv2:"Un año dedicado al sketching",cv3:"Dos exposiciones: “Color y Vida” y “Perfectamente Imperfecta”",cvp2:"Dublín",
+bio1:"Eva Narváez es originaria de Cádiz, España. Estudió Bellas Artes en la Universidad Alonso Cano de Granada, donde desarrolló sus habilidades artísticas y su estilo personal. Después pasó un año en Dublín, donde se dedicó intensamente al sketching y recogió nuevas impresiones e inspiración.",
+bio2:"Ya ha presentado su trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas reflejan su fuerza expresiva y su pasión por el arte.",bio3:"Con su arte, Eva Narváez une experiencias personales, color y emociones, e invita a descubrir el mundo desde una perspectiva individual.",
+contact_p:"Consultas sobre exposiciones, compras y visitas al taller son bienvenidas.",rights:"Todos los derechos reservados.",
+titles:["Luz de la mañana","Dos campos","Tardes en calma","Rojo sobre azul","Archivo","Jardín nocturno"],tech:"Óleo sobre lienzo"},
+en:{nav_work:"Work",nav_about:"About",nav_contact:"Contact",tagline:"Colour, emotion and personal experience.",cta:"View work",h_work:"Selected work",h_about:"About",h_contact:"Contact",
+cv1:"Fine Arts\nUniversidad Alonso Cano, Granada/Spain",cv2:"A year focused on sketching",cv3:"Two exhibitions: “Color y Vida” and “Perfectamente Imperfecta”",cvp2:"Dublin",
+bio1:"Eva Narváez comes from Cádiz, Spain. She studied Fine Arts at the Universidad Alonso Cano in Granada, where she developed her artistic skills and personal style. She then spent a year in Dublin, devoting herself to sketching and gathering new impressions and inspiration.",
+bio2:"She has already shown her work at two exhibition openings in Chiclana de la Frontera: “Color y Vida” and “Perfectamente Imperfecta”. Both exhibitions reflect her creative expression and her passion for art.",bio3:"In her art, Eva Narváez combines personal experiences, colour and emotion, and invites viewers to discover the world from an individual perspective.",
+contact_p:"Enquiries about exhibitions, acquisitions and studio visits are welcome.",rights:"All rights reserved.",
+titles:["Morning light","Two fields","Quiet afternoons","Red over blue","Archive","Night garden"],tech:"Oil on canvas"}
+};
+var W=[
+ {r:"4/5",s:[["inset:0 0 50% 0","c5"],["left:20%;top:30%;width:60%;height:50%;border-radius:50% 50% 0 0","c2"]]},
+ {r:"1/1",s:[["inset:0 50% 0 0","c1"],["inset:0 0 0 50%","c3"],["left:35%;top:35%;width:30%;height:30%","c4"]]},
+ {r:"3/4",s:[["inset:0","c6"],["left:10%;bottom:10%;width:80%;height:2px","c4"],["right:18%;top:18%;width:22%;aspect-ratio:1;border-radius:50%","c3"]]},
+ {r:"5/4",s:[["inset:0 0 40% 0","c3"],["inset:60% 0 0 0","c1"],["left:0;top:46%;width:100%;height:8%","c2"]]},
+ {r:"1/1",s:[["left:8%;top:8%;width:40%;height:40%","c1"],["right:8%;top:20%;width:38%;height:30%","c5"],["left:20%;bottom:8%;width:60%;height:28%","c2"]]},
+ {r:"4/5",s:[["inset:0","c4"],["left:25%;top:20%;width:50%;aspect-ratio:1;border-radius:50%","c1"],["left:40%;top:35%;width:20%;aspect-ratio:1;border-radius:50%","c2"]]}
+];
+var g=document.getElementById("grid");
+W.forEach(function(w,i){
+  var f=document.createElement("figure");
+  f.innerHTML='<div class="art" style="aspect-ratio:'+w.r+'" role="img" aria-label="Platzhalter">'+
+   w.s.map(function(s){return '<i style="'+s[0]+';background:var(--'+s[1]+')"></i>'}).join("")+
+   '</div><figcaption><b data-t="'+i+'"></b><span data-tech></span> · 2025</figcaption>';
+  g.appendChild(f);
+});
+function setLang(l){
+  var d=T[l];
+  document.documentElement.lang=l;
+  document.querySelectorAll("[data-i18n]").forEach(function(e){e.textContent=d[e.dataset.i18n]});
+  document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=d.titles[e.dataset.t]});
+  document.querySelectorAll("[data-tech]").forEach(function(e){e.textContent=d.tech});
+  document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});
+  try{localStorage.setItem("lang",l)}catch(e){}
+}
+document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){setLang(b.dataset.l)}});
+document.getElementById("y").textContent=new Date().getFullYear();
+var l0=null;try{l0=localStorage.getItem("lang")}catch(e){}
+if(!T[l0]){var n=(navigator.language||"de").slice(0,2);l0=T[n]?n:"de"}
+setLang(l0);
+</script>
+</body>
+</html>
