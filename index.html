@@ -162,14 +162,37 @@ function setLang(l){
   document.querySelectorAll("[data-i18n]").forEach(function(e){e.textContent=d[e.dataset.i18n]});
   document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=d.titles[e.dataset.t]});
   document.querySelectorAll("[data-tech]").forEach(function(e){e.textContent=d.tech});
+  document.querySelectorAll("[data-a]").forEach(function(e){var a=ART[e.dataset.a];e.textContent=a["title_"+l]||a.title_de||""});
+  document.querySelectorAll("[data-m]").forEach(function(e){var a=ART[e.dataset.m];e.textContent=[a["technique_"+l]||a.technique_de,a.year,a.size].filter(Boolean).join(" · ")});
   document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});
   try{localStorage.setItem("lang",l)}catch(e){}
 }
 document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){setLang(b.dataset.l)}});
+/* Supabase: Project URL und anon/publishable key hier eintragen (NIE den service_role key) */
+var SB={url:"",key:""};
+var ART=[];
+function loadArt(){
+  if(!SB.url||!SB.key)return;
+  fetch(SB.url+"/rest/v1/artworks?select=*&published=eq.true&order=sort.asc,id.asc",{headers:{apikey:SB.key,Authorization:"Bearer "+SB.key}})
+  .then(function(r){return r.ok?r.json():[]}).then(function(rows){
+    if(!rows.length)return;
+    ART=rows;g.innerHTML="";
+    rows.forEach(function(a,i){
+      var f=document.createElement("figure"),m=document.createElement("img");
+      m.src=SB.url+"/storage/v1/object/public/artworks/"+encodeURI(a.image_path);
+      m.alt=a.title_de||"";m.loading="lazy";m.style.cssText="width:100%;height:auto;display:block";
+      f.appendChild(m);
+      f.insertAdjacentHTML("beforeend",'<figcaption><b data-a="'+i+'"></b><span data-m="'+i+'"></span></figcaption>');
+      g.appendChild(f);
+    });
+    setLang(document.documentElement.lang);
+  }).catch(function(){});
+}
 document.getElementById("y").textContent=new Date().getFullYear();
 var l0=null;try{l0=localStorage.getItem("lang")}catch(e){}
 if(!T[l0]){var n=(navigator.language||"de").slice(0,2);l0=T[n]?n:"de"}
 setLang(l0);
+loadArt();
 </script>
 </body>
 </html>
