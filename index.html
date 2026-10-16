@@ -171,22 +171,23 @@ document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function
 /* Supabase: Project URL und anon/publishable key hier eintragen (NIE den service_role key) */
 var SB={url:"https://vavevulydesvapopwqgd.supabase.co",key:"sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN"};
 var ART=[];
+function dbg(t){console.warn("Supabase",t);var p=document.getElementById("dbg");if(!p){p=document.createElement("p");p.id="dbg";p.style.cssText="color:#b00020;font-size:.9rem";g.parentNode.insertBefore(p,g)}p.textContent="Supabase: "+t}
 function loadArt(){
   if(!SB.url||!SB.key)return;
   fetch(SB.url+"/rest/v1/artworks?select=*&published=eq.true&order=sort.asc,id.asc",{headers:(SB.key.indexOf("sb_")===0?{apikey:SB.key}:{apikey:SB.key,Authorization:"Bearer "+SB.key})})
-  .then(function(r){if(!r.ok)console.warn("Supabase Fehler",r.status);return r.ok?r.json():[]}).then(function(rows){
-    if(!rows.length)return;
+  .then(function(r){if(!r.ok)dbg("Fehler "+r.status);return r.ok?r.json():[]}).then(function(rows){
+    if(!rows.length){dbg("Tabelle liefert 0 Einträge");return}
     ART=rows;g.innerHTML="";
     rows.forEach(function(a,i){
       var f=document.createElement("figure"),m=document.createElement("img");
       m.src=SB.url+"/storage/v1/object/public/artworks/"+encodeURI(a.image_path);
-      m.alt=a.title_de||"";m.loading="lazy";m.style.cssText="width:100%;height:auto;display:block";
+      m.alt=a.title_de||"";m.onerror=function(){dbg("Bild nicht ladbar: "+m.src)};m.style.cssText="width:100%;height:auto;display:block";
       f.appendChild(m);
       f.insertAdjacentHTML("beforeend",'<figcaption><b data-a="'+i+'"></b><span data-m="'+i+'"></span></figcaption>');
       g.appendChild(f);
     });
     setLang(document.documentElement.lang);
-  }).catch(function(e){console.warn("Supabase",e)});
+  }).catch(function(e){dbg("Netzwerkfehler "+e)});
 }
 document.getElementById("y").textContent=new Date().getFullYear();
 var l0=null;try{l0=localStorage.getItem("lang")}catch(e){}
