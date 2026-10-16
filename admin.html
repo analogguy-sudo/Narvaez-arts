@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Künstlerinnen-Bereich</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 20px;
+      color: #222;
+      background: #faf9f6;
+    }
+    h1 { font-weight: 400; }
+    label { display: block; margin-top: 18px; }
+    input, textarea, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin-top: 7px;
+      font: inherit;
+    }
+    textarea { min-height: 100px; }
+    button {
+      border: 0;
+      background: #222;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    #status { margin-top: 20px; overflow-wrap: anywhere; }
+    .hidden { display: none; }
+    .note { color: #555; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Künstlerinnen-Bereich</h1>
+  <p class="note">Hier kannst du neue Kunstwerke auf der Website veröffentlichen.</p>
+
+  <section id="login">
+    <h2>Anmelden</h2>
+    <form id="loginForm">
+      <label for="email">E-Mail</label>
+      <input id="email" type="email" autocomplete="username" required>
+
+      <label for="password">Passwort</label>
+      <input id="password" type="password"
+             autocomplete="current-password" required>
+
+      <button type="submit">Anmelden</button>
+    </form>
+  </section>
+
+  <section id="editor" class="hidden">
+    <p>Du bist angemeldet.</p>
+    <button id="logout" type="button">Abmelden</button>
+
+    <h2>Neues Kunstwerk</h2>
+    <form id="artForm">
+      <label for="title">Titel des Kunstwerks *</label>
+      <input id="title" type="text" maxlength="200" required>
+
+      <label for="description">Beschreibung (optional)</label>
+      <textarea id="description" maxlength="5000"></textarea>
+
+      <label for="image">Bild auswählen *</label>
+      <input id="image" type="file" accept="image/*" required>
+
+      <p class="note">Bitte nur Bilder hochladen, die öffentlich gezeigt werden dürfen.</p>
+
+      <button id="publishButton" type="submit">Kunstwerk veröffentlichen</button>
+    </form>
+  </section>
+
+  <p id="status" role="status" aria-live="polite"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://vavevulydesvapopwqgd.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN";
+
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const loginSection = document.getElementById("login");
+    const editorSection = document.getElementById("editor");
+    const status = document.getElementById("status");
+    const publishButton = document.getElementById("publishButton");
+
+    function showMessage(message) {
+      status.textContent = message;
+    }
+
+    function showSignedIn(isSignedIn) {
+      loginSection.classList.toggle("hidden", isSignedIn);
+      editorSection.classList.toggle("hidden", !isSignedIn);
+    }
+
+    client.auth.onAuthStateChange((_event, session) => {
+      showSignedIn(Boolean(session));
+    });
+
+    client.auth.getSession().then(({ data, error }) => {
+      if (error) {
+        showMessage("Sitzung konnte nicht geprüft werden: " + error.message);
+        return;
+      }
+      showSignedIn(Boolean(data.session));
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      showMessage("Anmeldung wird geprüft …");
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      const { error } = await client.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        showMessage("Anmeldung fehlgeschlagen: " + error.message);
+      } else {
+        showMessage("Erfolgreich angemeldet.");
+      }
+    });
+
+    document.getElementById("logout").addEventListener("click", async () => {
+      const { error } = await client.auth.signOut();
+      showMessage(error ? error.message : "Du bist abgemeldet.");
+    });
+
+    document.getElementById("artForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      publishButton.disabled = true;
+
+      try {
+        showMessage("Bild wird hochgeladen …");
+
+        const { data: sessionData, error: sessionError } =
+          await client.auth.getSession();
+
+        if (sessionError) throw sessionError;
+        const user = sessionData.session?.user;
+
+        if (!user) throw new Error("Bitte melde dich zuerst an.");
+
+        const title = document.getElementById("title").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const file = document.getElementById("image").files[0];
+
+        if (!title || !file) {
+          throw new Error("Bitte Titel und Bild angeben.");
+        }
+
+        if (!file.type.startsWith("image/")) {
+          throw new Error("Bitte eine Bilddatei auswählen.");
+        }
+
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const path = `${user.id}/${crypto.randomUUID()}-${safeName}`;
+
+        const { error: uploadError } = await client.storage
+          .from("artworks")
+          .upload(path, file, {
+            contentType: file.type,
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = client.storage
+          .from("artworks")
+          .getPublicUrl(path);
+
+        showMessage("Bild hochgeladen. Kunstwerk wird gespeichert …");
+
+        const { error: insertError } = await client
+          .from("artworks")
+          .insert({
+            title_de: title,
+            title_es: title,
+            title_en: title,
+            description_de: description,
+            description_es: description,
+            description_en: description,
+            price: 0,
+            image_url: urlData.publicUrl,
+            available: true,
+            published: true
+          });
+
+        if (insertError) throw insertError;
+
+        document.getElementById("artForm").reset();
+        showMessage("Erfolg! Das Kunstwerk wurde veröffentlicht. Prüfe die öffentliche Website.");
+      } catch (error) {
+        showMessage("Fehler: " + error.message);
+      } finally {
+        publishButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
