@@ -392,15 +392,11 @@
     async function loadArtworks() {
       const t = translations[currentLanguage];
 
-      if (
-        !window.supabase ||
-        SUPABASE_URL === "https://vavevulydesvapopwqgd.supabase.co" ||
-        SUPABASE_PUBLISHABLE_KEY === "sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN"
-      ) {
-        message.textContent =
-          "Bitte trage oben deine Supabase URL und deinen Publishable Key ein.";
-        return;
-      }
+     if (!window.supabase) {
+  message.textContent =
+    "Die Supabase-Bibliothek konnte nicht geladen werden. Bitte prüfe deine Internetverbindung.";
+  return;
+}
 
       try {
         const client = window.supabase.createClient(
