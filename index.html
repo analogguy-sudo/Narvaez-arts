@@ -412,12 +412,12 @@
 
         if (error) throw error;
 
-        artworks = data || [];
-        renderArtworks();
-      } catch (error) {
-        console.error("Supabase error:", error);
-        message.textContent = t.error;
-      }
+        if (!artworks.length) {
+  grid.innerHTML = "";
+  message.textContent = translations[currentLanguage].empty;
+  message.hidden = false;
+  return;
+}
     }
 
     document.getElementById("language").addEventListener("change", event => {
