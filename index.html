@@ -169,9 +169,8 @@ function setLang(l){
 }
 document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){setLang(b.dataset.l)}});
 /* Supabase: Project URL und anon/publishable key hier eintragen (NIE den service_role key) */
-const CONFIG = {
-  supabaseUrl: "https://vavevulydesvapopwqgd.supabase.co",
-  supabaseKey: "sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN",
+var SB={url:"https://vavevulydesvapopwqgd.supabase.co",key:"sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN"};
+var ART=[];
 function dbg(t){console.warn("Supabase",t);var p=document.getElementById("dbg");if(!p){p=document.createElement("p");p.id="dbg";p.style.cssText="color:#b00020;font-size:.9rem";g.parentNode.insertBefore(p,g)}p.textContent="Supabase: "+t}
 function loadArt(){
   if(!SB.url||!SB.key)return;
