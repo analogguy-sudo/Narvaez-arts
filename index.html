@@ -330,7 +330,7 @@
 
       if (!artworks.length) {
         grid.innerHTML = "";
-        message.textContent = t.empty;
+        message.textContent = "Supabase-Fehler: " + (error?.message || String(error));
         message.hidden = false;
         return;
       }
