@@ -39,6 +39,13 @@ button:disabled{opacity:.5;cursor:wait}
 
 <section id="editor" hidden>
   <button id="logout" type="button" class="alt">Abmelden</button>
+  <h2>Portrait auf der Startseite</h2>
+  <form id="portraitForm">
+    <label for="portrait">Portraitfoto (Hochformat)</label>
+    <input id="portrait" type="file" accept="image/*" required>
+    <button id="pgo" type="submit">Portrait ersetzen</button>
+  </form>
+
   <h2>Neues Werk</h2>
   <form id="artForm">
     <label for="image">Foto *</label>
@@ -114,6 +121,21 @@ function shrink(file){
     img.src=u;
   });
 }
+
+$("portraitForm").onsubmit=async e=>{
+  e.preventDefault();
+  const b=$("pgo");b.disabled=true;
+  try{
+    const {data:{session}}=await db.auth.getSession();
+    if(!session)throw new Error("Bitte zuerst anmelden.");
+    msg("Portrait wird verkleinert …");
+    const blob=await shrink($("portrait").files[0]);
+    const up=await db.storage.from("artworks").upload("portrait.jpg",blob,{contentType:"image/jpeg",upsert:true,cacheControl:"60"});
+    if(up.error)throw up.error;
+    $("portraitForm").reset();
+    msg("Portrait ersetzt. Auf der Startseite kann es bis zu einer Minute dauern (Cmd+Shift+R).");
+  }catch(err){msg("Fehler: "+(err.message||err))}finally{b.disabled=false}
+};
 
 $("artForm").onsubmit=async e=>{
   e.preventDefault();
