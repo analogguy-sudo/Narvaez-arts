@@ -41,6 +41,19 @@ footer{border-top:1px solid var(--line);border-bottom:0;color:var(--muted);font-
 #message{color:var(--muted);padding:20px 0;line-height:1.7;overflow-wrap:anywhere}
 #message.error{color:#a33b2b}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;position:relative}
+.more{position:absolute;right:8px;bottom:8px;background:rgba(40,39,32,.85);color:#fff;font-size:12px;padding:3px 8px}
+dialog{border:0;padding:0;background:transparent;width:100%;height:100%;max-width:100vw;max-height:100vh}
+dialog::backdrop{background:rgba(20,18,14,.94)}
+.lb-in{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:56px 56px 20px}
+#lbImg{max-width:100%;max-height:calc(100vh - 170px);object-fit:contain}
+#lbCap{color:#eee;font-size:14px}
+#lbThumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#lbThumbs img{width:54px;height:54px;object-fit:cover;opacity:.55;cursor:pointer}
+#lbThumbs img.on{opacity:1;outline:2px solid #fff}
+.lb-x,.lb-n{position:absolute;background:none;border:0;color:#fff;font-size:42px;line-height:1;cursor:pointer;padding:8px 14px}
+.lb-x{top:8px;right:10px}.lb-n{top:50%;transform:translateY(-50%)}.lb-p{left:4px}.lb-nx{right:4px}
+@media(max-width:700px){.lb-in{padding:52px 8px 16px}.lb-n{top:auto;bottom:70px;transform:none}}
 @media(max-width:700px){
   header{padding:18px 5%}nav{gap:10px;font-size:13px}
   .hero{grid-template-columns:1fr;padding:40px 6%}.hero-art{max-width:280px}
@@ -103,6 +116,17 @@ footer{border-top:1px solid var(--line);border-bottom:0;color:var(--muted);font-
   <span data-t="footerText"></span>
 </footer>
 
+<dialog id="lb" aria-label="Bildansicht">
+  <div class="lb-in">
+    <button class="lb-x" id="lbX" type="button" aria-label="Schließen">×</button>
+    <button class="lb-n lb-p" id="lbPrev" type="button" aria-label="Zurück">‹</button>
+    <img id="lbImg" alt="">
+    <button class="lb-n lb-nx" id="lbNext" type="button" aria-label="Weiter">›</button>
+    <div id="lbCap"></div>
+    <div id="lbThumbs"></div>
+  </div>
+</dialog>
+
 <script>
 const SUPABASE_URL="https://vavevulydesvapopwqgd.supabase.co";
 const SUPABASE_KEY="sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN";
@@ -163,11 +187,11 @@ function render(){
     return;
   }
   msg.hidden=true;
-  grid.innerHTML=arts.map(a=>{
+  grid.innerHTML=arts.map((a,i)=>{
     const ti=a["title_"+lang]||a.title_de||"",de=a["description_"+lang]||a.description_de||"",sold=a.available===false;
-    return '<article class="art-card"><img src="'+esc(imgURL(a.image_path))+'" alt="'+esc(ti)+'" loading="lazy">'+
+    return '<article class="art-card"><button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img src="'+esc(imgURL(a.image_path))+'" alt="'+esc(ti)+'" loading="lazy">'+((a.detail_paths||[]).length?'<span class="more">+'+a.detail_paths.length+'</span>':"")+'</button>'+
       '<h3>'+esc(ti)+'</h3>'+(de?'<div class="description">'+esc(de)+'</div>':"")+
-      '<div class="price">'+(a.price>0?money(a.price):t.onRequest)+'</div>'+
+      (a.price>0?'<div class="price">'+money(a.price)+'</div>':"")+
       '<span class="status">'+(sold?t.sold:t.available)+'</span>'+
       (sold?"":'<a class="button" href="'+mail(t.subject+": "+ti)+'">'+t.enquire+'</a>')+'</article>';
   }).join("");
@@ -194,6 +218,22 @@ async function load(){
   render();
 }
 
+const lb={a:null,i:0};
+const photos=a=>[a.image_path].concat(a.detail_paths||[]);
+function showLB(){
+  const a=lb.a,ph=photos(a),ti=a["title_"+lang]||a.title_de||"";
+  $("lbImg").src=imgURL(ph[lb.i]);$("lbImg").alt=ti;
+  $("lbCap").textContent=ti+(ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
+  $("lbPrev").hidden=$("lbNext").hidden=ph.length<2;
+  $("lbThumbs").innerHTML=ph.length>1?ph.map((p,k)=>'<img src="'+esc(imgURL(p))+'" data-k="'+k+'" class="'+(k===lb.i?"on":"")+'" alt="" loading="lazy">').join(""):"";
+}
+function step(d){const n=photos(lb.a).length;lb.i=(lb.i+d+n)%n;showLB()}
+$("artGrid").addEventListener("click",e=>{const b=e.target.closest(".zoom");if(!b)return;lb.a=arts[+b.dataset.i];lb.i=0;showLB();$("lb").showModal()});
+$("lbX").onclick=()=>$("lb").close();
+$("lbPrev").onclick=()=>step(-1);$("lbNext").onclick=()=>step(1);
+$("lbThumbs").addEventListener("click",e=>{const k=e.target.dataset.k;if(k!==undefined){lb.i=+k;showLB()}});
+$("lb").addEventListener("click",e=>{if(e.target.id==="lb"||e.target.classList.contains("lb-in"))$("lb").close()});
+$("lb").addEventListener("keydown",e=>{if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1)});
 const hero=$("heroImg");hero.onload=()=>{hero.hidden=false};hero.src=imgURL("portrait.jpg");
 $("language").addEventListener("change",e=>setLang(e.target.value));
 $("year").textContent=new Date().getFullYear();
