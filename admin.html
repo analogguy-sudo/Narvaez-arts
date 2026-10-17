@@ -1,248 +1,154 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Künstlerinnen-Bereich</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 680px;
-      margin: 40px auto;
-      padding: 20px;
-      color: #222;
-      background: #faf9f6;
-    }
-    h1 { font-weight: 400; }
-    label { display: block; margin-top: 18px; }
-    input, textarea, button {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 12px;
-      margin-top: 7px;
-      font: inherit;
-    }
-    textarea { min-height: 100px; }
-    button {
-      border: 0;
-      background: #222;
-      color: white;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    button:disabled { opacity: 0.5; cursor: wait; }
-    #status { margin-top: 20px; overflow-wrap: anywhere; }
-    .hidden { display: none; }
-    .note { color: #555; font-size: 14px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin – Eva Narváez</title>
+<style>
+body{font:17px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;max-width:680px;margin:40px auto;padding:0 20px;color:#1a2630;background:#f8f9f8}
+h1{font-weight:400;font-size:2rem;margin-bottom:.2rem}
+h2{font-weight:500;font-size:1.1rem;margin:1.8rem 0 .4rem}
+label{display:block;margin-top:14px;font-size:.9rem;color:#5d6b75}
+input,select,button{width:100%;padding:11px;margin-top:5px;font:inherit;border:1px solid #cdd5d9;border-radius:6px;background:#fff;color:inherit}
+button{background:#1a2630;color:#fff;border:0;cursor:pointer;margin-top:18px}
+button.alt{background:none;color:#1a2630;border:1px solid #1a2630}
+button:disabled{opacity:.5;cursor:wait}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:560px){.row,.row2{grid-template-columns:1fr}}
+#status{margin-top:20px;overflow-wrap:anywhere;color:#2a3fd0}
+.note{color:#5d6b75;font-size:.9rem}
+</style>
 </head>
 <body>
-  <h1>Künstlerinnen-Bereich</h1>
-  <p class="note">Hier kannst du neue Kunstwerke auf der Website veröffentlichen.</p>
+<h1>Werke verwalten</h1>
+<p class="note">Neue Werke erscheinen sofort auf der Homepage.</p>
 
-  <section id="login">
-    <h2>Anmelden</h2>
-<form id="loginForm">
-  <label for="email">E-Mail</label>
-  <input id="email" type="email" autocomplete="username" required>
+<section id="login">
+  <h2>Anmelden</h2>
+  <form id="loginForm">
+    <label for="email">E-Mail</label>
+    <input id="email" type="email" autocomplete="username" required>
+    <label for="password">Passwort</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <button type="submit">Anmelden</button>
+  </form>
+  <button id="magic" type="button" class="alt">Anmeldelink per E-Mail senden</button>
+</section>
 
-  <label for="password">Passwort</label>
-  <input id="password" type="password"
-         autocomplete="current-password" required>
+<section id="editor" hidden>
+  <button id="logout" type="button" class="alt">Abmelden</button>
+  <h2>Neues Werk</h2>
+  <form id="artForm">
+    <label for="image">Foto *</label>
+    <input id="image" type="file" accept="image/*" required>
+    <p class="note">Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.</p>
 
-  <button type="submit">Anmelden</button>
-</form>
+    <h2>Titel</h2>
+    <div class="row">
+      <div><label for="t_de">Deutsch *</label><input id="t_de" required maxlength="200"></div>
+      <div><label for="t_es">Español</label><input id="t_es" maxlength="200"></div>
+      <div><label for="t_en">English</label><input id="t_en" maxlength="200"></div>
+    </div>
 
-    <p>Oder ohne Passwort anmelden:</p>
-    <button id="magicLinkButton" type="button">
-      Anmeldelink per E-Mail senden
-    </button>
-  </section>
+    <h2>Beschreibung (z. B. Technik, Maße)</h2>
+    <div class="row">
+      <div><label for="k_de">Deutsch</label><input id="k_de" placeholder="Öl auf Leinwand, 80 × 100 cm" maxlength="500"></div>
+      <div><label for="k_es">Español</label><input id="k_es" placeholder="Óleo sobre lienzo, 80 × 100 cm" maxlength="500"></div>
+      <div><label for="k_en">English</label><input id="k_en" placeholder="Oil on canvas, 80 × 100 cm" maxlength="500"></div>
+    </div>
 
-  <section id="editor" class="hidden">
-    <p>Du bist angemeldet.</p>
-    <button id="logout" type="button">Abmelden</button>
+    <div class="row2">
+      <div><label for="price">Preis in € (leer = auf Anfrage)</label><input id="price" type="number" min="0" step="1"></div>
+      <div><label for="avail">Status</label><select id="avail"><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></div>
+      <div><label for="sort">Reihenfolge</label><input id="sort" type="number" value="0"></div>
+    </div>
+    <p class="note">Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.</p>
 
-    <h2>Neues Kunstwerk</h2>
-    <form id="artForm">
-      <label for="title">Titel des Kunstwerks *</label>
-      <input id="title" type="text" maxlength="200" required>
+    <button id="go" type="submit">Veröffentlichen</button>
+  </form>
+</section>
 
-      <label for="description">Beschreibung (optional)</label>
-      <textarea id="description" maxlength="5000"></textarea>
+<p id="status" role="status" aria-live="polite"></p>
 
-      <label for="image">Bild auswählen *</label>
-      <input id="image" type="file" accept="image/*" required>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL="https://vavevulydesvapopwqgd.supabase.co";
+const SB_KEY="sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN";
+const db=window.supabase.createClient(SB_URL,SB_KEY);
+const $=id=>document.getElementById(id);
+const msg=t=>{$("status").textContent=t};
+function view(on){$("login").hidden=on;$("editor").hidden=!on}
 
-      <p class="note">Bitte nur Bilder hochladen, die öffentlich gezeigt werden dürfen.</p>
+db.auth.onAuthStateChange((_e,s)=>view(!!s));
+db.auth.getSession().then(({data})=>view(!!data.session));
 
-      <button id="publishButton" type="submit">Kunstwerk veröffentlichen</button>
-    </form>
-  </section>
+$("loginForm").onsubmit=async e=>{
+  e.preventDefault();
+  if(!$("password").value)return msg("Bitte Passwort eingeben oder den Anmeldelink nutzen.");
+  msg("Anmeldung …");
+  const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+  msg(error?"Fehlgeschlagen: "+error.message:"");
+};
+$("magic").onclick=async()=>{
+  const email=$("email").value.trim();
+  if(!email)return msg("Bitte zuerst die E-Mail eingeben.");
+  const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
+  msg(error?"Fehler: "+error.message:"Link gesendet. Bitte E-Mail und Spam-Ordner prüfen.");
+};
+$("logout").onclick=()=>db.auth.signOut();
 
-  <p id="status" role="status" aria-live="polite"></p>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://vavevulydesvapopwqgd.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN";
-
-    const client = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-    const loginSection = document.getElementById("login");
-    const editorSection = document.getElementById("editor");
-    const status = document.getElementById("status");
-    const publishButton = document.getElementById("publishButton");
-
-    function showMessage(message) {
-      status.textContent = message;
-    }
-
-    function showSignedIn(isSignedIn) {
-      loginSection.classList.toggle("hidden", isSignedIn);
-      editorSection.classList.toggle("hidden", !isSignedIn);
-    }
-
-    client.auth.onAuthStateChange((_event, session) => {
-      showSignedIn(Boolean(session));
-    });
-
-    client.auth.getSession().then(({ data, error }) => {
-      if (error) {
-        showMessage("Sitzung konnte nicht geprüft werden: " + error.message);
-        return;
-      }
-      showSignedIn(Boolean(data.session));
-    });
-
-    document.getElementById("loginForm").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  showMessage("Anmeldung wird geprüft …");
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  const { error } = await client.auth.signInWithPassword({
-    email,
-    password
+function shrink(file){
+  return new Promise((ok,fail)=>{
+    const img=new Image(),u=URL.createObjectURL(file);
+    img.onload=()=>{
+      const k=Math.min(1,1600/Math.max(img.width,img.height));
+      const c=document.createElement("canvas");
+      c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(u);
+      c.toBlob(b=>b?ok(b):fail(new Error("Bild konnte nicht verkleinert werden.")),"image/jpeg",.85);
+    };
+    img.onerror=()=>fail(new Error("Bild nicht lesbar (bitte JPG oder PNG)."));
+    img.src=u;
   });
+}
 
-  if (error) {
-    showMessage("Anmeldung fehlgeschlagen: " + error.message);
-  } else {
-    showMessage("Erfolgreich angemeldet.");
-  }
-});
-
-document.getElementById("magicLinkButton").addEventListener("click", async () => {
-  const email = document.getElementById("email").value.trim();
-
-  if (!email) {
-    showMessage("Bitte zuerst die E-Mail-Adresse eingeben.");
-    return;
-  }
-
-  const button = document.getElementById("magicLinkButton");
-  button.disabled = true;
-  showMessage("Anmeldelink wird angefordert …");
-
-  try {
-    const { error } = await client.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: "https://analogguy-sudo.github.io/Narvaez-arts/admin.html",
-        shouldCreateUser: false
-      }
-    });
-
-    if (error) throw error;
-    showMessage("Anmeldelink angefordert. Bitte E-Mail und Spam-Ordner prüfen.");
-  } catch (error) {
-    showMessage("Anmeldung fehlgeschlagen: " + error.message);
-  } finally {
-    button.disabled = false;
-  }
-});
-
-    document.getElementById("logout").addEventListener("click", async () => {
-      const { error } = await client.auth.signOut();
-      showMessage(error ? error.message : "Du bist abgemeldet.");
-    });
-
-    document.getElementById("artForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      publishButton.disabled = true;
-
-      try {
-        showMessage("Bild wird hochgeladen …");
-
-        const { data: sessionData, error: sessionError } =
-          await client.auth.getSession();
-
-        if (sessionError) throw sessionError;
-        const user = sessionData.session?.user;
-
-        if (!user) throw new Error("Bitte melde dich zuerst an.");
-
-        const title = document.getElementById("title").value.trim();
-        const description = document.getElementById("description").value.trim();
-        const file = document.getElementById("image").files[0];
-
-        if (!title || !file) {
-          throw new Error("Bitte Titel und Bild angeben.");
-        }
-
-        if (!file.type.startsWith("image/")) {
-          throw new Error("Bitte eine Bilddatei auswählen.");
-        }
-
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        const path = `${user.id}/${crypto.randomUUID()}-${safeName}`;
-
-        const { error: uploadError } = await client.storage
-          .from("artworks")
-          .upload(path, file, {
-            contentType: file.type,
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data: urlData } = client.storage
-          .from("artworks")
-          .getPublicUrl(path);
-
-        showMessage("Bild hochgeladen. Kunstwerk wird gespeichert …");
-
-        const { error: insertError } = await client
-          .from("artworks")
-          .insert({
-            title_de: title,
-            title_es: title,
-            title_en: title,
-            description_de: description,
-            description_es: description,
-            description_en: description,
-            price: 0,
-            image_url: urlData.publicUrl,
-            available: true,
-            published: true
-          });
-
-        if (insertError) throw insertError;
-
-        document.getElementById("artForm").reset();
-        showMessage("Erfolg! Das Kunstwerk wurde veröffentlicht. Prüfe die öffentliche Website.");
-      } catch (error) {
-        showMessage("Fehler: " + error.message);
-      } finally {
-        publishButton.disabled = false;
-      }
-    });
-  </script>
+$("artForm").onsubmit=async e=>{
+  e.preventDefault();
+  const btn=$("go");btn.disabled=true;
+  let path=null;
+  try{
+    const {data:{session}}=await db.auth.getSession();
+    if(!session)throw new Error("Bitte zuerst anmelden.");
+    const f=$("image").files[0];
+    msg("Foto wird verkleinert …");
+    const blob=await shrink(f);
+    const base=f.name.replace(/\.[^.]+$/,"").normalize("NFD").replace(/[^a-zA-Z0-9_-]/g,"_").slice(0,40)||"werk";
+    path=crypto.randomUUID()+"-"+base+".jpg";
+    msg("Foto wird hochgeladen …");
+    const up=await db.storage.from("artworks").upload(path,blob,{contentType:"image/jpeg"});
+    if(up.error)throw up.error;
+    const v=id=>$(id).value.trim()||null;
+    const row={
+      image_path:path,
+      title_de:v("t_de"),title_es:v("t_es")||v("t_de"),title_en:v("t_en")||v("t_de"),
+      description_de:v("k_de"),description_es:v("k_es")||v("k_de"),description_en:v("k_en")||v("k_de"),
+      price:$("price").value===""?null:Number($("price").value),
+      available:$("avail").value==="true",
+      sort:parseInt($("sort").value)||0,
+      published:true
+    };
+    msg("Werk wird gespeichert …");
+    const ins=await db.from("artworks").insert(row);
+    if(ins.error){await db.storage.from("artworks").remove([path]);throw ins.error}
+    $("artForm").reset();$("sort").value=0;
+    msg("Veröffentlicht. Das Werk ist jetzt auf der Homepage zu sehen.");
+  }catch(err){
+    msg("Fehler: "+(err.message||err));
+  }finally{btn.disabled=false}
+};
+</script>
 </body>
 </html>
