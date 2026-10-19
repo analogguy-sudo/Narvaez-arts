@@ -24,6 +24,10 @@ button:disabled{opacity:.5;cursor:wait}
 .item span{flex:1;overflow-wrap:anywhere}
 .item button{width:auto;margin:0;padding:8px 14px;background:#a33b2b}
 .item button.dark{background:#1a2630}
+.dets{flex-basis:100%;display:flex;gap:10px;flex-wrap:wrap;padding-left:68px}
+.det{position:relative}
+.det img{width:48px;height:48px;object-fit:cover;border-radius:3px;background:#e8e1d7}
+.det button{position:absolute;top:-7px;right:-7px;width:22px;height:22px;padding:0;margin:0;border-radius:50%;line-height:1;font-size:15px;background:#a33b2b;color:#fff}
 </style>
 </head>
 <body>
@@ -32,7 +36,7 @@ button:disabled{opacity:.5;cursor:wait}
 
 <section id="login">
   <h2>Anmelden</h2>
-  <form id="loginForm">
+  <form id="loginForm" onsubmit="return false">
     <label for="email">E-Mail</label>
     <input id="email" type="email" autocomplete="username" required>
     <label for="password">Passwort</label>
@@ -53,6 +57,8 @@ button:disabled{opacity:.5;cursor:wait}
 
   <h2>Neues Werk</h2>
   <form id="artForm">
+    <label for="cat">Kategorie *</label>
+    <select id="cat"><option value="kunst">Bildende Kunst</option><option value="cartoon">Cartoon &amp; Illustration</option></select>
     <label for="image">Foto *</label>
     <input id="image" type="file" accept="image/*" required>
     <p class="note">Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.</p>
@@ -90,7 +96,10 @@ button:disabled{opacity:.5;cursor:wait}
 <p id="status" role="status" aria-live="polite"></p>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"><\/script>')</script>
 <script>
+window.addEventListener("error",e=>{const s=document.getElementById("status");if(s)s.textContent="Skriptfehler: "+e.message});
+if(!window.supabase){document.getElementById("status").textContent="Die Supabase-Bibliothek konnte nicht geladen werden (Internet, Werbeblocker oder Datenschutz-Einstellung). Bitte Seite neu laden oder einen anderen Browser testen.";throw new Error("supabase fehlt")}
 const SB_URL="https://vavevulydesvapopwqgd.supabase.co";
 const SB_KEY="sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN";
 const db=window.supabase.createClient(SB_URL,SB_KEY);
@@ -156,7 +165,7 @@ function addDetails(a,btn){
 }
 async function loadList(){
   const box=$("list");
-  const {data,error}=await db.from("artworks").select("id,title_de,image_path,detail_paths").order("created_at",{ascending:false});
+  const {data,error}=await db.from("artworks").select("id,title_de,image_path,detail_paths,category").order("created_at",{ascending:false});
   if(error){box.textContent="Liste konnte nicht geladen werden: "+error.message;return}
   if(!data.length){box.textContent="Noch keine Werke vorhanden.";return}
   box.textContent="";
@@ -164,12 +173,45 @@ async function loadList(){
     const row=document.createElement("div");row.className="item";
     const im=document.createElement("img");
     im.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(a.image_path);im.alt="";
-    const t=document.createElement("span");t.textContent=(a.title_de||"(ohne Titel)")+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" Details":"");
+    const t=document.createElement("span");t.textContent=(a.category==="cartoon"?"Cartoon · ":"Kunst · ")+(a.title_de||"(ohne Titel)")+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" Details":"");
     const b=document.createElement("button");b.type="button";b.textContent="Löschen";
     b.onclick=()=>removeArt(a,b);
     const d=document.createElement("button");d.type="button";d.textContent="+ Details";d.className="dark";d.onclick=()=>addDetails(a,d);
-    row.append(im,t,d,b);box.append(row);
+    const mv=document.createElement("button");mv.type="button";mv.className="dark";
+    mv.textContent=a.category==="cartoon"?"→ Bildende Kunst":"→ Cartoon";
+    mv.onclick=()=>moveArt(a,mv);
+    row.append(im,t,mv,d,b);
+    if((a.detail_paths||[]).length){
+      const ds=document.createElement("div");ds.className="dets";
+      a.detail_paths.forEach(pp=>{
+        const w=document.createElement("div");w.className="det";
+        const i2=document.createElement("img");
+        i2.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(pp);i2.alt="Detailfoto";
+        const x=document.createElement("button");x.type="button";x.textContent="×";
+        x.title="Dieses Detailfoto löschen";x.setAttribute("aria-label","Detailfoto löschen");
+        x.onclick=()=>removeDetail(a,pp,x);
+        w.append(i2,x);ds.append(w);
+      });
+      row.append(ds);
+    }
+    box.append(row);
   });
+}
+async function moveArt(a,b){
+  b.disabled=true;
+  const c=a.category==="cartoon"?"kunst":"cartoon";
+  const u=await db.from("artworks").update({category:c}).eq("id",a.id);
+  if(u.error){msg("Fehler: "+u.error.message);b.disabled=false;return}
+  msg("Verschoben.");loadList();
+}
+async function removeDetail(a,pp,x){
+  if(!confirm("Dieses Detailfoto wirklich löschen?"))return;
+  x.disabled=true;msg("Wird gelöscht …");
+  const rest=(a.detail_paths||[]).filter(q=>q!==pp);
+  const u=await db.from("artworks").update({detail_paths:rest}).eq("id",a.id);
+  if(u.error){msg("Fehler: "+u.error.message);x.disabled=false;return}
+  await db.storage.from("artworks").remove([pp]);
+  msg("Detailfoto gelöscht.");loadList();
 }
 async function removeArt(a,b){
   if(!confirm("„"+(a.title_de||"Werk")+"“ wirklich endgültig löschen?"))return;
@@ -214,7 +256,7 @@ $("artForm").onsubmit=async e=>{
     for(let k=0;k<files.length;k++){msg("Detailfoto "+(k+1)+" von "+files.length+" wird hochgeladen …");det.push(await upPhoto(files[k]))}
     const v=id=>$(id).value.trim()||null;
     const row={
-      image_path:path,
+      image_path:path,category:$("cat").value,
       title_de:v("t_de"),title_es:v("t_es")||v("t_de"),title_en:v("t_en")||v("t_de"),
       description_de:v("k_de"),description_es:v("k_es")||v("k_de"),description_en:v("k_en")||v("k_de"),
       price:$("price").value===""?null:Number($("price").value),
