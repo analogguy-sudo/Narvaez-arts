@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Eva Narváez Artwork</title>
+<title>Eva Narváez</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root{--side:#191919;--gold:#c1a377;--goldtext:#8b6a30;--cream:#f6f1dd;--page:#efeadf;--ink:#2b2a26;--muted:#5b574d;
@@ -91,7 +91,7 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
 <div class="wrap">
   <aside>
     <svg class="logo" viewBox="30 20 640 590" role="img" aria-label="Monogramm EN" xmlns="http://www.w3.org/2000/svg"><g fill="#c1a377"><path d="M477.4 114.6A244 244 0 1 0 477.4 509.4" fill="none" stroke="#c1a377" stroke-width="75"/><rect x="122" y="280" width="123" height="65"/><rect x="277" y="135" width="58" height="355"/><rect x="583" y="35" width="62" height="555"/><polygon points="335,135 347,135 583,470 583,590 572,590 335,252"/></g></svg>
-    <p class="name">Eva Narváez|<br><span data-t="sub"></span></p>
+    <p class="name">Eva Narváez |<br><span data-t="sub"></span></p>
     <div class="rule"></div>
     <nav aria-label="Menu">
       <a href="#home" data-v="home" data-t="nHome"></a>
@@ -115,7 +115,7 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
       <h1 data-t="homeTitle"></h1>
       <a class="me" href="#ueber">
         <img class="portrait" id="portrait" alt="Eva Narváez" hidden>
-        <span><b>Eva Narváez Artwork</b><small data-t="homeIntro"></small></span>
+        <span><b>Eva Narváez</b><small data-t="homeIntro"></small></span>
       </a>
     </section>
     <section class="view" id="portfolio" hidden>
@@ -227,7 +227,7 @@ function setLang(l){
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
   $("aboutText").innerHTML=t.about.map(p=>"<p>"+esc(p)+"</p>").join("");
   $("sideContact").innerHTML="Instagram: "+esc(CFG.insta)+"<br>Email: <a href=\"mailto:"+CFG.email+"\">"+esc(CFG.email)+"</a><br>Web: "+esc(CFG.web)+"<br>"+esc(CFG.city);
-  $("foot").textContent=t.fContact+": Eva Narváez Artwork | Web: "+CFG.web+" | Email: "+CFG.eva.narvaez-arts@outlook.de+" | Instagram: "+CFG.insta+" | "+CFG.city;
+  $("foot").textContent=t.fContact+": Eva Narváez | Web: "+CFG.web+" | Email: "+CFG.email+" | Instagram: "+CFG.insta+" | "+CFG.city;
   $("mailBtn").href="mailto:"+CFG.email;$("mailBtn").textContent=CFG.email;
   $("contactLines").innerHTML="Instagram: "+esc(CFG.insta)+"<br>"+esc(CFG.city);
   try{localStorage.setItem("lang",l)}catch(e){}
