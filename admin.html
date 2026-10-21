@@ -24,6 +24,10 @@ button:disabled{opacity:.5;cursor:wait}
 .item span{flex:1;overflow-wrap:anywhere}
 .item button{width:auto;margin:0;padding:8px 14px;background:#a33b2b}
 .item button.dark{background:#1a2630}
+.edit{flex-basis:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:10px 0 4px}
+.edit label{font-size:.85rem;color:#5d6b75;margin:0}
+.item .edit button{grid-column:1/-1;width:100%;margin-top:6px;background:#1a2630}
+@media(max-width:560px){.edit{grid-template-columns:1fr}}
 .dets{flex-basis:100%;display:flex;gap:10px;flex-wrap:wrap;padding-left:68px}
 .det{position:relative}
 .det img{width:48px;height:48px;object-fit:cover;border-radius:3px;background:#e8e1d7}
@@ -81,7 +85,7 @@ button:disabled{opacity:.5;cursor:wait}
 
     <div class="row2">
       <div><label for="price">Preis in € (optional, leer = kein Preis sichtbar)</label><input id="price" type="number" min="0" step="1"></div>
-      <div><label for="avail">Status</label><select id="avail"><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></div>
+      <div><label for="avail">Status</label><select id="avail"><option value="">Keine Angabe</option><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></div>
       <div><label for="sort">Reihenfolge</label><input id="sort" type="number" value="0"></div>
     </div>
     <p class="note">Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.</p>
@@ -165,7 +169,7 @@ function addDetails(a,btn){
 }
 async function loadList(){
   const box=$("list");
-  const {data,error}=await db.from("artworks").select("id,title_de,image_path,detail_paths,category").order("created_at",{ascending:false});
+  const {data,error}=await db.from("artworks").select("*").order("created_at",{ascending:false});
   if(error){box.textContent="Liste konnte nicht geladen werden: "+error.message;return}
   if(!data.length){box.textContent="Noch keine Werke vorhanden.";return}
   box.textContent="";
@@ -173,14 +177,18 @@ async function loadList(){
     const row=document.createElement("div");row.className="item";
     const im=document.createElement("img");
     im.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(a.image_path);im.alt="";
-    const t=document.createElement("span");t.textContent=(a.category==="cartoon"?"Cartoon · ":"Kunst · ")+(a.title_de||"(ohne Titel)")+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" Details":"");
+    const t=document.createElement("span");t.textContent=(a.category==="cartoon"?"Cartoon · ":"Kunst · ")+(a.title_de||"(ohne Titel)")+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" Details":"")+(a.price>0?"  ·  "+a.price+" €":"")+(a.available===false?"  ·  verkauft":a.available===true?"  ·  verfügbar":"")+(a.featured?"  ·  ★ Favorit":"");
     const b=document.createElement("button");b.type="button";b.textContent="Löschen";
     b.onclick=()=>removeArt(a,b);
     const d=document.createElement("button");d.type="button";d.textContent="+ Details";d.className="dark";d.onclick=()=>addDetails(a,d);
     const mv=document.createElement("button");mv.type="button";mv.className="dark";
     mv.textContent=a.category==="cartoon"?"→ Bildende Kunst":"→ Cartoon";
     mv.onclick=()=>moveArt(a,mv);
-    row.append(im,t,mv,d,b);
+    const ed=document.createElement("button");ed.type="button";ed.className="dark";ed.textContent="Bearbeiten";
+    ed.onclick=()=>editArt(a,row);
+    const fv=document.createElement("button");fv.type="button";fv.className="dark";fv.textContent=a.featured?"★ Favorit":"☆ Favorit";
+    fv.title="Als Favoritenbild auf der Startseite zeigen";fv.onclick=()=>toggleFav(a,fv);
+    row.append(im,t,ed,mv,d,fv,b);
     if((a.detail_paths||[]).length){
       const ds=document.createElement("div");ds.className="dets";
       a.detail_paths.forEach(pp=>{
@@ -196,6 +204,49 @@ async function loadList(){
     }
     box.append(row);
   });
+}
+function editArt(a,row){
+  const old=row.querySelector(".edit");
+  if(old){old.remove();return}
+  const f=document.createElement("form");f.className="edit";
+  const fields=[["title_de","Titel (Deutsch)"],["title_es","Titel (Español)"],["title_en","Titel (English)"],["description_de","Beschreibung (Deutsch)"],["description_es","Beschreibung (Español)"],["description_en","Beschreibung (English)"]];
+  f.innerHTML=fields.map(([k,l])=>'<label>'+l+'<input name="'+k+'" maxlength="500"></label>').join("")+
+    '<label>Preis in € (leer = kein Preis, dann zeigt die Seite nichts an)<input name="price" type="number" min="0" step="1"></label>'+
+    '<label>Status<select name="available"><option value="">Keine Angabe</option><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></label>'+
+    '<label>Kategorie<select name="category"><option value="kunst">Bildende Kunst</option><option value="cartoon">Cartoon &amp; Illustration</option></select></label>'+
+    '<label>Reihenfolge<input name="sort" type="number"></label>'+
+    '<button type="submit">Änderungen speichern</button>';
+  fields.forEach(([k])=>{f.elements[k].value=a[k]||""});
+  f.elements.price.value=a.price??"";
+  f.elements.available.value=a.available===true?"true":a.available===false?"false":"";
+  f.elements.category.value=a.category||"kunst";
+  f.elements.sort.value=a.sort??0;
+  f.onsubmit=async e=>{
+    e.preventDefault();
+    const g=n=>f.elements[n].value.trim()||null,el=f.elements;
+    const upd={
+      title_de:g("title_de"),title_es:g("title_es")||g("title_de"),title_en:g("title_en")||g("title_de"),
+      description_de:g("description_de"),description_es:g("description_es")||g("description_de"),description_en:g("description_en")||g("description_de"),
+      price:el.price.value===""?null:Number(el.price.value),
+      available:el.available.value===""?null:el.available.value==="true",
+      category:el.category.value,sort:parseInt(el.sort.value)||0
+    };
+    msg("Wird gespeichert …");
+    const r=await db.from("artworks").update(upd).eq("id",a.id);
+    if(r.error){msg("Fehler: "+r.error.message);return}
+    msg("Gespeichert.");loadList();
+  };
+  row.append(f);
+}
+async function toggleFav(a,b){
+  b.disabled=true;
+  if(!a.featured){
+    const c=await db.from("artworks").update({featured:false}).eq("featured",true);
+    if(c.error){msg("Fehler: "+c.error.message+" (Wurde der SQL-Befehl für die Spalte featured ausgeführt?)");b.disabled=false;return}
+  }
+  const u=await db.from("artworks").update({featured:!a.featured}).eq("id",a.id);
+  if(u.error){msg("Fehler: "+u.error.message);b.disabled=false;return}
+  msg(a.featured?"Favorit entfernt.":"Als Favorit auf der Startseite gesetzt.");loadList();
 }
 async function moveArt(a,b){
   b.disabled=true;
@@ -260,7 +311,7 @@ $("artForm").onsubmit=async e=>{
       title_de:v("t_de"),title_es:v("t_es")||v("t_de"),title_en:v("t_en")||v("t_de"),
       description_de:v("k_de"),description_es:v("k_es")||v("k_de"),description_en:v("k_en")||v("k_de"),
       price:$("price").value===""?null:Number($("price").value),
-      available:$("avail").value==="true",
+      available:$("avail").value===""?null:$("avail").value==="true",
       sort:parseInt($("sort").value)||0,
       published:true,detail_paths:det
     };
