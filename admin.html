@@ -104,8 +104,8 @@ button:disabled{opacity:.5;cursor:wait}
 <script>
 window.addEventListener("error",e=>{const s=document.getElementById("status");if(s)s.textContent="Skriptfehler: "+e.message});
 if(!window.supabase){document.getElementById("status").textContent="Die Supabase-Bibliothek konnte nicht geladen werden (Internet, Werbeblocker oder Datenschutz-Einstellung). Bitte Seite neu laden oder einen anderen Browser testen.";throw new Error("supabase fehlt")}
-const SB_URL="https://vavevulydesvapopwqgd.supabase.co";
-const SB_KEY="sb_publishable_pqNBiPM-4zQk_-Ile4fnQw_BXvrW0dN";
+const SB_URL="https://owbbsnujnkhyyqvagtai.supabase.co";
+const SB_KEY="sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 const db=window.supabase.createClient(SB_URL,SB_KEY);
 const $=id=>document.getElementById(id);
 const msg=t=>{$("status").textContent=t};
