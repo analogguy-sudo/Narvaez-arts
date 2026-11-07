@@ -31,7 +31,7 @@ nav a:hover,nav a[aria-current="page"]{border-color:var(--gold)}
 .langs button{background:none;border:0;border-bottom:1px solid transparent;color:var(--gold);font:inherit;font-size:16px;cursor:pointer;padding:2px 4px}
 .langs button[aria-pressed="true"]{border-color:var(--gold)}
 .contact{margin-top:auto;padding-top:40px;font-size:15px;line-height:1.9}
-.contact a{color:var(--gold);text-decoration:none}
+.contact a{color:var(--gold);text-underline-offset:3px}
 main{background:var(--cream);padding:34px 36px 40px;display:flex;flex-direction:column;align-items:center}
 .view{width:100%;display:flex;flex-direction:column;align-items:center}
 h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transform:uppercase;color:var(--goldtext);text-align:center;line-height:1.15}
@@ -52,6 +52,8 @@ h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transfo
 .more{position:absolute;right:8px;bottom:8px;background:rgba(25,25,25,.85);color:var(--gold);font-size:12px;padding:3px 8px}
 .mail{display:inline-block;margin-top:10px;padding:10px 22px;background:var(--side);color:var(--gold);text-decoration:none;text-transform:uppercase;font-size:16px}
 footer{background:var(--side);color:var(--gold);font-size:14px;text-align:center;padding:14px 20px;overflow-wrap:anywhere}
+footer a{color:inherit;text-underline-offset:3px}
+#contactLines a{color:var(--goldtext);text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--goldtext);outline-offset:3px}
 aside :focus-visible,footer :focus-visible{outline-color:var(--gold)}
 dialog{border:0;padding:0;background:transparent;width:100%;height:100%;max-width:100vw;max-height:100vh}
@@ -149,7 +151,7 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
 const SB_URL="https://owbbsnujnkhyyqvagtai.supabase.co";
 const SB_KEY="sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 /* Kontaktdaten – bitte prüfen */
-const CFG={email:"hello@evanarvaez.art",insta:"@evanarvaez.art",web:"www.evanarvaez.art",city:"Hamburg, Deutschland"};
+const CFG={email:"eva.narvaez-arts@outlook.de",insta:[{key:"nKunst",handle:"@evanarvaez_arts"},{key:"nCartoon",handle:"@brevavineta"}],city:"Frankfurt, Deutschland"};
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
@@ -218,10 +220,12 @@ function setLang(l){
   document.querySelectorAll("[data-t]").forEach(e=>{e.textContent=t[e.dataset.t]});
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
   $("aboutText").innerHTML=t.about.map(p=>"<p>"+esc(p)+"</p>").join("");
-  $("sideContact").innerHTML="Instagram: "+esc(CFG.insta)+"<br>Email: <a href=\"mailto:"+CFG.email+"\">"+esc(CFG.email)+"</a><br>Web: "+esc(CFG.web)+"<br>"+esc(CFG.city);
-  $("foot").textContent=t.fContact+": Eva Narváez | Web: "+CFG.web+" | Email: "+CFG.email+" | Instagram: "+CFG.insta+" | "+CFG.city;
+  const ig=CFG.insta.map(a=>'<a href="https://instagram.com/'+a.handle.replace(/^@/,"")+'" target="_blank" rel="noopener">'+esc(a.handle)+"</a> ("+esc(t[a.key])+")");
+  const igHtml=ig.map(x=>"Instagram: "+x).join("<br>");
+  $("sideContact").innerHTML=igHtml+"<br>Email: <a href=\"mailto:"+CFG.email+"\">"+esc(CFG.email)+"</a><br>"+esc(CFG.city);
+  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | Email: "+esc(CFG.email)+" | Instagram: "+ig.join(" · ")+" | "+esc(CFG.city);
   $("mailBtn").href="mailto:"+CFG.email;$("mailBtn").textContent=CFG.email;
-  $("contactLines").innerHTML="Instagram: "+esc(CFG.insta)+"<br>"+esc(CFG.city);
+  $("contactLines").innerHTML=igHtml+"<br>"+esc(CFG.city);
   try{localStorage.setItem("lang",l)}catch(e){}
   renderGallery();
 }
