@@ -33,14 +33,14 @@ nav a:hover,nav a[aria-current="page"]{border-color:var(--gold)}
 .contact{margin-top:auto;padding-top:40px;font-size:15px;line-height:1.9}
 .contact a{color:var(--gold);text-underline-offset:3px}
 main{background:var(--cream);padding:34px 36px 40px;display:flex;flex-direction:column;align-items:center}
-.view{width:100%;display:flex;flex-direction:column;align-items:center}
+.view{width:100%;flex:1;display:flex;flex-direction:column;align-items:center}
 h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transform:uppercase;color:var(--goldtext);text-align:center;line-height:1.15}
-.portrait{margin:22px auto 24px;height:min(32vh,280px);width:auto;max-width:100%;display:block;box-shadow:0 6px 18px rgba(0,0,0,.18)}
-.fav{margin-top:26px;width:fit-content;max-width:100%}
+.portrait{margin:34px auto;height:min(32vh,280px);width:auto;max-width:100%;display:block;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.fav{margin-top:auto;padding-top:26px;width:fit-content;max-width:100%}
 .fav .zoom{background:none}
 .fav .zoom img{aspect-ratio:auto;height:auto;width:auto;max-width:100%;max-height:min(58vh,540px);box-shadow:0 6px 18px rgba(0,0,0,.18)}
 .favcap{margin:12px 0 0;font-size:15px;color:var(--muted);text-align:center}
-.intro{margin:14px 0 0;color:var(--muted);font-size:17px;text-align:center}
+.intro{margin:14px 0 auto;color:var(--muted);font-size:17px;text-align:center}
 .text{max-width:640px;width:100%;font-size:17px;line-height:1.75}
 .text p{margin:0 0 14px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px 20px;width:100%}
@@ -133,8 +133,8 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
     </section>
     <section class="view" id="kontakt" hidden>
       <h1 data-t="hKontakt"></h1>
-      <div class="text" style="text-align:center">
-        <p data-t="contactText"></p>
+      <div class="text" style="text-align:center"><p data-t="contactText"></p></div>
+      <div class="text" style="text-align:center;margin:auto 0">
         <img class="portrait" id="portrait" alt="Eva Narváez" hidden>
         <a class="mail" id="mailBtn" href="#"></a>
         <p style="margin-top:18px" id="contactLines"></p>
