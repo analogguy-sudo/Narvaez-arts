@@ -47,6 +47,9 @@ h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transfo
 .text{max-width:640px;width:100%;font-size:17px;line-height:1.75}
 .text p{margin:0 0 14px}
 #aboutText{margin-top:64px}
+#privText{margin-top:24px;font-size:16px;overflow-wrap:anywhere}
+#privText h2{margin:26px 0 6px;font-size:19px;font-weight:400;color:var(--goldtext)}
+#privText a{color:var(--goldtext)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px 20px;width:100%}
 .tiles .note{grid-column:1/-1;text-align:center}
 .note{color:var(--muted);font-size:16px}
@@ -137,6 +140,10 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
         <p style="margin-top:18px" id="contactLines"></p>
       </div>
     </section>
+    <section class="view" id="datenschutz" hidden>
+      <h1 data-t="nPriv"></h1>
+      <div class="text" id="privText"></div>
+    </section>
   </main>
 </div>
 <footer id="foot"></footer>
@@ -167,7 +174,7 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  hKunst:"Bildende Kunst",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
  loading:"Werke werden geladen …",empty:"Hier sind noch keine Werke.",error:"Die Werke konnten nicht geladen werden",
- fContact:"Kontakt",
+ fContact:"Kontakt",nPriv:"Datenschutz",
  about:["Ich heiße Eva Narváez und komme aus Cádiz, Spanien. Ich habe Bildende Kunst an der Universität Alonso Cano in Granada studiert, wo ich meine künstlerischen Fähigkeiten weiterentwickelt und meinen eigenen Stil gefunden habe.",
  "Anschließend verbrachte ich ein Jahr in Dublin, wo ich mich mit Sketching beschäftigte und neue Inspirationen und Eindrücke sammeln konnte.",
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
@@ -178,7 +185,7 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  hKunst:"Bellas Artes",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
  loading:"Cargando obras …",empty:"Todavía no hay obras aquí.",error:"No se pudieron cargar las obras",
- fContact:"Contacto",
+ fContact:"Contacto",nPriv:"Privacidad",
  about:["Me llamo Eva Narváez y soy de Cádiz, España. Estudié Bellas Artes en la Universidad Alonso Cano de Granada, donde desarrollé mis habilidades artísticas y encontré mi propio estilo.",
  "Después pasé un año en Dublín, donde me dediqué al sketching y pude recoger nuevas inspiraciones e impresiones.",
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
@@ -189,12 +196,80 @@ en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& i
  hKunst:"Fine Art",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
  loading:"Loading artworks …",empty:"No works here yet.",error:"The artworks could not be loaded",
- fContact:"Contact",
+ fContact:"Contact",nPriv:"Privacy",
  about:["My name is Eva Narváez and I come from Cádiz, Spain. I studied Fine Arts at the Universidad Alonso Cano in Granada, where I developed my artistic skills and found my own style.",
  "I then spent a year in Dublin, where I focused on sketching and was able to gather new inspiration and impressions.",
  "I have already had the chance to present my work at two exhibition openings in Chiclana de la Frontera: “Color y Vida” and “Perfectamente Imperfecta”. Both exhibitions were a special opportunity for me to share my creativity and my passion for art with other people.",
  "With my art, I want to express colour, emotion and personal experience, and invite viewers to discover the world from my very own perspective."]}
 };
+/* Datenschutzerklärung: ["h",Überschrift] oder ["p",Absatz]; {mail} = E-Mail-Adresse, Links werden automatisch klickbar */
+const PRIV={
+de:[["h", "1. Verantwortliche"],
+ ["p", "Verantwortlich für diese Website ist Eva Narváez, E-Mail: {mail}."],
+ ["h", "2. Das Wichtigste in Kürze"],
+ ["p", "Diese Website setzt keine Cookies und verwendet keine Analyse-, Tracking- oder Werbedienste. Personenbezogene Daten werden nur verarbeitet, soweit das für die Anzeige der Website technisch nötig ist oder Sie mir selbst schreiben."],
+ ["h", "3. Hosting bei GitHub Pages"],
+ ["p", "Die Website wird über GitHub Pages bereitgestellt, einen Dienst der GitHub Inc. (USA). Beim Aufruf übermittelt Ihr Browser technisch bedingt Daten an die Server von GitHub, insbesondere Ihre IP-Adresse, Datum und Uhrzeit, die aufgerufene Seite, Browser und Betriebssystem sowie gegebenenfalls die zuvor besuchte Seite. GitHub speichert diese Daten in Server-Protokollen, um die Website sicher und zuverlässig auszuliefern."],
+ ["p", "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt in einer sicheren und stabilen Bereitstellung der Website. GitHub ist nach dem EU-US Data Privacy Framework zertifiziert, sodass für Übermittlungen in die USA ein Angemessenheitsbeschluss der EU-Kommission besteht (Art. 45 DSGVO). Weitere Informationen: https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement"],
+ ["h", "4. Bilder und Werkangaben (Supabase)"],
+ ["p", "Die gezeigten Werke, Fotos und Werkangaben werden aus einer Datenbank und einem Dateispeicher des Dienstes Supabase (Supabase Inc.) geladen. Die Daten liegen in einem Rechenzentrum in Irland (EU). Beim Laden wird technisch bedingt Ihre IP-Adresse an Supabase übermittelt und kurzzeitig in Protokollen gespeichert."],
+ ["p", "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt darin, meine Werke darstellen und selbst pflegen zu können. Soweit Supabase Daten außerhalb der EU verarbeitet, geschieht dies auf Grundlage der Standardvertragsklauseln der EU-Kommission (Art. 46 DSGVO). Weitere Informationen: https://supabase.com/privacy"],
+ ["h", "5. Spracheinstellung"],
+ ["p", "Die von Ihnen gewählte Sprache wird im lokalen Speicher (localStorage) Ihres Browsers abgelegt, damit sie beim nächsten Besuch erhalten bleibt. Diese Angabe bleibt auf Ihrem Gerät und wird nicht an mich oder Dritte übertragen. Sie können sie jederzeit über die Einstellungen Ihres Browsers löschen. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG, da die Speicherung für die von Ihnen gewünschte Sprachauswahl unbedingt erforderlich ist."],
+ ["h", "6. Schriftarten"],
+ ["p", "Die verwendete Schrift ist direkt auf dieser Website gespeichert. Es besteht keine Verbindung zu Google Fonts oder anderen Schriftanbietern."],
+ ["h", "7. Kontakt per E-Mail"],
+ ["p", "Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre E-Mail-Adresse, Ihren Namen und den Inhalt Ihrer Nachricht, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, bei vertragsbezogenen Anfragen Art. 6 Abs. 1 lit. b DSGVO. Mein E-Mail-Postfach wird bei Microsoft (Outlook.com) geführt. Ich lösche Ihre Nachricht, sobald sie erledigt ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen."],
+ ["h", "8. Links zu Instagram"],
+ ["p", "Diese Website enthält nur einfache Links zu meinen Instagram-Profilen. Es werden keine Inhalte von Instagram eingebunden, und beim bloßen Besuch dieser Website werden keine Daten an Instagram übertragen. Erst wenn Sie einen Link anklicken, gelangen Sie zu Instagram (Meta Platforms Ireland Ltd.); dort gilt deren Datenschutzerklärung."],
+ ["h", "9. Ihre Rechte"],
+ ["p", "Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Einer Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO können Sie aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit widersprechen (Art. 21). Eine formlose E-Mail an {mail} genügt."],
+ ["p", "Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Hessischen Beauftragten für Datenschutz und Informationsfreiheit, https://datenschutz.hessen.de"],
+ ["p", "Stand: November 2026"]], 
+es:[["h", "1. Responsable"],
+ ["p", "La responsable de este sitio web es Eva Narváez, correo electrónico: {mail}."],
+ ["h", "2. Lo esencial en breve"],
+ ["p", "Este sitio web no utiliza cookies ni servicios de análisis, seguimiento o publicidad. Los datos personales solo se tratan en la medida en que sea técnicamente necesario para mostrar el sitio web o cuando usted me escribe."],
+ ["h", "3. Alojamiento en GitHub Pages"],
+ ["p", "El sitio web se ofrece a través de GitHub Pages, un servicio de GitHub Inc. (EE. UU.). Al visitarlo, su navegador transmite por razones técnicas datos a los servidores de GitHub, en particular su dirección IP, la fecha y la hora, la página visitada, el navegador y el sistema operativo y, en su caso, la página visitada anteriormente. GitHub guarda estos datos en registros del servidor para entregar el sitio web de forma segura y fiable."],
+ ["p", "La base jurídica es el art. 6, apdo. 1, letra f del RGPD; mi interés legítimo consiste en ofrecer el sitio web de forma segura y estable. GitHub está certificado según el Marco de Privacidad de Datos UE-EE. UU., por lo que para las transferencias a EE. UU. existe una decisión de adecuación de la Comisión Europea (art. 45 RGPD). Más información: https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement"],
+ ["h", "4. Imágenes y datos de las obras (Supabase)"],
+ ["p", "Las obras, fotos y datos mostrados se cargan desde una base de datos y un almacenamiento de archivos del servicio Supabase (Supabase Inc.). Los datos se encuentran en un centro de datos en Irlanda (UE). Al cargarlos, por razones técnicas se transmite su dirección IP a Supabase, que la guarda brevemente en registros."],
+ ["p", "La base jurídica es el art. 6, apdo. 1, letra f del RGPD; mi interés legítimo consiste en poder presentar y gestionar yo misma mis obras. En la medida en que Supabase trate datos fuera de la UE, lo hace sobre la base de las cláusulas contractuales tipo de la Comisión Europea (art. 46 RGPD). Más información: https://supabase.com/privacy"],
+ ["h", "5. Preferencia de idioma"],
+ ["p", "El idioma que usted elige se guarda en el almacenamiento local (localStorage) de su navegador para que se mantenga en su próxima visita. Este dato permanece en su dispositivo y no se transmite ni a mí ni a terceros. Puede borrarlo en cualquier momento desde la configuración de su navegador. La base jurídica es el art. 25, apdo. 2, n.º 2 de la ley alemana TDDDG, ya que el almacenamiento es estrictamente necesario para la selección de idioma que usted solicita."],
+ ["h", "6. Tipografías"],
+ ["p", "La tipografía utilizada está guardada directamente en este sitio web. No hay ninguna conexión con Google Fonts ni con otros proveedores de tipografías."],
+ ["h", "7. Contacto por correo electrónico"],
+ ["p", "Si me escribe un correo electrónico, trato su dirección de correo, su nombre y el contenido de su mensaje para responder a su consulta. La base jurídica es el art. 6, apdo. 1, letra f del RGPD y, en consultas relacionadas con un contrato, el art. 6, apdo. 1, letra b del RGPD. Mi buzón de correo está alojado en Microsoft (Outlook.com). Borro su mensaje en cuanto se haya resuelto, siempre que no existan obligaciones legales de conservación."],
+ ["h", "8. Enlaces a Instagram"],
+ ["p", "Este sitio web solo contiene enlaces simples a mis perfiles de Instagram. No se integra ningún contenido de Instagram, y la mera visita a este sitio web no transmite datos a Instagram. Solo al hacer clic en un enlace accede usted a Instagram (Meta Platforms Ireland Ltd.); allí se aplica su política de privacidad."],
+ ["h", "9. Sus derechos"],
+ ["p", "Usted tiene derecho de acceso (art. 15 RGPD), rectificación (art. 16), supresión (art. 17), limitación del tratamiento (art. 18) y portabilidad de los datos (art. 20). Puede oponerse en cualquier momento, por motivos relacionados con su situación particular, a un tratamiento basado en el art. 6, apdo. 1, letra f del RGPD (art. 21). Basta con un correo electrónico informal a {mail}."],
+ ["p", "Además, puede presentar una reclamación ante una autoridad de protección de datos, por ejemplo ante el Comisionado de Protección de Datos de Hesse (Alemania), https://datenschutz.hessen.de"],
+ ["p", "Versión: noviembre de 2026. En caso de duda, prevalece la versión alemana."]], 
+en:[["h", "1. Controller"],
+ ["p", "The controller responsible for this website is Eva Narváez, email: {mail}."],
+ ["h", "2. In brief"],
+ ["p", "This website does not set cookies and does not use any analytics, tracking or advertising services. Personal data is only processed as far as technically necessary to display the website or when you write to me."],
+ ["h", "3. Hosting on GitHub Pages"],
+ ["p", "The website is provided via GitHub Pages, a service of GitHub Inc. (USA). When you visit it, your browser technically transmits data to GitHub's servers, in particular your IP address, date and time, the page requested, browser and operating system and, where applicable, the previously visited page. GitHub stores this data in server logs in order to deliver the website securely and reliably."],
+ ["p", "The legal basis is Art. 6(1)(f) GDPR; my legitimate interest lies in providing the website securely and reliably. GitHub is certified under the EU-US Data Privacy Framework, so transfers to the USA are covered by an adequacy decision of the European Commission (Art. 45 GDPR). More information: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"],
+ ["h", "4. Images and artwork details (Supabase)"],
+ ["p", "The artworks, photos and details shown are loaded from a database and file storage of the service Supabase (Supabase Inc.). The data is stored in a data centre in Ireland (EU). When loading, your IP address is technically transmitted to Supabase and briefly stored in logs."],
+ ["p", "The legal basis is Art. 6(1)(f) GDPR; my legitimate interest lies in being able to present and manage my works myself. Where Supabase processes data outside the EU, this is based on the European Commission's standard contractual clauses (Art. 46 GDPR). More information: https://supabase.com/privacy"],
+ ["h", "5. Language setting"],
+ ["p", "The language you choose is saved in your browser's local storage (localStorage) so that it is kept for your next visit. This setting stays on your device and is not transmitted to me or to third parties. You can delete it at any time in your browser settings. The legal basis is Section 25(2) no. 2 of the German TDDDG, as storing it is strictly necessary for the language selection you request."],
+ ["h", "6. Fonts"],
+ ["p", "The font used is stored directly on this website. There is no connection to Google Fonts or any other font provider."],
+ ["h", "7. Contact by email"],
+ ["p", "If you send me an email, I process your email address, your name and the content of your message in order to reply. The legal basis is Art. 6(1)(f) GDPR and, for contract-related enquiries, Art. 6(1)(b) GDPR. My mailbox is hosted by Microsoft (Outlook.com). I delete your message once the matter is settled, unless statutory retention obligations apply."],
+ ["h", "8. Links to Instagram"],
+ ["p", "This website only contains simple links to my Instagram profiles. No Instagram content is embedded, and merely visiting this website does not transmit any data to Instagram. Only when you click a link are you taken to Instagram (Meta Platforms Ireland Ltd.), where their privacy policy applies."],
+ ["h", "9. Your rights"],
+ ["p", "You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18) and data portability (Art. 20). You may object at any time, on grounds relating to your particular situation, to processing based on Art. 6(1)(f) GDPR (Art. 21). An informal email to {mail} is sufficient."],
+ ["p", "You also have the right to lodge a complaint with a data protection supervisory authority, for example the Hessian Commissioner for Data Protection and Freedom of Information (Germany), https://datenschutz.hessen.de"],
+ ["p", "Last updated: November 2026. In case of doubt, the German version prevails."]]};
 
 const $=id=>document.getElementById(id);
 let lang="de",arts=[],state="loading",err="";
@@ -235,7 +310,8 @@ function setLang(l){
   const igHtml=ig.join("<br>");
   const mailA='<a class="igl" href="mailto:'+CFG.email+'" aria-label="Email '+esc(CFG.email)+'">'+MAIL+"<span>"+esc(CFG.email)+"</span></a>";
   $("sideContact").innerHTML=igHtml+"<br>"+mailA;
-  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city);
+  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city)+' | <a href="#datenschutz">'+esc(t.nPriv)+"</a>";
+  $("privText").innerHTML=PRIV[l].map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
   $("mailBtn").href="mailto:"+CFG.email;$("mailBtn").innerHTML=MAIL+esc(CFG.email);
   $("contactLines").innerHTML=igHtml;
   try{localStorage.setItem("lang",l)}catch(e){}
