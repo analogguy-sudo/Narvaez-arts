@@ -19,8 +19,7 @@ button{background:#1a2630;color:#fff;border:0;cursor:pointer;margin-top:18px}
 button.alt{background:none;color:#1a2630;border:1px solid #1a2630}
 button:disabled{opacity:.5;cursor:wait}
 .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-@media(max-width:560px){.row,.row2{grid-template-columns:1fr}}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
 #status{margin-top:20px;overflow-wrap:anywhere;color:#2a3fd0}
 .note{color:#5d6b75;font-size:.9rem}
 .item{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #cdd5d9}
@@ -56,7 +55,7 @@ button:disabled{opacity:.5;cursor:wait}
 
 <section id="editor" hidden>
   <button id="logout" type="button" class="alt">Abmelden</button>
-  <h2>Portrait auf der Startseite</h2>
+  <h2>Portrait auf der Kontaktseite</h2>
   <form id="portraitForm">
     <label for="portrait">Portraitfoto (Hochformat)</label>
     <input id="portrait" type="file" accept="image/*" required>
@@ -87,7 +86,7 @@ button:disabled{opacity:.5;cursor:wait}
       <div><label for="k_en">English</label><input id="k_en" placeholder="Oil on canvas, 80 × 100 cm" maxlength="500"></div>
     </div>
 
-    <div class="row2">
+    <div class="row">
       <div><label for="price">Preis in € (optional, leer = kein Preis sichtbar)</label><input id="price" type="number" min="0" step="1"></div>
       <div><label for="avail">Status</label><select id="avail"><option value="">Keine Angabe</option><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></div>
       <div><label for="sort">Reihenfolge</label><input id="sort" type="number" value="0"></div>
@@ -113,10 +112,10 @@ const SB_KEY="sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 const db=window.supabase.createClient(SB_URL,SB_KEY);
 const $=id=>document.getElementById(id);
 const msg=t=>{$("status").textContent=t};
-function view(on){$("login").hidden=on;$("editor").hidden=!on;if(on)loadList()}
+let shown=null;
+function view(on){if(on===shown)return;shown=on;$("login").hidden=on;$("editor").hidden=!on;if(on)loadList()}
 
 db.auth.onAuthStateChange((_e,s)=>view(!!s));
-db.auth.getSession().then(({data})=>view(!!data.session));
 
 $("loginForm").onsubmit=async e=>{
   e.preventDefault();
@@ -149,9 +148,9 @@ function shrink(file){
   });
 }
 
-async function upPhoto(file){
+async function upPhoto(file,name="foto"){
   const blob=await shrink(file);
-  const base=file.name.replace(/\.[^.]+$/,"").normalize("NFD").replace(/[^a-zA-Z0-9_-]/g,"_").slice(0,40)||"foto";
+  const base=file.name.replace(/\.[^.]+$/,"").normalize("NFD").replace(/[^a-zA-Z0-9_-]/g,"_").slice(0,40)||name;
   const p=crypto.randomUUID()+"-"+base+".jpg";
   const up=await db.storage.from("artworks").upload(p,blob,{contentType:"image/jpeg"});
   if(up.error)throw up.error;
@@ -167,13 +166,13 @@ function addDetails(a,btn){
       const u=await db.from("artworks").update({detail_paths:(a.detail_paths||[]).concat(added)}).eq("id",a.id);
       if(u.error){await db.storage.from("artworks").remove(added);throw u.error}
       msg("Detailfotos hinzugefügt.");loadList();
-    }catch(err){msg("Fehler: "+(err.message||err));btn.disabled=false}
+    }catch(err){if(added.length)await db.storage.from("artworks").remove(added);msg("Fehler: "+(err.message||err));btn.disabled=false}
   };
   inp.click();
 }
 async function loadList(){
   const box=$("list");
-  const {data,error}=await db.from("artworks").select("*").order("created_at",{ascending:false});
+  const {data,error}=await db.from("artworks").select("*").order("sort").order("created_at",{ascending:false});
   if(error){box.textContent="Liste konnte nicht geladen werden: "+error.message;return}
   if(!data.length){box.textContent="Noch keine Werke vorhanden.";return}
   box.textContent="";
@@ -246,7 +245,7 @@ async function toggleFav(a,b){
   b.disabled=true;
   if(!a.featured){
     const c=await db.from("artworks").update({featured:false}).eq("featured",true);
-    if(c.error){msg("Fehler: "+c.error.message+" (Wurde der SQL-Befehl für die Spalte featured ausgeführt?)");b.disabled=false;return}
+    if(c.error){msg("Fehler: "+c.error.message);b.disabled=false;return}
   }
   const u=await db.from("artworks").update({featured:!a.featured}).eq("id",a.id);
   if(u.error){msg("Fehler: "+u.error.message);b.disabled=false;return}
@@ -288,27 +287,21 @@ $("portraitForm").onsubmit=async e=>{
     const up=await db.storage.from("artworks").upload("portrait.jpg",blob,{contentType:"image/jpeg",upsert:true,cacheControl:"60"});
     if(up.error)throw up.error;
     $("portraitForm").reset();
-    msg("Portrait ersetzt. Auf der Startseite kann es bis zu einer Minute dauern (Cmd+Shift+R).");
+    msg("Portrait ersetzt. Auf der Kontaktseite kann es bis zu einer Minute dauern (Cmd+Shift+R).");
   }catch(err){msg("Fehler: "+(err.message||err))}finally{b.disabled=false}
 };
 
 $("artForm").onsubmit=async e=>{
   e.preventDefault();
   const btn=$("go");btn.disabled=true;
-  let path=null;
+  const done=[];
   try{
     const {data:{session}}=await db.auth.getSession();
     if(!session)throw new Error("Bitte zuerst anmelden.");
-    const f=$("image").files[0];
-    msg("Foto wird verkleinert …");
-    const blob=await shrink(f);
-    const base=f.name.replace(/\.[^.]+$/,"").normalize("NFD").replace(/[^a-zA-Z0-9_-]/g,"_").slice(0,40)||"werk";
-    path=crypto.randomUUID()+"-"+base+".jpg";
     msg("Foto wird hochgeladen …");
-    const up=await db.storage.from("artworks").upload(path,blob,{contentType:"image/jpeg"});
-    if(up.error)throw up.error;
+    const path=await upPhoto($("image").files[0],"werk");done.push(path);
     const det=[],files=[...$("details").files];
-    for(let k=0;k<files.length;k++){msg("Detailfoto "+(k+1)+" von "+files.length+" wird hochgeladen …");det.push(await upPhoto(files[k]))}
+    for(let k=0;k<files.length;k++){msg("Detailfoto "+(k+1)+" von "+files.length+" wird hochgeladen …");const q=await upPhoto(files[k]);det.push(q);done.push(q)}
     const v=id=>$(id).value.trim()||null;
     const row={
       image_path:path,category:$("cat").value,
@@ -321,10 +314,12 @@ $("artForm").onsubmit=async e=>{
     };
     msg("Werk wird gespeichert …");
     const ins=await db.from("artworks").insert(row);
-    if(ins.error){await db.storage.from("artworks").remove([path].concat(det));throw ins.error}
+    if(ins.error)throw ins.error;
+    done.length=0;
     $("artForm").reset();$("sort").value=0;
     msg("Veröffentlicht. Das Werk ist jetzt auf der Homepage zu sehen.");loadList();
   }catch(err){
+    if(done.length)await db.storage.from("artworks").remove(done);
     msg("Fehler: "+(err.message||err));
   }finally{btn.disabled=false}
 };

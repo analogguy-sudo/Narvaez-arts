@@ -8,8 +8,11 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="apple-mobile-web-app-title" content="Eva Narváez">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Oswald (SIL Open Font License), lokal eingebunden statt über Google Fonts */
+@font-face{font-family:"Oswald";font-style:normal;font-weight:300 400;font-display:swap;src:url(fonts/oswald-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Oswald";font-style:normal;font-weight:300 400;font-display:swap;src:url(fonts/oswald-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{--side:#191919;--gold:#c1a377;--goldtext:#8b6a30;--cream:#f6f1dd;--page:#efeadf;--ink:#2b2a26;--muted:#5b574d;
  --font:"Oswald","Arial Narrow",Arial,sans-serif}
 *{box-sizing:border-box}
@@ -101,7 +104,6 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
       <a href="#kunst" data-v="kunst" data-t="nKunst"></a>
       <a href="#cartoon" data-v="cartoon" data-t="nCartoon"></a>
       <a href="#ueber" data-v="ueber" data-t="nUeber"></a>
-      <a href="#auftraege" data-v="auftraege" data-t="nAuftraege"></a>
       <a href="#kontakt" data-v="kontakt" data-t="nKontakt"></a>
     </nav>
     <div class="langs" role="group" aria-label="Sprache / Idioma / Language">
@@ -127,10 +129,6 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
     <section class="view" id="ueber" hidden>
       <h1 data-t="hUeber"></h1>
       <div class="text" id="aboutText"></div>
-    </section>
-    <section class="view" id="auftraege" hidden>
-      <h1 data-t="hAuftraege"></h1>
-      <div class="text"><p data-t="orders"></p></div>
     </section>
     <section class="view" id="kontakt" hidden>
       <h1 data-t="hKontakt"></h1>
@@ -166,11 +164,10 @@ const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
- nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nAuftraege:"Aufträge",nKontakt:"Kontakt",
+ nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
- hKunst:"Bildende Kunst",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hAuftraege:"Aufträge",hKontakt:"Kontakt",
- orders:"[Platzhalter] Hier beschreibe ich, welche Auftragsarbeiten ich anbiete und wie eine Anfrage abläuft.",
- contactText:"Anfragen zu Ausstellungen, Ankäufen und Aufträgen sind willkommen.",
+ hKunst:"Bildende Kunst",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
+ contactText:"Anfragen zu Ausstellungen und Ankäufen sind willkommen.",
  loading:"Werke werden geladen …",empty:"Hier sind noch keine Werke.",error:"Die Werke konnten nicht geladen werden",
  sold:"Verkauft",enquire:"Werk anfragen",subject:"Anfrage zu",fContact:"Kontakt",
  about:["Ich heiße Eva Narváez und komme aus Cádiz, Spanien. Ich habe Bildende Kunst an der Universität Alonso Cano in Granada studiert, wo ich meine künstlerischen Fähigkeiten weiterentwickelt und meinen eigenen Stil gefunden habe.",
@@ -178,11 +175,10 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
  "Mit meiner Kunst möchte ich Farben, Emotionen und persönliche Erfahrungen zum Ausdruck bringen und die Betrachter dazu einladen, die Welt aus meiner ganz eigenen Perspektive zu entdecken."]},
 es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plástica\ne ilustradora",
- nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nAuftraege:"Encargos",nKontakt:"Contacto",
+ nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
- hKunst:"Bellas Artes",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hAuftraege:"Encargos",hKontakt:"Contacto",
- orders:"[Texto pendiente] Aquí describo qué trabajos por encargo ofrezco y cómo funciona una consulta.",
- contactText:"Las consultas sobre exposiciones, compras y encargos son bienvenidas.",
+ hKunst:"Bellas Artes",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
+ contactText:"Las consultas sobre exposiciones y compras son bienvenidas.",
  loading:"Cargando obras …",empty:"Todavía no hay obras aquí.",error:"No se pudieron cargar las obras",
  sold:"Vendida",enquire:"Consultar obra",subject:"Consulta sobre",fContact:"Contacto",
  about:["Me llamo Eva Narváez y soy de Cádiz, España. Estudié Bellas Artes en la Universidad Alonso Cano de Granada, donde desarrollé mis habilidades artísticas y encontré mi propio estilo.",
@@ -190,11 +186,10 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
  "Con mi arte quiero expresar colores, emociones y experiencias personales, e invitar a quienes lo contemplan a descubrir el mundo desde mi perspectiva muy personal."]},
 en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& illustrator",
- nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nAuftraege:"Commissions",nKontakt:"Contact",
+ nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
- hKunst:"Fine Art",hCartoon:"Cartoon & Illustration",hUeber:"About me",hAuftraege:"Commissions",hKontakt:"Contact",
- orders:"[Placeholder] Here I describe which commissions I offer and how an enquiry works.",
- contactText:"Enquiries about exhibitions, acquisitions and commissions are welcome.",
+ hKunst:"Fine Art",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
+ contactText:"Enquiries about exhibitions and acquisitions are welcome.",
  loading:"Loading artworks …",empty:"No works here yet.",error:"The artworks could not be loaded",
  sold:"Sold",enquire:"Enquire",subject:"Enquiry about",fContact:"Contact",
  about:["My name is Eva Narváez and I come from Cádiz, Spain. I studied Fine Arts at the Universidad Alonso Cano in Granada, where I developed my artistic skills and found my own style.",
