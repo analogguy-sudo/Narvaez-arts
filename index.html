@@ -52,8 +52,6 @@ h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transfo
 .note{color:var(--muted);font-size:16px}
 .tile h3{margin:10px 0 2px;font-size:19px;font-weight:400}
 .tile p{margin:2px 0;font-size:14px;color:var(--muted);line-height:1.5}
-.tile .price{color:var(--ink)}
-.ask{display:inline-block;margin-top:6px;font-size:13px;color:var(--goldtext);text-transform:uppercase;border-bottom:1px solid var(--goldtext);text-decoration:none}
 .zoom{display:block;width:100%;padding:0;border:0;background:#e8e1d7;cursor:zoom-in;position:relative}
 .zoom img{width:100%;aspect-ratio:4/5;object-fit:contain;display:block}
 .more{position:absolute;right:8px;bottom:8px;background:rgba(25,25,25,.85);color:var(--gold);font-size:12px;padding:3px 8px}
@@ -167,9 +165,9 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
  hKunst:"Bildende Kunst",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
- contactText:"Anfragen zu Ausstellungen und Ankäufen sind willkommen.",
+ contactText:"Ich freue mich über Ihre Nachricht.",
  loading:"Werke werden geladen …",empty:"Hier sind noch keine Werke.",error:"Die Werke konnten nicht geladen werden",
- sold:"Verkauft",enquire:"Werk anfragen",subject:"Anfrage zu",fContact:"Kontakt",
+ fContact:"Kontakt",
  about:["Ich heiße Eva Narváez und komme aus Cádiz, Spanien. Ich habe Bildende Kunst an der Universität Alonso Cano in Granada studiert, wo ich meine künstlerischen Fähigkeiten weiterentwickelt und meinen eigenen Stil gefunden habe.",
  "Anschließend verbrachte ich ein Jahr in Dublin, wo ich mich mit Sketching beschäftigte und neue Inspirationen und Eindrücke sammeln konnte.",
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
@@ -178,9 +176,9 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
  hKunst:"Bellas Artes",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
- contactText:"Las consultas sobre exposiciones y compras son bienvenidas.",
+ contactText:"Me alegrará recibir su mensaje.",
  loading:"Cargando obras …",empty:"Todavía no hay obras aquí.",error:"No se pudieron cargar las obras",
- sold:"Vendida",enquire:"Consultar obra",subject:"Consulta sobre",fContact:"Contacto",
+ fContact:"Contacto",
  about:["Me llamo Eva Narváez y soy de Cádiz, España. Estudié Bellas Artes en la Universidad Alonso Cano de Granada, donde desarrollé mis habilidades artísticas y encontré mi propio estilo.",
  "Después pasé un año en Dublín, donde me dediqué al sketching y pude recoger nuevas inspiraciones e impresiones.",
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
@@ -189,9 +187,9 @@ en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& i
  nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
  hKunst:"Fine Art",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
- contactText:"Enquiries about exhibitions and acquisitions are welcome.",
+ contactText:"I look forward to hearing from you.",
  loading:"Loading artworks …",empty:"No works here yet.",error:"The artworks could not be loaded",
- sold:"Sold",enquire:"Enquire",subject:"Enquiry about",fContact:"Contact",
+ fContact:"Contact",
  about:["My name is Eva Narváez and I come from Cádiz, Spain. I studied Fine Arts at the Universidad Alonso Cano in Granada, where I developed my artistic skills and found my own style.",
  "I then spent a year in Dublin, where I focused on sketching and was able to gather new inspiration and impressions.",
  "I have already had the chance to present my work at two exhibition openings in Chiclana de la Frontera: “Color y Vida” and “Perfectamente Imperfecta”. Both exhibitions were a special opportunity for me to share my creativity and my passion for art with other people.",
@@ -202,13 +200,11 @@ const $=id=>document.getElementById(id);
 let lang="de",arts=[],state="loading",err="";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const imgURL=p=>SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(p);
-const money=v=>new Intl.NumberFormat({de:"de-DE",es:"es-ES",en:"en-GB"}[lang],{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(v);
 
-function card(a,i,t){
+function card(a,i){
   const ti=a["title_"+lang]||a.title_de||"",de=a["description_"+lang]||a.description_de||"",n=(a.detail_paths||[]).length;
   return '<article class="tile"><button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img src="'+esc(imgURL(a.image_path))+'" alt="'+esc(ti)+'" loading="lazy">'+(n?'<span class="more">+'+n+'</span>':"")+'</button>'+
-   '<h3>'+esc(ti)+'</h3>'+(de?'<p>'+esc(de)+'</p>':"")+(a.price>0?'<p class="price">'+money(a.price)+'</p>':"")+
-   (a.available===false?'<p>'+t.sold+'</p>':'<a class="ask" href="mailto:'+CFG.email+'?subject='+encodeURIComponent(t.subject+": "+ti)+'">'+t.enquire+'</a>')+'</article>';
+   '<h3>'+esc(ti)+'</h3>'+(de?'<p>'+esc(de)+'</p>':"")+'</article>';
 }
 function renderFav(){
   const box=$("fav");let i=arts.findIndex(a=>a.featured===true);
@@ -224,7 +220,7 @@ function renderGallery(){
   [["kunst","gKunst"],["cartoon","gCartoon"]].forEach(([c,id])=>{
     const list=arts.map((a,i)=>[a,i]).filter(([a])=>(a.category||"kunst")===c);
     $(id).innerHTML=state!=="ok"?'<p class="note">'+(state==="loading"?t.loading:t.error+" ("+esc(err)+")")+'</p>'
-      :list.length?list.map(([a,i])=>card(a,i,t)).join(""):'<p class="note">'+t.empty+'</p>';
+      :list.length?list.map(([a,i])=>card(a,i)).join(""):'<p class="note">'+t.empty+'</p>';
   });
 }
 
