@@ -338,7 +338,7 @@ function setLang(l){
   const igHtml=ig.join("<br>");
   const mailA='<a class="igl" href="mailto:'+CFG.email+'" aria-label="Email '+esc(CFG.email)+'">'+MAIL+"<span>"+esc(CFG.email)+"</span></a>";
   $("sideContact").innerHTML=igHtml+"<br>"+mailA;
-  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city)+' | <a href="#rechtliches">'+esc(t.nImp)+'</a> · <a href="#datenschutz">'+esc(t.nPriv)+'</a> | <span id="copy">© '+new Date().getFullYear()+"</span>";
+  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city)+' | <a href="#rechtliches">'+esc(t.nImp)+'</a> · <a href="#datenschutz">'+esc(t.nPriv)+'</a> | <span id="copy">© '+new Date().getFullYear()+" Eva Narváez</span>";
   const legal=arr=>arr.map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
   $("privText").innerHTML=legal(PRIV[l]);
   $("impText").innerHTML=legal(IMP[l]);
