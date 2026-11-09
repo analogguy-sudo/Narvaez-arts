@@ -79,11 +79,23 @@ button:disabled{opacity:.5;cursor:wait}
       <div><label for="t_en">English</label><input id="t_en" maxlength="200"></div>
     </div>
 
-    <h2>Beschreibung (z. B. Technik, Maße)</h2>
+    <h2>Technik (optional)</h2>
     <div class="row">
-      <div><label for="k_de">Deutsch</label><input id="k_de" placeholder="Öl auf Leinwand, 80 × 100 cm" maxlength="500"></div>
-      <div><label for="k_es">Español</label><input id="k_es" placeholder="Óleo sobre lienzo, 80 × 100 cm" maxlength="500"></div>
-      <div><label for="k_en">English</label><input id="k_en" placeholder="Oil on canvas, 80 × 100 cm" maxlength="500"></div>
+      <div><label for="m_de">Deutsch</label><input id="m_de" placeholder="Öl auf Leinwand" maxlength="200"></div>
+      <div><label for="m_es">Español</label><input id="m_es" placeholder="Óleo sobre lienzo" maxlength="200"></div>
+      <div><label for="m_en">English</label><input id="m_en" placeholder="Oil on canvas" maxlength="200"></div>
+    </div>
+    <div class="row">
+      <div><label for="fmt">Format (optional)</label><input id="fmt" placeholder="80 × 100 cm" maxlength="100"></div>
+      <div><label for="yr">Jahr (optional)</label><input id="yr" type="number" min="1900" max="2100" placeholder="2024"></div>
+      <div></div>
+    </div>
+
+    <h2>Beschreibung (optional, freier Text)</h2>
+    <div class="row">
+      <div><label for="k_de">Deutsch</label><input id="k_de" placeholder="z. B. Gedanken zum Werk" maxlength="500"></div>
+      <div><label for="k_es">Español</label><input id="k_es" maxlength="500"></div>
+      <div><label for="k_en">English</label><input id="k_en" maxlength="500"></div>
     </div>
 
     <div class="row">
@@ -212,14 +224,17 @@ function editArt(a,row){
   const old=row.querySelector(".edit");
   if(old){old.remove();return}
   const f=document.createElement("form");f.className="edit";
-  const fields=[["title_de","Titel (Deutsch)"],["title_es","Titel (Español)"],["title_en","Titel (English)"],["description_de","Beschreibung (Deutsch)"],["description_es","Beschreibung (Español)"],["description_en","Beschreibung (English)"]];
+  const fields=[["title_de","Titel (Deutsch)"],["title_es","Titel (Español)"],["title_en","Titel (English)"],["technique_de","Technik (Deutsch)"],["technique_es","Technik (Español)"],["technique_en","Technik (English)"],["description_de","Beschreibung (Deutsch)"],["description_es","Beschreibung (Español)"],["description_en","Beschreibung (English)"]];
   f.innerHTML=fields.map(([k,l])=>'<label>'+l+'<input name="'+k+'" maxlength="500"></label>').join("")+
+    '<label>Format<input name="size" maxlength="100" placeholder="80 × 100 cm"></label>'+
+    '<label>Jahr<input name="year" type="number" min="1900" max="2100"></label><span></span>'+
     '<label>Preis in € (leer = kein Preis, dann zeigt die Seite nichts an)<input name="price" type="number" min="0" step="1"></label>'+
     '<label>Status<select name="available"><option value="">Keine Angabe</option><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></label>'+
     '<label>Kategorie<select name="category"><option value="kunst">Bildende Kunst</option><option value="cartoon">Cartoon &amp; Illustration</option></select></label>'+
     '<label>Reihenfolge<input name="sort" type="number"></label>'+
     '<button type="submit">Änderungen speichern</button>';
   fields.forEach(([k])=>{f.elements[k].value=a[k]||""});
+  f.elements.size.value=a.size||"";f.elements.year.value=a.year??"";
   f.elements.price.value=a.price??"";
   f.elements.available.value=a.available===true?"true":a.available===false?"false":"";
   f.elements.category.value=a.category||"kunst";
@@ -230,6 +245,8 @@ function editArt(a,row){
     const upd={
       title_de:g("title_de"),title_es:g("title_es")||g("title_de"),title_en:g("title_en")||g("title_de"),
       description_de:g("description_de"),description_es:g("description_es")||g("description_de"),description_en:g("description_en")||g("description_de"),
+      technique_de:g("technique_de"),technique_es:g("technique_es")||g("technique_de"),technique_en:g("technique_en")||g("technique_de"),
+      size:g("size"),year:el.year.value===""?null:parseInt(el.year.value),
       price:el.price.value===""?null:Number(el.price.value),
       available:el.available.value===""?null:el.available.value==="true",
       category:el.category.value,sort:parseInt(el.sort.value)||0
@@ -307,6 +324,8 @@ $("artForm").onsubmit=async e=>{
       image_path:path,category:$("cat").value,
       title_de:v("t_de"),title_es:v("t_es")||v("t_de"),title_en:v("t_en")||v("t_de"),
       description_de:v("k_de"),description_es:v("k_es")||v("k_de"),description_en:v("k_en")||v("k_de"),
+      technique_de:v("m_de"),technique_es:v("m_es")||v("m_de"),technique_en:v("m_en")||v("m_de"),
+      size:v("fmt"),year:$("yr").value===""?null:parseInt($("yr").value),
       price:$("price").value===""?null:Number($("price").value),
       available:$("avail").value===""?null:$("avail").value==="true",
       sort:parseInt($("sort").value)||0,

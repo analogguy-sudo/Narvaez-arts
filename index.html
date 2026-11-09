@@ -91,6 +91,8 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
 .lb-in{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:56px 56px 20px}
 #lbImg{max-width:100%;max-height:calc(100vh - 170px);object-fit:contain}
 #lbCap{color:#eee;font-size:15px}
+#lbMeta{color:#aaa;font-size:13px;margin-top:-9px}
+.tile p.meta{color:var(--goldtext);font-size:13px;letter-spacing:.02em}
 #lbThumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 #lbThumbs img{width:54px;height:54px;object-fit:cover;opacity:.55;cursor:pointer}
 #lbThumbs img.on{opacity:1;outline:2px solid #fff}
@@ -176,6 +178,7 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
     <img id="lbImg" alt="">
     <button class="lb-n lb-nx" id="lbNext" type="button" aria-label="Next">›</button>
     <div id="lbCap"></div>
+    <div id="lbMeta" hidden></div>
     <div id="lbThumbs"></div>
   </div>
 </dialog>
@@ -320,10 +323,12 @@ let lang="de",arts=[],state="loading",err="";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const imgURL=p=>SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(p);
 
+/* Werkangaben: Technik · Format · Jahr (leere Felder entfallen) */
+const meta=a=>[a["technique_"+lang]||a.technique_de,a.size,a.year].filter(Boolean).join(" · ");
 function card(a,i){
   const ti=a["title_"+lang]||a.title_de||"",de=a["description_"+lang]||a.description_de||"",n=(a.detail_paths||[]).length;
   return '<article class="tile"><button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img src="'+esc(imgURL(a.image_path))+'" alt="'+esc(ti)+'" loading="lazy">'+(n?'<span class="more">+'+n+'</span>':"")+'</button>'+
-   '<h3>'+esc(ti)+'</h3>'+(de?'<p>'+esc(de)+'</p>':"")+'</article>';
+   '<h3>'+esc(ti)+'</h3>'+(meta(a)?'<p class="meta">'+esc(meta(a))+'</p>':"")+(de?'<p>'+esc(de)+'</p>':"")+'</article>';
 }
 function renderFav(){
   const box=$("fav");let i=arts.findIndex(a=>a.featured===true);
@@ -382,6 +387,7 @@ function showLB(){
   const a=lb.a,ph=photos(a),ti=a["title_"+lang]||a.title_de||"";
   $("lbImg").src=imgURL(ph[lb.i]);$("lbImg").alt=ti;
   $("lbCap").textContent=ti+(ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
+  $("lbMeta").textContent=meta(a);$("lbMeta").hidden=!meta(a);
   $("lbPrev").hidden=$("lbNext").hidden=ph.length<2;
   $("lbThumbs").innerHTML=ph.length>1?ph.map((p,k)=>'<img src="'+esc(imgURL(p))+'" data-k="'+k+'" class="'+(k===lb.i?"on":"")+'" alt="" loading="lazy">').join(""):"";
 }
