@@ -60,6 +60,7 @@ h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transfo
 .more{position:absolute;right:8px;bottom:8px;background:rgba(25,25,25,.85);color:var(--gold);font-size:12px;padding:3px 8px}
 .mail{display:inline-block;margin-top:10px;padding:10px 22px;background:var(--side);color:var(--gold);text-decoration:none;text-transform:uppercase;font-size:16px}
 footer{background:var(--side);color:var(--gold);font-size:14px;text-align:center;padding:14px 20px;overflow-wrap:anywhere}
+#copy{cursor:default;user-select:none;-webkit-user-select:none}
 footer a{color:inherit;text-underline-offset:3px}
 #contactLines a{color:var(--goldtext)}
 #sideContact,#contactLines{width:fit-content;text-align:left}
@@ -337,7 +338,7 @@ function setLang(l){
   const igHtml=ig.join("<br>");
   const mailA='<a class="igl" href="mailto:'+CFG.email+'" aria-label="Email '+esc(CFG.email)+'">'+MAIL+"<span>"+esc(CFG.email)+"</span></a>";
   $("sideContact").innerHTML=igHtml+"<br>"+mailA;
-  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city)+' | <a href="#rechtliches">'+esc(t.nImp)+'</a> · <a href="#datenschutz">'+esc(t.nPriv)+"</a>";
+  $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city)+' | <a href="#rechtliches">'+esc(t.nImp)+'</a> · <a href="#datenschutz">'+esc(t.nPriv)+'</a> | <span id="copy">© '+new Date().getFullYear()+"</span>";
   const legal=arr=>arr.map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
   $("privText").innerHTML=legal(PRIV[l]);
   $("impText").innerHTML=legal(IMP[l]);
@@ -355,6 +356,8 @@ function go(id){
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",()=>go(location.hash.slice(1)));
+/* Versteckter Zugang: Doppelklick auf © im Footer öffnet den Adminbereich */
+$("foot").addEventListener("dblclick",e=>{if(e.target.id==="copy")location.href="admin.html"});
 
 /* Vergrößerung mit Detailfotos */
 const lb={a:null,i:0};
