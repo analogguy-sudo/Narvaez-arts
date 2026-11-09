@@ -1,0 +1,37 @@
+# Hält das kostenlose Supabase-Projekt wach: Supabase pausiert Free-Projekte,
+# die über 7 Tage kaum Datenbank-Abfragen bekommen. Eine kleine Lese-Abfrage
+# pro Tag reicht. Schlägt sie fehl (z. B. Projekt pausiert), schickt GitHub
+# eine Fehler-Mail an den Repo-Inhaber.
+name: Supabase wach halten
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # täglich 06:17 UTC
+  workflow_dispatch:        # manuell startbar unter „Actions“
+
+permissions:
+  contents: read
+  actions: write            # für das Wieder-Aktivieren unten
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Werke abfragen
+        run: |
+          URL=$(grep -o 'const SB_URL="[^"]*"' index.html | cut -d'"' -f2)
+          KEY=$(grep -o 'const SB_KEY="[^"]*"' index.html | cut -d'"' -f2)
+          test -n "$URL" && test -n "$KEY"
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "$URL/rest/v1/artworks?select=id&limit=1" -H "apikey: $KEY")
+          echo "Antwort: $code"
+          test "$code" = "200"
+
+      # GitHub schaltet geplante Abläufe in öffentlichen Repos nach 60 Tagen
+      # ohne Commits ab. Das erneute Aktivieren setzt diese Frist zurück.
+      - name: Zeitplan aktiv halten
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/supabase-keepalive.yml/enable"
