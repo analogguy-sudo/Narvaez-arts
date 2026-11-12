@@ -72,6 +72,7 @@ button:disabled{opacity:.5;cursor:wait}
   <form id="artForm">
     <label for="cat" data-t="lCat">Kategorie *</label>
     <select id="cat"><option value="kunst" data-t="catK">Bildende Kunst</option><option value="cartoon" data-t="catC">Cartoon &amp; Illustration</option></select>
+    <div id="medWrap"><label for="med" data-t="lMed">Technik-Gruppe *</label><select id="med"><option value="" data-t="medN">– bitte wählen –</option><option value="aquarell" data-t="mAq">Aquarell</option><option value="acryl" data-t="mAc">Acryl</option><option value="collage" data-t="mCo">Collage</option></select></div>
     <label for="image">Foto *</label>
     <input id="image" type="file" accept="image/*" required>
     <p class="note" data-t="nImg">Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.</p>
@@ -124,9 +125,9 @@ button:disabled{opacity:.5;cursor:wait}
 <script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"><\/script>')</script>
 <script>
 const L={
-de:{pageTitle:"Admin – Eva Narváez",title:"Werke verwalten",intro:"Neue Werke erscheinen sofort auf der Homepage.",back:"← Zurück zur Homepage",login:"Anmelden",email:"E-Mail",pw:"Passwort",loginBtn:"Anmelden",magic:"Anmeldelink per E-Mail senden",logout:"Abmelden",hPortrait:"Portrait auf der Kontaktseite",lPortrait:"Portraitfoto (Hochformat)",bPortrait:"Portrait ersetzen",hNew:"Neues Werk",lCat:"Kategorie *",catK:"Bildende Kunst",catC:"Cartoon & Illustration",nImg:"Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.",lDet:"Detailfotos (optional, mehrere möglich)",hTitle:"Titel",hTech:"Technik (optional)",lFmt:"Format (optional)",lYr:"Jahr (optional)",hDesc:"Beschreibung (optional, freier Text)",phDesc:"z. B. Gedanken zum Werk",lPrice:"Preis in € (optional, leer = kein Preis sichtbar)",lAvail:"Status",avN:"Keine Angabe",avT:"Verfügbar",avF:"Verkauft",lSort:"Reihenfolge",nFill:"Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.",go:"Veröffentlichen",hList:"Bereits veröffentlicht",loading:"Wird geladen …",
+de:{lMed:"Technik-Gruppe *",medN:"– bitte wählen –",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",medGroup:"Technik-Gruppe",needMed:"Bitte bei Bildender Kunst die Technik-Gruppe wählen (Aquarell, Acryl oder Collage).",pageTitle:"Admin – Eva Narváez",title:"Werke verwalten",intro:"Neue Werke erscheinen sofort auf der Homepage.",back:"← Zurück zur Homepage",login:"Anmelden",email:"E-Mail",pw:"Passwort",loginBtn:"Anmelden",magic:"Anmeldelink per E-Mail senden",logout:"Abmelden",hPortrait:"Portrait auf der Kontaktseite",lPortrait:"Portraitfoto (Hochformat)",bPortrait:"Portrait ersetzen",hNew:"Neues Werk",lCat:"Kategorie *",catK:"Bildende Kunst",catC:"Cartoon & Illustration",nImg:"Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.",lDet:"Detailfotos (optional, mehrere möglich)",hTitle:"Titel",hTech:"Technik (optional)",lFmt:"Format (optional)",lYr:"Jahr (optional)",hDesc:"Beschreibung (optional, freier Text)",phDesc:"z. B. Gedanken zum Werk",lPrice:"Preis in € (optional, leer = kein Preis sichtbar)",lAvail:"Status",avN:"Keine Angabe",avT:"Verfügbar",avF:"Verkauft",lSort:"Reihenfolge",nFill:"Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.",go:"Veröffentlichen",hList:"Bereits veröffentlicht",loading:"Wird geladen …",
 scriptErr:"Skriptfehler: ",noLib:"Die Supabase-Bibliothek konnte nicht geladen werden (Internet, Werbeblocker oder Datenschutz-Einstellung). Bitte Seite neu laden oder einen anderen Browser testen.",needPw:"Bitte Passwort eingeben oder den Anmeldelink nutzen.",signingIn:"Anmeldung …",failed:"Fehlgeschlagen: ",err:"Fehler: ",needMail:"Bitte zuerst die E-Mail eingeben.",linkSent:"Link gesendet. Bitte E-Mail und Spam-Ordner prüfen.",shrinkErr:"Bild konnte nicht verkleinert werden.",readErr:"Bild nicht lesbar (bitte JPG oder PNG).",detUp:"Detailfoto {k} von {n} wird hochgeladen …",detAdded:"Detailfotos hinzugefügt.",listErr:"Liste konnte nicht geladen werden: ",empty:"Noch keine Werke vorhanden.",shortK:"Kunst",shortC:"Cartoon",noTitle:"(ohne Titel)",details:"Details",sold:"verkauft",avail:"verfügbar",fav:"Favorit",del:"Löschen",addDet:"+ Details",toK:"→ Bildende Kunst",toC:"→ Cartoon",edit:"Bearbeiten",favTip:"Als Favoritenbild auf der Startseite zeigen",detAlt:"Detailfoto",detDelTip:"Dieses Detailfoto löschen",tech:"Technik",desc:"Beschreibung",fmt:"Format",yr:"Jahr",priceEdit:"Preis in € (leer = kein Preis, dann zeigt die Seite nichts an)",cat:"Kategorie",save:"Änderungen speichern",saving:"Wird gespeichert …",saved:"Gespeichert.",favOff:"Favorit entfernt.",favOn:"Als Favorit auf der Startseite gesetzt.",moved:"Verschoben.",confDet:"Dieses Detailfoto wirklich löschen?",deleting:"Wird gelöscht …",detDel:"Detailfoto gelöscht.",confArt:"„{t}“ wirklich endgültig löschen?",work:"Werk",deleted:"Gelöscht.",needLogin:"Bitte zuerst anmelden.",pShrink:"Portrait wird verkleinert …",pDone:"Portrait ersetzt. Auf der Kontaktseite kann es bis zu einer Minute dauern (Cmd+Shift+R).",upPhoto:"Foto wird hochgeladen …",savingArt:"Werk wird gespeichert …",published:"Veröffentlicht. Das Werk ist jetzt auf der Homepage zu sehen."},
-es:{pageTitle:"Admin – Eva Narváez",title:"Gestionar obras",intro:"Las obras nuevas aparecen al instante en la página web.",back:"← Volver a la página web",login:"Iniciar sesión",email:"Correo electrónico",pw:"Contraseña",loginBtn:"Entrar",magic:"Enviar enlace de acceso por correo",logout:"Cerrar sesión",hPortrait:"Retrato en la página de contacto",lPortrait:"Foto de retrato (vertical)",bPortrait:"Reemplazar retrato",hNew:"Nueva obra",lCat:"Categoría *",catK:"Bellas Artes",catC:"Cartoon e ilustración",nImg:"La foto se reduce automáticamente a un máximo de 1600 píxeles.",lDet:"Fotos de detalle (opcional, se pueden elegir varias)",hTitle:"Título",hTech:"Técnica (opcional)",lFmt:"Formato (opcional)",lYr:"Año (opcional)",hDesc:"Descripción (opcional, texto libre)",phDesc:"p. ej. reflexiones sobre la obra",lPrice:"Precio en € (opcional, vacío = sin precio visible)",lAvail:"Estado",avN:"Sin indicar",avT:"Disponible",avF:"Vendida",lSort:"Orden",nFill:"Si dejas el español y el inglés vacíos, se rellenan con el texto alemán. Los números de orden más bajos aparecen primero.",go:"Publicar",hList:"Ya publicadas",loading:"Cargando …",
+es:{lMed:"Grupo de técnica *",medN:"– elegir –",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",medGroup:"Grupo de técnica",needMed:"Para Bellas Artes elige el grupo de técnica (acuarela, acrílico o collage).",pageTitle:"Admin – Eva Narváez",title:"Gestionar obras",intro:"Las obras nuevas aparecen al instante en la página web.",back:"← Volver a la página web",login:"Iniciar sesión",email:"Correo electrónico",pw:"Contraseña",loginBtn:"Entrar",magic:"Enviar enlace de acceso por correo",logout:"Cerrar sesión",hPortrait:"Retrato en la página de contacto",lPortrait:"Foto de retrato (vertical)",bPortrait:"Reemplazar retrato",hNew:"Nueva obra",lCat:"Categoría *",catK:"Bellas Artes",catC:"Cartoon e ilustración",nImg:"La foto se reduce automáticamente a un máximo de 1600 píxeles.",lDet:"Fotos de detalle (opcional, se pueden elegir varias)",hTitle:"Título",hTech:"Técnica (opcional)",lFmt:"Formato (opcional)",lYr:"Año (opcional)",hDesc:"Descripción (opcional, texto libre)",phDesc:"p. ej. reflexiones sobre la obra",lPrice:"Precio en € (opcional, vacío = sin precio visible)",lAvail:"Estado",avN:"Sin indicar",avT:"Disponible",avF:"Vendida",lSort:"Orden",nFill:"Si dejas el español y el inglés vacíos, se rellenan con el texto alemán. Los números de orden más bajos aparecen primero.",go:"Publicar",hList:"Ya publicadas",loading:"Cargando …",
 scriptErr:"Error de script: ",noLib:"No se pudo cargar la biblioteca de Supabase (internet, bloqueador de anuncios o ajustes de privacidad). Recarga la página o prueba otro navegador.",needPw:"Introduce la contraseña o usa el enlace de acceso.",signingIn:"Iniciando sesión …",failed:"Error: ",err:"Error: ",needMail:"Introduce primero el correo electrónico.",linkSent:"Enlace enviado. Revisa tu correo y la carpeta de spam.",shrinkErr:"No se pudo reducir la imagen.",readErr:"No se puede leer la imagen (usa JPG o PNG).",detUp:"Subiendo foto de detalle {k} de {n} …",detAdded:"Fotos de detalle añadidas.",listErr:"No se pudo cargar la lista: ",empty:"Todavía no hay obras.",shortK:"Arte",shortC:"Cartoon",noTitle:"(sin título)",details:"detalles",sold:"vendida",avail:"disponible",fav:"Favorita",del:"Eliminar",addDet:"+ Detalles",toK:"→ Bellas Artes",toC:"→ Cartoon",edit:"Editar",favTip:"Mostrar como imagen favorita en la portada",detAlt:"Foto de detalle",detDelTip:"Eliminar esta foto de detalle",tech:"Técnica",desc:"Descripción",fmt:"Formato",yr:"Año",priceEdit:"Precio en € (vacío = sin precio, la página no muestra nada)",cat:"Categoría",save:"Guardar cambios",saving:"Guardando …",saved:"Guardado.",favOff:"Favorita quitada.",favOn:"Marcada como favorita en la portada.",moved:"Movida.",confDet:"¿Eliminar de verdad esta foto de detalle?",deleting:"Eliminando …",detDel:"Foto de detalle eliminada.",confArt:"¿Eliminar «{t}» definitivamente?",work:"obra",deleted:"Eliminada.",needLogin:"Inicia sesión primero.",pShrink:"Reduciendo el retrato …",pDone:"Retrato reemplazado. En la página de contacto puede tardar hasta un minuto (Cmd+Shift+R).",upPhoto:"Subiendo foto …",savingArt:"Guardando la obra …",published:"Publicada. La obra ya se ve en la página web."}};
 let lang="de",shown=null;try{lang=localStorage.getItem("lang")==="es"?"es":"de"}catch(e){}
 const T=(k,o)=>{let x=L[lang][k]??L.de[k];if(o)for(const n in o)x=x.replace("{"+n+"}",o[n]);return x};
@@ -138,6 +139,8 @@ function applyLang(){
 }
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;try{localStorage.setItem("lang",lang)}catch(e){}applyLang();if(shown)loadList()});
 applyLang();
+const MK={aquarell:"mAq",acryl:"mAc",collage:"mCo"};
+const syncMed=()=>{$("medWrap").hidden=$("cat").value!=="kunst"};
 window.addEventListener("error",e=>{const s=document.getElementById("status");if(s)s.textContent=T("scriptErr")+e.message});
 if(!window.supabase){document.getElementById("status").textContent=T("noLib");throw new Error("supabase fehlt")}
 const SB_URL="https://owbbsnujnkhyyqvagtai.supabase.co";
@@ -145,6 +148,7 @@ const SB_KEY="sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 const db=window.supabase.createClient(SB_URL,SB_KEY);
 const $=id=>document.getElementById(id);
 const msg=t=>{$("status").textContent=t};
+$("cat").onchange=syncMed;syncMed();
 function view(on){if(on===shown)return;shown=on;$("login").hidden=on;$("editor").hidden=!on;if(on)loadList()}
 
 db.auth.onAuthStateChange((_e,s)=>view(!!s));
@@ -212,7 +216,7 @@ async function loadList(){
     const row=document.createElement("div");row.className="item";
     const im=document.createElement("img");
     im.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(a.image_path);im.alt="";
-    const t=document.createElement("span");t.textContent=T(a.category==="cartoon"?"shortC":"shortK")+" · "+(a["title_"+lang]||a.title_de||T("noTitle"))+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" "+T("details"):"")+(a.price>0?"  ·  "+a.price+" €":"")+(a.available===false?"  ·  "+T("sold"):a.available===true?"  ·  "+T("avail"):"")+(a.featured?"  ·  ★ "+T("fav"):"");
+    const t=document.createElement("span");t.textContent=T(a.category==="cartoon"?"shortC":"shortK")+(a.category!=="cartoon"&&a.medium?" · "+T(MK[a.medium]):"")+" · "+(a["title_"+lang]||a.title_de||T("noTitle"))+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" "+T("details"):"")+(a.price>0?"  ·  "+a.price+" €":"")+(a.available===false?"  ·  "+T("sold"):a.available===true?"  ·  "+T("avail"):"")+(a.featured?"  ·  ★ "+T("fav"):"");
     const b=document.createElement("button");b.type="button";b.textContent=T("del");
     b.onclick=()=>removeArt(a,b);
     const d=document.createElement("button");d.type="button";d.textContent=T("addDet");d.className="dark";d.onclick=()=>addDetails(a,d);
@@ -251,13 +255,14 @@ function editArt(a,row){
     '<label>'+T("priceEdit")+'<input name="price" type="number" min="0" step="1"></label>'+
     '<label>'+T("lAvail")+'<select name="available"><option value="">'+T("avN")+'</option><option value="true">'+T("avT")+'</option><option value="false">'+T("avF")+'</option></select></label>'+
     '<label>'+T("cat")+'<select name="category"><option value="kunst">'+T("catK")+'</option><option value="cartoon">'+T("catC")+'</option></select></label>'+
+    '<label>'+T("medGroup")+'<select name="medium"><option value="">'+T("medN")+'</option>'+Object.keys(MK).map(k=>'<option value="'+k+'">'+T(MK[k])+'</option>').join("")+'</select></label>'+
     '<label>'+T("lSort")+'<input name="sort" type="number"></label>'+
     '<button type="submit">'+T("save")+'</button>';
   fields.forEach(([k])=>{f.elements[k].value=a[k]||""});
   f.elements.size.value=a.size||"";f.elements.year.value=a.year??"";
   f.elements.price.value=a.price??"";
   f.elements.available.value=a.available===true?"true":a.available===false?"false":"";
-  f.elements.category.value=a.category||"kunst";
+  f.elements.category.value=a.category||"kunst";f.elements.medium.value=a.medium||"";
   f.elements.sort.value=a.sort??0;
   f.onsubmit=async e=>{
     e.preventDefault();
@@ -269,7 +274,7 @@ function editArt(a,row){
       size:g("size"),year:el.year.value===""?null:parseInt(el.year.value),
       price:el.price.value===""?null:Number(el.price.value),
       available:el.available.value===""?null:el.available.value==="true",
-      category:el.category.value,sort:parseInt(el.sort.value)||0
+      category:el.category.value,medium:el.category.value==="kunst"?(el.medium.value||null):null,sort:parseInt(el.sort.value)||0
     };
     msg(T("saving"));
     const r=await db.from("artworks").update(upd).eq("id",a.id);
@@ -291,7 +296,7 @@ async function toggleFav(a,b){
 async function moveArt(a,b){
   b.disabled=true;
   const c=a.category==="cartoon"?"kunst":"cartoon";
-  const u=await db.from("artworks").update({category:c}).eq("id",a.id);
+  const u=await db.from("artworks").update(c==="cartoon"?{category:c,medium:null}:{category:c}).eq("id",a.id);
   if(u.error){msg(T("err")+u.error.message);b.disabled=false;return}
   msg(T("moved"));loadList();
 }
@@ -330,6 +335,7 @@ $("portraitForm").onsubmit=async e=>{
 
 $("artForm").onsubmit=async e=>{
   e.preventDefault();
+  if($("cat").value==="kunst"&&!$("med").value)return msg(T("needMed"));
   const btn=$("go");btn.disabled=true;
   const done=[];
   try{
@@ -341,7 +347,7 @@ $("artForm").onsubmit=async e=>{
     for(let k=0;k<files.length;k++){msg(T("detUp",{k:k+1,n:files.length}));const q=await upPhoto(files[k]);det.push(q);done.push(q)}
     const v=id=>$(id).value.trim()||null;
     const row={
-      image_path:path,category:$("cat").value,
+      image_path:path,category:$("cat").value,medium:$("cat").value==="kunst"?$("med").value:null,
       title_de:v("t_de"),title_es:v("t_es")||v("t_de"),title_en:v("t_en")||v("t_de"),
       description_de:v("k_de"),description_es:v("k_es")||v("k_de"),description_en:v("k_en")||v("k_de"),
       technique_de:v("m_de"),technique_es:v("m_es")||v("m_de"),technique_en:v("m_en")||v("m_de"),
@@ -355,7 +361,7 @@ $("artForm").onsubmit=async e=>{
     const ins=await db.from("artworks").insert(row);
     if(ins.error)throw ins.error;
     done.length=0;
-    $("artForm").reset();$("sort").value=0;
+    $("artForm").reset();$("sort").value=0;syncMed();
     msg(T("published"));loadList();
   }catch(err){
     if(done.length)await db.storage.from("artworks").remove(done);
