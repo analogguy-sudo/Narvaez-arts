@@ -66,13 +66,13 @@ h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transfo
 #privText,#impText{margin-top:24px;font-size:16px;overflow-wrap:anywhere}
 #privText h2,#impText h2{margin:26px 0 6px;font-size:19px;font-weight:400;color:var(--goldtext)}
 #privText a,#impText a{color:var(--goldtext)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px 20px;width:100%}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px 20px;width:100%;align-items:start}
 .tiles .note{grid-column:1/-1;text-align:center}
 .note{color:var(--muted);font-size:16px}
 .tile h3{margin:10px 0 2px;font-size:19px;font-weight:400}
-.tile p{margin:2px 0;font-size:14px;color:var(--muted);line-height:1.5}
-.zoom{display:block;width:100%;padding:0;border:0;background:#e8e1d7;cursor:zoom-in;position:relative}
-.zoom img{width:100%;aspect-ratio:4/5;object-fit:contain;display:block}
+.tile p.meta{margin:2px 0;color:var(--goldtext);font-size:13px;letter-spacing:.02em;line-height:1.5}
+.zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;position:relative}
+.zoom img{width:100%;height:auto;display:block}
 .more{position:absolute;right:8px;bottom:8px;background:rgba(25,25,25,.85);color:var(--gold);font-size:12px;padding:3px 8px}
 .mail{display:inline-block;margin-top:10px;padding:10px 22px;background:var(--side);color:var(--gold);text-decoration:none;text-transform:uppercase;font-size:16px}
 footer{background:var(--side);color:var(--gold);font-size:14px;text-align:center;padding:14px 20px;overflow-wrap:anywhere}
@@ -88,11 +88,13 @@ footer a{color:inherit;text-underline-offset:3px}
 aside :focus-visible,footer :focus-visible{outline-color:var(--gold)}
 dialog{border:0;padding:0;background:transparent;width:100%;height:100%;max-width:100vw;max-height:100vh}
 dialog::backdrop{background:rgba(15,15,15,.95)}
-.lb-in{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:56px 56px 20px}
-#lbImg{max-width:100%;max-height:calc(100vh - 170px);object-fit:contain}
-#lbCap{color:#eee;font-size:15px}
-#lbMeta{color:#aaa;font-size:13px;margin-top:-9px}
-.tile p.meta{color:var(--goldtext);font-size:13px;letter-spacing:.02em}
+.lb-in{position:relative;height:100%;display:flex;align-items:center;justify-content:center;gap:36px;padding:56px 70px 20px}
+.lb-pic{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0;max-width:calc(100% - 316px)}
+#lbImg{max-width:100%;max-height:calc(100vh - 160px);object-fit:contain}
+.lb-info{flex:none;width:280px;display:flex;flex-direction:column;gap:8px}
+#lbCap{color:#eee;font-size:21px;line-height:1.3}
+#lbMeta{color:var(--gold);font-size:14px;letter-spacing:.02em}
+#lbDesc{color:#ccc;font-size:15px;line-height:1.55;margin-top:6px}
 #lbThumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 #lbThumbs img{width:54px;height:54px;object-fit:cover;opacity:.55;cursor:pointer}
 #lbThumbs img.on{opacity:1;outline:2px solid #fff}
@@ -108,7 +110,9 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
  .contact{display:none}
  main{padding:26px 18px 30px}
  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
- .lb-in{padding:52px 8px 16px}.lb-n{top:auto;bottom:70px;transform:none}
+ .lb-in{flex-direction:column;gap:12px;padding:52px 8px 16px}.lb-n{top:auto;bottom:70px;transform:none}
+ .lb-pic{max-width:100%}#lbImg{max-height:calc(100vh - 250px)}
+ .lb-info{width:auto;max-width:60ch;text-align:center;gap:4px}#lbCap{font-size:16px}#lbDesc{font-size:14px;margin-top:2px}
 }
 @media(max-width:420px){.tiles{grid-template-columns:1fr}}
 </style>
@@ -175,11 +179,13 @@ dialog::backdrop{background:rgba(15,15,15,.95)}
   <div class="lb-in">
     <button class="lb-x" id="lbX" type="button" aria-label="Close">×</button>
     <button class="lb-n lb-p" id="lbPrev" type="button" aria-label="Previous">‹</button>
-    <img id="lbImg" alt="">
     <button class="lb-n lb-nx" id="lbNext" type="button" aria-label="Next">›</button>
-    <div id="lbCap"></div>
-    <div id="lbMeta" hidden></div>
-    <div id="lbThumbs"></div>
+    <div class="lb-pic"><img id="lbImg" alt=""><div id="lbThumbs"></div></div>
+    <div class="lb-info">
+      <div id="lbCap"></div>
+      <div id="lbMeta" hidden></div>
+      <div id="lbDesc" hidden></div>
+    </div>
   </div>
 </dialog>
 
@@ -249,7 +255,7 @@ de:[["h", "1. Verantwortliche"],
  ["h", "9. Ihre Rechte"],
  ["p", "Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Einer Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO können Sie aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit widersprechen (Art. 21). Eine formlose E-Mail an {mail} genügt."],
  ["p", "Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Hessischen Beauftragten für Datenschutz und Informationsfreiheit, https://datenschutz.hessen.de"],
- ["p", "Stand: November 2026"]], 
+ ["p", "Stand: November 2026"]],
 es:[["h", "1. Responsable"],
  ["p", "La responsable de este sitio web es Eva Narváez, correo electrónico: {mail}."],
  ["h", "2. Lo esencial en breve"],
@@ -271,7 +277,7 @@ es:[["h", "1. Responsable"],
  ["h", "9. Sus derechos"],
  ["p", "Usted tiene derecho de acceso (art. 15 RGPD), rectificación (art. 16), supresión (art. 17), limitación del tratamiento (art. 18) y portabilidad de los datos (art. 20). Puede oponerse en cualquier momento, por motivos relacionados con su situación particular, a un tratamiento basado en el art. 6, apdo. 1, letra f del RGPD (art. 21). Basta con un correo electrónico informal a {mail}."],
  ["p", "Además, puede presentar una reclamación ante una autoridad de protección de datos, por ejemplo ante el Comisionado de Protección de Datos de Hesse (Alemania), https://datenschutz.hessen.de"],
- ["p", "Versión: noviembre de 2026. En caso de duda, prevalece la versión alemana."]], 
+ ["p", "Versión: noviembre de 2026. En caso de duda, prevalece la versión alemana."]],
 en:[["h", "1. Controller"],
  ["p", "The controller responsible for this website is Eva Narváez, email: {mail}."],
  ["h", "2. In brief"],
@@ -326,9 +332,9 @@ const imgURL=p=>SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(p);
 /* Werkangaben: Technik · Format · Jahr (leere Felder entfallen) */
 const meta=a=>[a["technique_"+lang]||a.technique_de,a.size,a.year].filter(Boolean).join(" · ");
 function card(a,i){
-  const ti=a["title_"+lang]||a.title_de||"",de=a["description_"+lang]||a.description_de||"",n=(a.detail_paths||[]).length;
+  const ti=a["title_"+lang]||a.title_de||"",n=(a.detail_paths||[]).length;
   return '<article class="tile"><button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img src="'+esc(imgURL(a.image_path))+'" alt="'+esc(ti)+'" loading="lazy">'+(n?'<span class="more">+'+n+'</span>':"")+'</button>'+
-   '<h3>'+esc(ti)+'</h3>'+(meta(a)?'<p class="meta">'+esc(meta(a))+'</p>':"")+(de?'<p>'+esc(de)+'</p>':"")+'</article>';
+   '<h3>'+esc(ti)+'</h3>'+(meta(a)?'<p class="meta">'+esc(meta(a))+'</p>':"")+'</article>';
 }
 function renderFav(){
   const box=$("fav");let i=arts.findIndex(a=>a.featured===true);
@@ -388,6 +394,7 @@ function showLB(){
   $("lbImg").src=imgURL(ph[lb.i]);$("lbImg").alt=ti;
   $("lbCap").textContent=ti+(ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
   $("lbMeta").textContent=meta(a);$("lbMeta").hidden=!meta(a);
+  const de=a["description_"+lang]||a.description_de||"";$("lbDesc").textContent=de;$("lbDesc").hidden=!de;
   $("lbPrev").hidden=$("lbNext").hidden=ph.length<2;
   $("lbThumbs").innerHTML=ph.length>1?ph.map((p,k)=>'<img src="'+esc(imgURL(p))+'" data-k="'+k+'" class="'+(k===lb.i?"on":"")+'" alt="" loading="lazy">').join(""):"";
 }

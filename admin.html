@@ -20,6 +20,10 @@ button.alt{background:none;color:#1a2630;border:1px solid #1a2630}
 button:disabled{opacity:.5;cursor:wait}
 .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media(max-width:560px){.row{grid-template-columns:1fr}}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.top a,.top button{width:auto;margin:0;padding:8px 14px;font-size:.9rem;text-decoration:none;color:#1a2630;border:1px solid #1a2630;border-radius:6px;background:none}
+.top .lang{display:flex;gap:6px}
+.top .lang button[aria-pressed=true]{background:#1a2630;color:#fff}
 #status{margin-top:20px;overflow-wrap:anywhere;color:#2a3fd0}
 .note{color:#5d6b75;font-size:.9rem}
 .item{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #cdd5d9}
@@ -38,78 +42,80 @@ button:disabled{opacity:.5;cursor:wait}
 </style>
 </head>
 <body>
-<h1>Werke verwalten</h1>
-<p class="note">Neue Werke erscheinen sofort auf der Homepage.</p>
+<div class="top"><span></span><div class="lang"><button type="button" data-l="de" aria-pressed="true">DE</button><button type="button" data-l="es" aria-pressed="false">ES</button></div></div>
+<h1 data-t="title">Werke verwalten</h1>
+<p class="note" data-t="intro">Neue Werke erscheinen sofort auf der Homepage.</p>
 
 <section id="login">
-  <h2>Anmelden</h2>
+  <div class="top"><a href="index.html" data-t="back">← Zurück zur Homepage</a></div>
+  <h2 data-t="login">Anmelden</h2>
   <form id="loginForm" onsubmit="return false">
-    <label for="email">E-Mail</label>
+    <label for="email" data-t="email">E-Mail</label>
     <input id="email" type="email" autocomplete="username" required>
-    <label for="password">Passwort</label>
+    <label for="password" data-t="pw">Passwort</label>
     <input id="password" type="password" autocomplete="current-password">
-    <button type="submit">Anmelden</button>
+    <button type="submit" data-t="loginBtn">Anmelden</button>
   </form>
-  <button id="magic" type="button" class="alt">Anmeldelink per E-Mail senden</button>
+  <button id="magic" type="button" class="alt" data-t="magic">Anmeldelink per E-Mail senden</button>
 </section>
 
 <section id="editor" hidden>
-  <button id="logout" type="button" class="alt">Abmelden</button>
-  <h2>Portrait auf der Kontaktseite</h2>
+  <div class="top"><a href="index.html" data-t="back">← Zurück zur Homepage</a><button id="logout" type="button" data-t="logout">Abmelden</button></div>
+  <h2 data-t="hPortrait">Portrait auf der Kontaktseite</h2>
   <form id="portraitForm">
-    <label for="portrait">Portraitfoto (Hochformat)</label>
+    <label for="portrait" data-t="lPortrait">Portraitfoto (Hochformat)</label>
     <input id="portrait" type="file" accept="image/*" required>
-    <button id="pgo" type="submit">Portrait ersetzen</button>
+    <button id="pgo" type="submit" data-t="bPortrait">Portrait ersetzen</button>
   </form>
 
-  <h2>Neues Werk</h2>
+  <h2 data-t="hNew">Neues Werk</h2>
   <form id="artForm">
-    <label for="cat">Kategorie *</label>
-    <select id="cat"><option value="kunst">Bildende Kunst</option><option value="cartoon">Cartoon &amp; Illustration</option></select>
+    <label for="cat" data-t="lCat">Kategorie *</label>
+    <select id="cat"><option value="kunst" data-t="catK">Bildende Kunst</option><option value="cartoon" data-t="catC">Cartoon &amp; Illustration</option></select>
     <label for="image">Foto *</label>
     <input id="image" type="file" accept="image/*" required>
-    <p class="note">Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.</p>
-    <label for="details">Detailfotos (optional, mehrere möglich)</label>
+    <p class="note" data-t="nImg">Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.</p>
+    <label for="details" data-t="lDet">Detailfotos (optional, mehrere möglich)</label>
     <input id="details" type="file" accept="image/*" multiple>
 
-    <h2>Titel</h2>
+    <h2 data-t="hTitle">Titel</h2>
     <div class="row">
       <div><label for="t_de">Deutsch *</label><input id="t_de" required maxlength="200"></div>
       <div><label for="t_es">Español</label><input id="t_es" maxlength="200"></div>
       <div><label for="t_en">English</label><input id="t_en" maxlength="200"></div>
     </div>
 
-    <h2>Technik (optional)</h2>
+    <h2 data-t="hTech">Technik (optional)</h2>
     <div class="row">
       <div><label for="m_de">Deutsch</label><input id="m_de" placeholder="Öl auf Leinwand" maxlength="200"></div>
       <div><label for="m_es">Español</label><input id="m_es" placeholder="Óleo sobre lienzo" maxlength="200"></div>
       <div><label for="m_en">English</label><input id="m_en" placeholder="Oil on canvas" maxlength="200"></div>
     </div>
     <div class="row">
-      <div><label for="fmt">Format (optional)</label><input id="fmt" placeholder="80 × 100 cm" maxlength="100"></div>
-      <div><label for="yr">Jahr (optional)</label><input id="yr" type="number" min="1900" max="2100" placeholder="2024"></div>
+      <div><label for="fmt" data-t="lFmt">Format (optional)</label><input id="fmt" placeholder="80 × 100 cm" maxlength="100"></div>
+      <div><label for="yr" data-t="lYr">Jahr (optional)</label><input id="yr" type="number" min="1900" max="2100" placeholder="2024"></div>
       <div></div>
     </div>
 
-    <h2>Beschreibung (optional, freier Text)</h2>
+    <h2 data-t="hDesc">Beschreibung (optional, freier Text)</h2>
     <div class="row">
-      <div><label for="k_de">Deutsch</label><input id="k_de" placeholder="z. B. Gedanken zum Werk" maxlength="500"></div>
+      <div><label for="k_de">Deutsch</label><input id="k_de" placeholder="z. B. Gedanken zum Werk" data-tp="phDesc" maxlength="500"></div>
       <div><label for="k_es">Español</label><input id="k_es" maxlength="500"></div>
       <div><label for="k_en">English</label><input id="k_en" maxlength="500"></div>
     </div>
 
     <div class="row">
-      <div><label for="price">Preis in € (optional, leer = kein Preis sichtbar)</label><input id="price" type="number" min="0" step="1"></div>
-      <div><label for="avail">Status</label><select id="avail"><option value="">Keine Angabe</option><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></div>
-      <div><label for="sort">Reihenfolge</label><input id="sort" type="number" value="0"></div>
+      <div><label for="price" data-t="lPrice">Preis in € (optional, leer = kein Preis sichtbar)</label><input id="price" type="number" min="0" step="1"></div>
+      <div><label for="avail" data-t="lAvail">Status</label><select id="avail"><option value="" data-t="avN">Keine Angabe</option><option value="true" data-t="avT">Verfügbar</option><option value="false" data-t="avF">Verkauft</option></select></div>
+      <div><label for="sort" data-t="lSort">Reihenfolge</label><input id="sort" type="number" value="0"></div>
     </div>
-    <p class="note">Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.</p>
+    <p class="note" data-t="nFill">Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.</p>
 
-    <button id="go" type="submit">Veröffentlichen</button>
+    <button id="go" type="submit" data-t="go">Veröffentlichen</button>
   </form>
 
-  <h2>Bereits veröffentlicht</h2>
-  <div id="list" class="note">Wird geladen …</div>
+  <h2 data-t="hList">Bereits veröffentlicht</h2>
+  <div id="list" class="note" data-t="loading">Wird geladen …</div>
 </section>
 
 <p id="status" role="status" aria-live="polite"></p>
@@ -117,30 +123,44 @@ button:disabled{opacity:.5;cursor:wait}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
 <script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"><\/script>')</script>
 <script>
-window.addEventListener("error",e=>{const s=document.getElementById("status");if(s)s.textContent="Skriptfehler: "+e.message});
-if(!window.supabase){document.getElementById("status").textContent="Die Supabase-Bibliothek konnte nicht geladen werden (Internet, Werbeblocker oder Datenschutz-Einstellung). Bitte Seite neu laden oder einen anderen Browser testen.";throw new Error("supabase fehlt")}
+const L={
+de:{pageTitle:"Admin – Eva Narváez",title:"Werke verwalten",intro:"Neue Werke erscheinen sofort auf der Homepage.",back:"← Zurück zur Homepage",login:"Anmelden",email:"E-Mail",pw:"Passwort",loginBtn:"Anmelden",magic:"Anmeldelink per E-Mail senden",logout:"Abmelden",hPortrait:"Portrait auf der Kontaktseite",lPortrait:"Portraitfoto (Hochformat)",bPortrait:"Portrait ersetzen",hNew:"Neues Werk",lCat:"Kategorie *",catK:"Bildende Kunst",catC:"Cartoon & Illustration",nImg:"Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.",lDet:"Detailfotos (optional, mehrere möglich)",hTitle:"Titel",hTech:"Technik (optional)",lFmt:"Format (optional)",lYr:"Jahr (optional)",hDesc:"Beschreibung (optional, freier Text)",phDesc:"z. B. Gedanken zum Werk",lPrice:"Preis in € (optional, leer = kein Preis sichtbar)",lAvail:"Status",avN:"Keine Angabe",avT:"Verfügbar",avF:"Verkauft",lSort:"Reihenfolge",nFill:"Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.",go:"Veröffentlichen",hList:"Bereits veröffentlicht",loading:"Wird geladen …",
+scriptErr:"Skriptfehler: ",noLib:"Die Supabase-Bibliothek konnte nicht geladen werden (Internet, Werbeblocker oder Datenschutz-Einstellung). Bitte Seite neu laden oder einen anderen Browser testen.",needPw:"Bitte Passwort eingeben oder den Anmeldelink nutzen.",signingIn:"Anmeldung …",failed:"Fehlgeschlagen: ",err:"Fehler: ",needMail:"Bitte zuerst die E-Mail eingeben.",linkSent:"Link gesendet. Bitte E-Mail und Spam-Ordner prüfen.",shrinkErr:"Bild konnte nicht verkleinert werden.",readErr:"Bild nicht lesbar (bitte JPG oder PNG).",detUp:"Detailfoto {k} von {n} wird hochgeladen …",detAdded:"Detailfotos hinzugefügt.",listErr:"Liste konnte nicht geladen werden: ",empty:"Noch keine Werke vorhanden.",shortK:"Kunst",shortC:"Cartoon",noTitle:"(ohne Titel)",details:"Details",sold:"verkauft",avail:"verfügbar",fav:"Favorit",del:"Löschen",addDet:"+ Details",toK:"→ Bildende Kunst",toC:"→ Cartoon",edit:"Bearbeiten",favTip:"Als Favoritenbild auf der Startseite zeigen",detAlt:"Detailfoto",detDelTip:"Dieses Detailfoto löschen",tech:"Technik",desc:"Beschreibung",fmt:"Format",yr:"Jahr",priceEdit:"Preis in € (leer = kein Preis, dann zeigt die Seite nichts an)",cat:"Kategorie",save:"Änderungen speichern",saving:"Wird gespeichert …",saved:"Gespeichert.",favOff:"Favorit entfernt.",favOn:"Als Favorit auf der Startseite gesetzt.",moved:"Verschoben.",confDet:"Dieses Detailfoto wirklich löschen?",deleting:"Wird gelöscht …",detDel:"Detailfoto gelöscht.",confArt:"„{t}“ wirklich endgültig löschen?",work:"Werk",deleted:"Gelöscht.",needLogin:"Bitte zuerst anmelden.",pShrink:"Portrait wird verkleinert …",pDone:"Portrait ersetzt. Auf der Kontaktseite kann es bis zu einer Minute dauern (Cmd+Shift+R).",upPhoto:"Foto wird hochgeladen …",savingArt:"Werk wird gespeichert …",published:"Veröffentlicht. Das Werk ist jetzt auf der Homepage zu sehen."},
+es:{pageTitle:"Admin – Eva Narváez",title:"Gestionar obras",intro:"Las obras nuevas aparecen al instante en la página web.",back:"← Volver a la página web",login:"Iniciar sesión",email:"Correo electrónico",pw:"Contraseña",loginBtn:"Entrar",magic:"Enviar enlace de acceso por correo",logout:"Cerrar sesión",hPortrait:"Retrato en la página de contacto",lPortrait:"Foto de retrato (vertical)",bPortrait:"Reemplazar retrato",hNew:"Nueva obra",lCat:"Categoría *",catK:"Bellas Artes",catC:"Cartoon e ilustración",nImg:"La foto se reduce automáticamente a un máximo de 1600 píxeles.",lDet:"Fotos de detalle (opcional, se pueden elegir varias)",hTitle:"Título",hTech:"Técnica (opcional)",lFmt:"Formato (opcional)",lYr:"Año (opcional)",hDesc:"Descripción (opcional, texto libre)",phDesc:"p. ej. reflexiones sobre la obra",lPrice:"Precio en € (opcional, vacío = sin precio visible)",lAvail:"Estado",avN:"Sin indicar",avT:"Disponible",avF:"Vendida",lSort:"Orden",nFill:"Si dejas el español y el inglés vacíos, se rellenan con el texto alemán. Los números de orden más bajos aparecen primero.",go:"Publicar",hList:"Ya publicadas",loading:"Cargando …",
+scriptErr:"Error de script: ",noLib:"No se pudo cargar la biblioteca de Supabase (internet, bloqueador de anuncios o ajustes de privacidad). Recarga la página o prueba otro navegador.",needPw:"Introduce la contraseña o usa el enlace de acceso.",signingIn:"Iniciando sesión …",failed:"Error: ",err:"Error: ",needMail:"Introduce primero el correo electrónico.",linkSent:"Enlace enviado. Revisa tu correo y la carpeta de spam.",shrinkErr:"No se pudo reducir la imagen.",readErr:"No se puede leer la imagen (usa JPG o PNG).",detUp:"Subiendo foto de detalle {k} de {n} …",detAdded:"Fotos de detalle añadidas.",listErr:"No se pudo cargar la lista: ",empty:"Todavía no hay obras.",shortK:"Arte",shortC:"Cartoon",noTitle:"(sin título)",details:"detalles",sold:"vendida",avail:"disponible",fav:"Favorita",del:"Eliminar",addDet:"+ Detalles",toK:"→ Bellas Artes",toC:"→ Cartoon",edit:"Editar",favTip:"Mostrar como imagen favorita en la portada",detAlt:"Foto de detalle",detDelTip:"Eliminar esta foto de detalle",tech:"Técnica",desc:"Descripción",fmt:"Formato",yr:"Año",priceEdit:"Precio en € (vacío = sin precio, la página no muestra nada)",cat:"Categoría",save:"Guardar cambios",saving:"Guardando …",saved:"Guardado.",favOff:"Favorita quitada.",favOn:"Marcada como favorita en la portada.",moved:"Movida.",confDet:"¿Eliminar de verdad esta foto de detalle?",deleting:"Eliminando …",detDel:"Foto de detalle eliminada.",confArt:"¿Eliminar «{t}» definitivamente?",work:"obra",deleted:"Eliminada.",needLogin:"Inicia sesión primero.",pShrink:"Reduciendo el retrato …",pDone:"Retrato reemplazado. En la página de contacto puede tardar hasta un minuto (Cmd+Shift+R).",upPhoto:"Subiendo foto …",savingArt:"Guardando la obra …",published:"Publicada. La obra ya se ve en la página web."}};
+let lang="de",shown=null;try{lang=localStorage.getItem("lang")==="es"?"es":"de"}catch(e){}
+const T=(k,o)=>{let x=L[lang][k]??L.de[k];if(o)for(const n in o)x=x.replace("{"+n+"}",o[n]);return x};
+function applyLang(){
+  document.documentElement.lang=lang;document.title=T("pageTitle");
+  document.querySelectorAll("[data-t]").forEach(e=>{e.textContent=T(e.dataset.t)});
+  document.querySelectorAll("[data-tp]").forEach(e=>{e.placeholder=T(e.dataset.tp)});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===lang));
+}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;try{localStorage.setItem("lang",lang)}catch(e){}applyLang();if(shown)loadList()});
+applyLang();
+window.addEventListener("error",e=>{const s=document.getElementById("status");if(s)s.textContent=T("scriptErr")+e.message});
+if(!window.supabase){document.getElementById("status").textContent=T("noLib");throw new Error("supabase fehlt")}
 const SB_URL="https://owbbsnujnkhyyqvagtai.supabase.co";
 const SB_KEY="sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 const db=window.supabase.createClient(SB_URL,SB_KEY);
 const $=id=>document.getElementById(id);
 const msg=t=>{$("status").textContent=t};
-let shown=null;
 function view(on){if(on===shown)return;shown=on;$("login").hidden=on;$("editor").hidden=!on;if(on)loadList()}
 
 db.auth.onAuthStateChange((_e,s)=>view(!!s));
 
 $("loginForm").onsubmit=async e=>{
   e.preventDefault();
-  if(!$("password").value)return msg("Bitte Passwort eingeben oder den Anmeldelink nutzen.");
-  msg("Anmeldung …");
+  if(!$("password").value)return msg(T("needPw"));
+  msg(T("signingIn"));
   const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
-  msg(error?"Fehlgeschlagen: "+error.message:"");
+  msg(error?T("failed")+error.message:"");
 };
 $("magic").onclick=async()=>{
   const email=$("email").value.trim();
-  if(!email)return msg("Bitte zuerst die E-Mail eingeben.");
+  if(!email)return msg(T("needMail"));
   const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
-  msg(error?"Fehler: "+error.message:"Link gesendet. Bitte E-Mail und Spam-Ordner prüfen.");
+  msg(error?T("err")+error.message:T("linkSent"));
 };
 $("logout").onclick=()=>db.auth.signOut();
 
@@ -153,9 +173,9 @@ function shrink(file){
       c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
       c.getContext("2d").drawImage(img,0,0,c.width,c.height);
       URL.revokeObjectURL(u);
-      c.toBlob(b=>b?ok(b):fail(new Error("Bild konnte nicht verkleinert werden.")),"image/jpeg",.85);
+      c.toBlob(b=>b?ok(b):fail(new Error(T("shrinkErr"))),"image/jpeg",.85);
     };
-    img.onerror=()=>fail(new Error("Bild nicht lesbar (bitte JPG oder PNG)."));
+    img.onerror=()=>fail(new Error(T("readErr")));
     img.src=u;
   });
 }
@@ -174,44 +194,44 @@ function addDetails(a,btn){
     if(!inp.files.length)return;
     btn.disabled=true;const added=[];
     try{
-      for(let k=0;k<inp.files.length;k++){msg("Detailfoto "+(k+1)+" von "+inp.files.length+" wird hochgeladen …");added.push(await upPhoto(inp.files[k]))}
+      for(let k=0;k<inp.files.length;k++){msg(T("detUp",{k:k+1,n:inp.files.length}));added.push(await upPhoto(inp.files[k]))}
       const u=await db.from("artworks").update({detail_paths:(a.detail_paths||[]).concat(added)}).eq("id",a.id);
       if(u.error){await db.storage.from("artworks").remove(added);throw u.error}
-      msg("Detailfotos hinzugefügt.");loadList();
-    }catch(err){if(added.length)await db.storage.from("artworks").remove(added);msg("Fehler: "+(err.message||err));btn.disabled=false}
+      msg(T("detAdded"));loadList();
+    }catch(err){if(added.length)await db.storage.from("artworks").remove(added);msg(T("err")+(err.message||err));btn.disabled=false}
   };
   inp.click();
 }
 async function loadList(){
   const box=$("list");
   const {data,error}=await db.from("artworks").select("*").order("sort").order("created_at",{ascending:false});
-  if(error){box.textContent="Liste konnte nicht geladen werden: "+error.message;return}
-  if(!data.length){box.textContent="Noch keine Werke vorhanden.";return}
+  if(error){box.textContent=T("listErr")+error.message;return}
+  if(!data.length){box.textContent=T("empty");return}
   box.textContent="";
   data.forEach(a=>{
     const row=document.createElement("div");row.className="item";
     const im=document.createElement("img");
     im.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(a.image_path);im.alt="";
-    const t=document.createElement("span");t.textContent=(a.category==="cartoon"?"Cartoon · ":"Kunst · ")+(a.title_de||"(ohne Titel)")+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" Details":"")+(a.price>0?"  ·  "+a.price+" €":"")+(a.available===false?"  ·  verkauft":a.available===true?"  ·  verfügbar":"")+(a.featured?"  ·  ★ Favorit":"");
-    const b=document.createElement("button");b.type="button";b.textContent="Löschen";
+    const t=document.createElement("span");t.textContent=T(a.category==="cartoon"?"shortC":"shortK")+" · "+(a["title_"+lang]||a.title_de||T("noTitle"))+((a.detail_paths||[]).length?"  ·  "+a.detail_paths.length+" "+T("details"):"")+(a.price>0?"  ·  "+a.price+" €":"")+(a.available===false?"  ·  "+T("sold"):a.available===true?"  ·  "+T("avail"):"")+(a.featured?"  ·  ★ "+T("fav"):"");
+    const b=document.createElement("button");b.type="button";b.textContent=T("del");
     b.onclick=()=>removeArt(a,b);
-    const d=document.createElement("button");d.type="button";d.textContent="+ Details";d.className="dark";d.onclick=()=>addDetails(a,d);
+    const d=document.createElement("button");d.type="button";d.textContent=T("addDet");d.className="dark";d.onclick=()=>addDetails(a,d);
     const mv=document.createElement("button");mv.type="button";mv.className="dark";
-    mv.textContent=a.category==="cartoon"?"→ Bildende Kunst":"→ Cartoon";
+    mv.textContent=T(a.category==="cartoon"?"toK":"toC");
     mv.onclick=()=>moveArt(a,mv);
-    const ed=document.createElement("button");ed.type="button";ed.className="dark";ed.textContent="Bearbeiten";
+    const ed=document.createElement("button");ed.type="button";ed.className="dark";ed.textContent=T("edit");
     ed.onclick=()=>editArt(a,row);
-    const fv=document.createElement("button");fv.type="button";fv.className="dark";fv.textContent=a.featured?"★ Favorit":"☆ Favorit";
-    fv.title="Als Favoritenbild auf der Startseite zeigen";fv.onclick=()=>toggleFav(a,fv);
+    const fv=document.createElement("button");fv.type="button";fv.className="dark";fv.textContent=(a.featured?"★ ":"☆ ")+T("fav");
+    fv.title=T("favTip");fv.onclick=()=>toggleFav(a,fv);
     row.append(im,t,ed,mv,d,fv,b);
     if((a.detail_paths||[]).length){
       const ds=document.createElement("div");ds.className="dets";
       a.detail_paths.forEach(pp=>{
         const w=document.createElement("div");w.className="det";
         const i2=document.createElement("img");
-        i2.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(pp);i2.alt="Detailfoto";
+        i2.src=SB_URL+"/storage/v1/object/public/artworks/"+encodeURI(pp);i2.alt=T("detAlt");
         const x=document.createElement("button");x.type="button";x.textContent="×";
-        x.title="Dieses Detailfoto löschen";x.setAttribute("aria-label","Detailfoto löschen");
+        x.title=T("detDelTip");x.setAttribute("aria-label",T("detDelTip"));
         x.onclick=()=>removeDetail(a,pp,x);
         w.append(i2,x);ds.append(w);
       });
@@ -224,15 +244,15 @@ function editArt(a,row){
   const old=row.querySelector(".edit");
   if(old){old.remove();return}
   const f=document.createElement("form");f.className="edit";
-  const fields=[["title_de","Titel (Deutsch)"],["title_es","Titel (Español)"],["title_en","Titel (English)"],["technique_de","Technik (Deutsch)"],["technique_es","Technik (Español)"],["technique_en","Technik (English)"],["description_de","Beschreibung (Deutsch)"],["description_es","Beschreibung (Español)"],["description_en","Beschreibung (English)"]];
+  const LN={de:"Deutsch",es:"Español",en:"English"},fields=[["title","hTitle"],["technique","tech"],["description","desc"]].flatMap(([f,k])=>["de","es","en"].map(c=>[f+"_"+c,T(k)+" ("+LN[c]+")"]));
   f.innerHTML=fields.map(([k,l])=>'<label>'+l+'<input name="'+k+'" maxlength="500"></label>').join("")+
-    '<label>Format<input name="size" maxlength="100" placeholder="80 × 100 cm"></label>'+
-    '<label>Jahr<input name="year" type="number" min="1900" max="2100"></label><span></span>'+
-    '<label>Preis in € (leer = kein Preis, dann zeigt die Seite nichts an)<input name="price" type="number" min="0" step="1"></label>'+
-    '<label>Status<select name="available"><option value="">Keine Angabe</option><option value="true">Verfügbar</option><option value="false">Verkauft</option></select></label>'+
-    '<label>Kategorie<select name="category"><option value="kunst">Bildende Kunst</option><option value="cartoon">Cartoon &amp; Illustration</option></select></label>'+
-    '<label>Reihenfolge<input name="sort" type="number"></label>'+
-    '<button type="submit">Änderungen speichern</button>';
+    '<label>'+T("fmt")+'<input name="size" maxlength="100" placeholder="80 × 100 cm"></label>'+
+    '<label>'+T("yr")+'<input name="year" type="number" min="1900" max="2100"></label><span></span>'+
+    '<label>'+T("priceEdit")+'<input name="price" type="number" min="0" step="1"></label>'+
+    '<label>'+T("lAvail")+'<select name="available"><option value="">'+T("avN")+'</option><option value="true">'+T("avT")+'</option><option value="false">'+T("avF")+'</option></select></label>'+
+    '<label>'+T("cat")+'<select name="category"><option value="kunst">'+T("catK")+'</option><option value="cartoon">'+T("catC")+'</option></select></label>'+
+    '<label>'+T("lSort")+'<input name="sort" type="number"></label>'+
+    '<button type="submit">'+T("save")+'</button>';
   fields.forEach(([k])=>{f.elements[k].value=a[k]||""});
   f.elements.size.value=a.size||"";f.elements.year.value=a.year??"";
   f.elements.price.value=a.price??"";
@@ -251,10 +271,10 @@ function editArt(a,row){
       available:el.available.value===""?null:el.available.value==="true",
       category:el.category.value,sort:parseInt(el.sort.value)||0
     };
-    msg("Wird gespeichert …");
+    msg(T("saving"));
     const r=await db.from("artworks").update(upd).eq("id",a.id);
-    if(r.error){msg("Fehler: "+r.error.message);return}
-    msg("Gespeichert.");loadList();
+    if(r.error){msg(T("err")+r.error.message);return}
+    msg(T("saved"));loadList();
   };
   row.append(f);
 }
@@ -262,35 +282,35 @@ async function toggleFav(a,b){
   b.disabled=true;
   if(!a.featured){
     const c=await db.from("artworks").update({featured:false}).eq("featured",true);
-    if(c.error){msg("Fehler: "+c.error.message);b.disabled=false;return}
+    if(c.error){msg(T("err")+c.error.message);b.disabled=false;return}
   }
   const u=await db.from("artworks").update({featured:!a.featured}).eq("id",a.id);
-  if(u.error){msg("Fehler: "+u.error.message);b.disabled=false;return}
-  msg(a.featured?"Favorit entfernt.":"Als Favorit auf der Startseite gesetzt.");loadList();
+  if(u.error){msg(T("err")+u.error.message);b.disabled=false;return}
+  msg(T(a.featured?"favOff":"favOn"));loadList();
 }
 async function moveArt(a,b){
   b.disabled=true;
   const c=a.category==="cartoon"?"kunst":"cartoon";
   const u=await db.from("artworks").update({category:c}).eq("id",a.id);
-  if(u.error){msg("Fehler: "+u.error.message);b.disabled=false;return}
-  msg("Verschoben.");loadList();
+  if(u.error){msg(T("err")+u.error.message);b.disabled=false;return}
+  msg(T("moved"));loadList();
 }
 async function removeDetail(a,pp,x){
-  if(!confirm("Dieses Detailfoto wirklich löschen?"))return;
-  x.disabled=true;msg("Wird gelöscht …");
+  if(!confirm(T("confDet")))return;
+  x.disabled=true;msg(T("deleting"));
   const rest=(a.detail_paths||[]).filter(q=>q!==pp);
   const u=await db.from("artworks").update({detail_paths:rest}).eq("id",a.id);
-  if(u.error){msg("Fehler: "+u.error.message);x.disabled=false;return}
+  if(u.error){msg(T("err")+u.error.message);x.disabled=false;return}
   await db.storage.from("artworks").remove([pp]);
-  msg("Detailfoto gelöscht.");loadList();
+  msg(T("detDel"));loadList();
 }
 async function removeArt(a,b){
-  if(!confirm("„"+(a.title_de||"Werk")+"“ wirklich endgültig löschen?"))return;
-  b.disabled=true;msg("Wird gelöscht …");
+  if(!confirm(T("confArt",{t:a["title_"+lang]||a.title_de||T("work")})))return;
+  b.disabled=true;msg(T("deleting"));
   const d=await db.from("artworks").delete().eq("id",a.id);
-  if(d.error){msg("Fehler: "+d.error.message);b.disabled=false;return}
+  if(d.error){msg(T("err")+d.error.message);b.disabled=false;return}
   await db.storage.from("artworks").remove([a.image_path].concat(a.detail_paths||[]));
-  msg("Gelöscht.");loadList();
+  msg(T("deleted"));loadList();
 }
 
 $("portraitForm").onsubmit=async e=>{
@@ -298,14 +318,14 @@ $("portraitForm").onsubmit=async e=>{
   const b=$("pgo");b.disabled=true;
   try{
     const {data:{session}}=await db.auth.getSession();
-    if(!session)throw new Error("Bitte zuerst anmelden.");
-    msg("Portrait wird verkleinert …");
+    if(!session)throw new Error(T("needLogin"));
+    msg(T("pShrink"));
     const blob=await shrink($("portrait").files[0]);
     const up=await db.storage.from("artworks").upload("portrait.jpg",blob,{contentType:"image/jpeg",upsert:true,cacheControl:"60"});
     if(up.error)throw up.error;
     $("portraitForm").reset();
-    msg("Portrait ersetzt. Auf der Kontaktseite kann es bis zu einer Minute dauern (Cmd+Shift+R).");
-  }catch(err){msg("Fehler: "+(err.message||err))}finally{b.disabled=false}
+    msg(T("pDone"));
+  }catch(err){msg(T("err")+(err.message||err))}finally{b.disabled=false}
 };
 
 $("artForm").onsubmit=async e=>{
@@ -314,11 +334,11 @@ $("artForm").onsubmit=async e=>{
   const done=[];
   try{
     const {data:{session}}=await db.auth.getSession();
-    if(!session)throw new Error("Bitte zuerst anmelden.");
-    msg("Foto wird hochgeladen …");
+    if(!session)throw new Error(T("needLogin"));
+    msg(T("upPhoto"));
     const path=await upPhoto($("image").files[0],"werk");done.push(path);
     const det=[],files=[...$("details").files];
-    for(let k=0;k<files.length;k++){msg("Detailfoto "+(k+1)+" von "+files.length+" wird hochgeladen …");const q=await upPhoto(files[k]);det.push(q);done.push(q)}
+    for(let k=0;k<files.length;k++){msg(T("detUp",{k:k+1,n:files.length}));const q=await upPhoto(files[k]);det.push(q);done.push(q)}
     const v=id=>$(id).value.trim()||null;
     const row={
       image_path:path,category:$("cat").value,
@@ -331,15 +351,15 @@ $("artForm").onsubmit=async e=>{
       sort:parseInt($("sort").value)||0,
       published:true,detail_paths:det
     };
-    msg("Werk wird gespeichert …");
+    msg(T("savingArt"));
     const ins=await db.from("artworks").insert(row);
     if(ins.error)throw ins.error;
     done.length=0;
     $("artForm").reset();$("sort").value=0;
-    msg("Veröffentlicht. Das Werk ist jetzt auf der Homepage zu sehen.");loadList();
+    msg(T("published"));loadList();
   }catch(err){
     if(done.length)await db.storage.from("artworks").remove(done);
-    msg("Fehler: "+(err.message||err));
+    msg(T("err")+(err.message||err));
   }finally{btn.disabled=false}
 };
 </script>
