@@ -88,10 +88,15 @@ h1{margin:0 0 clamp(40px,7vh,80px);font-size:clamp(26px,3.2vw,44px);font-weight:
 .field:hover,.field:focus-visible{border-color:var(--goldtext);color:var(--goldtext)}
 /* Rubriken und Reihen als Bildkacheln: Titelbild, darunter Name und Anzahl – wie Räume in einer Galerie */
 .covers{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),360px));justify-content:center;gap:clamp(40px,6vh,72px) clamp(28px,4vw,64px);width:100%;margin:0 auto clamp(24px,4vh,48px)}
-.cover{display:block;color:var(--ink);text-decoration:none}
-.cover .cv{display:block;aspect-ratio:4/5;overflow:hidden;background:#efebe2}
+.cover{display:block;width:300px;max-width:100%;color:var(--ink);text-decoration:none}
+.cover .cv{display:block;aspect-ratio:5/4;overflow:hidden;background:#efebe2}
 .cover .cv img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.001);transition:transform 1.2s cubic-bezier(.2,.7,.2,1),opacity .6s;opacity:0}
 .cover .cv img.ld{opacity:1}
+.cover .cv{transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s}
+.cover:hover .cv,.cover:focus-visible .cv{transform:perspective(900px) rotateX(4deg) rotateY(-6deg) translateY(-6px);box-shadow:0 26px 40px -20px rgba(43,42,38,.5)}
+.cover .cv.ph{display:flex;align-items:center;justify-content:center;aspect-ratio:3/2;height:auto;width:100%;background:var(--page);color:var(--ink);font-size:19px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;text-align:center;padding:12px}
+#gCartoon .covers{margin-top:clamp(8px,2vh,20px)}
+#gCartoon{row-gap:clamp(16px,2.5vh,28px)}
 .cover:hover .cv img,.cover:focus-visible .cv img{transform:scale(1.04)}
 .cover .cvt{display:block;margin-top:18px;font-size:15px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;transition:color .3s}
 .cover:hover .cvt{color:var(--goldtext)}
@@ -153,7 +158,7 @@ dialog::backdrop{background:var(--page)}
  .intro{margin-top:clamp(14px,2.5vh,32px)}
  /* Übersichten: Kachelhöhe richtet sich nach dem Bildschirm, Name und Anzahl bleiben sichtbar */
  .covers{display:flex;flex-wrap:wrap;justify-content:center}
- .cover .cv{height:clamp(220px,calc(100vh - 440px),460px);width:auto;aspect-ratio:4/5}
+ .cover .cv{height:auto;width:100%;aspect-ratio:5/4}
  #cartoon h1{margin-bottom:clamp(20px,4vh,56px)}
  #cartoon .crumbs{margin:-6px 0 clamp(16px,3vh,32px)}
 }
@@ -426,17 +431,18 @@ $("gKunst").addEventListener("click",e=>{const b=e.target.closest(".acc");if(!b)
 let sub=[];
 /* Bildkachel für eine Rubrik oder Reihe: erstes Werk als Titelbild, darunter Name und Anzahl der Werke */
 const WORKS={de:["Werk","Werke"],es:["obra","obras"],en:["work","works"]};
-function cover(list,href,label){
-  const n=list.length,w=WORKS[lang]||WORKS.de,a=list[0]&&list[0][0];
+function cover(list,href,label,lead=list[0]){
+  const n=list.length,w=WORKS[lang]||WORKS.de,a=lead&&lead[0];
   const pic=a&&a.image_path?'<img src="'+esc(imgURL(a.image_path))+'" alt="" loading="lazy" onload="this.classList.add(\'ld\')">':"";
-  return '<a class="cover" href="'+href+'"><span class="cv">'+pic+'</span><span class="cvt">'+esc(label)+'</span><span class="cvn">'+n+" "+(n===1?w[0]:w[1])+'</span></a>';
+  const top=pic?'<span class="cv">'+pic+'</span><span class="cvt">'+esc(label)+'</span>':'<span class="cv ph"><span>'+esc(label)+' →</span></span>';
+  return '<a class="cover" href="'+href+'">'+top+'<span class="cvn">'+n+" "+(n===1?w[0]:w[1])+'</span></a>';
 }
 function renderCartoon(){
   const t=L[lang],box=$("gCartoon"),empty='<p class="note">'+t.empty+'</p>';
   if(state!=="ok"){box.innerHTML='<p class="note">'+(state==="loading"?t.loading:t.error+" ("+esc(err)+")")+'</p>';return}
   const [type,ser]=sub;
   const ofType=k=>arts.map((a,i)=>[a,i]).filter(([a])=>a.category==="cartoon"&&(CT[a.cartoon_type]?a.cartoon_type:"cartoon")===k);
-  if(!CT[type]){box.innerHTML='<div class="covers">'+Object.keys(CT).filter(k=>ofType(k).length).map(k=>cover(ofType(k),"#cartoon/"+k,t[CT[k]])).join("")+'</div>';return}
+  if(!CT[type]){box.innerHTML='<div class="covers">'+Object.keys(CT).map(k=>cover(ofType(k),"#cartoon/"+k,t[CT[k]],null)).join("")+'</div>';return}
   const inType=ofType(type);
   const crumbs='<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
