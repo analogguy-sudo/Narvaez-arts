@@ -63,6 +63,7 @@ h1{margin:0 0 26px;font-size:clamp(26px,3.6vw,44px);font-weight:300;text-transfo
 .text p{margin:0 0 14px}
 #aboutText{margin-top:64px}
 #privText,#impText{margin-top:24px;font-size:16px;overflow-wrap:anywhere}
+#privText .addr,#impText .addr{font-size:12px;color:var(--muted)}/* Postanschrift: vorhanden und lesbar, aber unauffällig */
 #privText h2,#impText h2{margin:26px 0 6px;font-size:19px;font-weight:400;color:var(--goldtext)}
 #privText a,#impText a{color:var(--goldtext)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px 20px;width:100%;align-items:start}
@@ -207,7 +208,7 @@ dialog::backdrop{background:#f5f5f5}
 const SB_URL="https://owbbsnujnkhyyqvagtai.supabase.co";
 const SB_KEY="sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 /* Kontaktdaten */
-const CFG={email:"eva.narvaez-arts@outlook.de",insta:[{key:"nKunst",handle:"@evanarvaez_arts"},{key:"nCartoon",handle:"@brevavineta"}],city:"Frankfurt, Deutschland"};
+const CFG={email:"info@narvaez-arts.com",insta:[{key:"nKunst",handle:"@evanarvaez_arts"},{key:"nCartoon",handle:"@brevavineta"}],city:"Frankfurt, Deutschland",addr:"Am Großen Berge 20, 60431 Frankfurt am Main"};
 const IG='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg>';
 const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7.5l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
 
@@ -249,7 +250,7 @@ en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& i
 /* Datenschutzerklärung: ["h",Überschrift] oder ["p",Absatz]; {mail} = E-Mail-Adresse, Links werden automatisch klickbar */
 const PRIV={
 de:[["h", "1. Verantwortliche"],
- ["p", "Verantwortlich für diese Website ist Eva Narváez, E-Mail: {mail}."],
+ ["p", "Verantwortlich für diese Website ist Eva Narváez, {addr}, E-Mail: {mail}."],
  ["h", "2. Das Wichtigste in Kürze"],
  ["p", "Diese Website setzt keine Cookies und verwendet keine Analyse-, Tracking- oder Werbedienste. Personenbezogene Daten werden nur verarbeitet, soweit das für die Anzeige der Website technisch nötig ist oder Sie mir selbst schreiben."],
  ["h", "3. Hosting bei GitHub Pages"],
@@ -263,7 +264,7 @@ de:[["h", "1. Verantwortliche"],
  ["h", "6. Schriftarten"],
  ["p", "Die verwendete Schrift ist direkt auf dieser Website gespeichert. Es besteht keine Verbindung zu Google Fonts oder anderen Schriftanbietern."],
  ["h", "7. Kontakt per E-Mail"],
- ["p", "Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre E-Mail-Adresse, Ihren Namen und den Inhalt Ihrer Nachricht, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, bei vertragsbezogenen Anfragen Art. 6 Abs. 1 lit. b DSGVO. Mein E-Mail-Postfach wird bei Microsoft (Outlook.com) geführt. Ich lösche Ihre Nachricht, sobald sie erledigt ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen."],
+ ["p", "Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre E-Mail-Adresse, Ihren Namen und den Inhalt Ihrer Nachricht, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, bei vertragsbezogenen Anfragen Art. 6 Abs. 1 lit. b DSGVO. Mein E-Mail-Postfach liegt bei Apple (iCloud Mail, Apple Distribution International Ltd., Irland). Ich lösche Ihre Nachricht, sobald sie erledigt ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen."],
  ["h", "8. Links zu Instagram"],
  ["p", "Diese Website enthält nur einfache Links zu meinen Instagram-Profilen. Es werden keine Inhalte von Instagram eingebunden, und beim bloßen Besuch dieser Website werden keine Daten an Instagram übertragen. Erst wenn Sie einen Link anklicken, gelangen Sie zu Instagram (Meta Platforms Ireland Ltd.); dort gilt deren Datenschutzerklärung."],
  ["h", "9. Ihre Rechte"],
@@ -271,7 +272,7 @@ de:[["h", "1. Verantwortliche"],
  ["p", "Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel beim Hessischen Beauftragten für Datenschutz und Informationsfreiheit, https://datenschutz.hessen.de"],
  ["p", "Stand: November 2026"]],
 es:[["h", "1. Responsable"],
- ["p", "La responsable de este sitio web es Eva Narváez, correo electrónico: {mail}."],
+ ["p", "La responsable de este sitio web es Eva Narváez, {addr}, Alemania, correo electrónico: {mail}."],
  ["h", "2. Lo esencial en breve"],
  ["p", "Este sitio web no utiliza cookies ni servicios de análisis, seguimiento o publicidad. Los datos personales solo se tratan en la medida en que sea técnicamente necesario para mostrar el sitio web o cuando usted me escribe."],
  ["h", "3. Alojamiento en GitHub Pages"],
@@ -285,7 +286,7 @@ es:[["h", "1. Responsable"],
  ["h", "6. Tipografías"],
  ["p", "La tipografía utilizada está guardada directamente en este sitio web. No hay ninguna conexión con Google Fonts ni con otros proveedores de tipografías."],
  ["h", "7. Contacto por correo electrónico"],
- ["p", "Si me escribe un correo electrónico, trato su dirección de correo, su nombre y el contenido de su mensaje para responder a su consulta. La base jurídica es el art. 6, apdo. 1, letra f del RGPD y, en consultas relacionadas con un contrato, el art. 6, apdo. 1, letra b del RGPD. Mi buzón de correo está alojado en Microsoft (Outlook.com). Borro su mensaje en cuanto se haya resuelto, siempre que no existan obligaciones legales de conservación."],
+ ["p", "Si me escribe un correo electrónico, trato su dirección de correo, su nombre y el contenido de su mensaje para responder a su consulta. La base jurídica es el art. 6, apdo. 1, letra f del RGPD y, en consultas relacionadas con un contrato, el art. 6, apdo. 1, letra b del RGPD. Mi buzón de correo está alojado en Apple (iCloud Mail, Apple Distribution International Ltd., Irlanda). Borro su mensaje en cuanto se haya resuelto, siempre que no existan obligaciones legales de conservación."],
  ["h", "8. Enlaces a Instagram"],
  ["p", "Este sitio web solo contiene enlaces simples a mis perfiles de Instagram. No se integra ningún contenido de Instagram, y la mera visita a este sitio web no transmite datos a Instagram. Solo al hacer clic en un enlace accede usted a Instagram (Meta Platforms Ireland Ltd.); allí se aplica su política de privacidad."],
  ["h", "9. Sus derechos"],
@@ -293,7 +294,7 @@ es:[["h", "1. Responsable"],
  ["p", "Además, puede presentar una reclamación ante una autoridad de protección de datos, por ejemplo ante el Comisionado de Protección de Datos de Hesse (Alemania), https://datenschutz.hessen.de"],
  ["p", "Versión: noviembre de 2026. En caso de duda, prevalece la versión alemana."]],
 en:[["h", "1. Controller"],
- ["p", "The controller responsible for this website is Eva Narváez, email: {mail}."],
+ ["p", "The controller responsible for this website is Eva Narváez, {addr}, Germany, email: {mail}."],
  ["h", "2. In brief"],
  ["p", "This website does not set cookies and does not use any analytics, tracking or advertising services. Personal data is only processed as far as technically necessary to display the website or when you write to me."],
  ["h", "3. Hosting on GitHub Pages"],
@@ -307,7 +308,7 @@ en:[["h", "1. Controller"],
  ["h", "6. Fonts"],
  ["p", "The font used is stored directly on this website. There is no connection to Google Fonts or any other font provider."],
  ["h", "7. Contact by email"],
- ["p", "If you send me an email, I process your email address, your name and the content of your message in order to reply. The legal basis is Art. 6(1)(f) GDPR and, for contract-related enquiries, Art. 6(1)(b) GDPR. My mailbox is hosted by Microsoft (Outlook.com). I delete your message once the matter is settled, unless statutory retention obligations apply."],
+ ["p", "If you send me an email, I process your email address, your name and the content of your message in order to reply. The legal basis is Art. 6(1)(f) GDPR and, for contract-related enquiries, Art. 6(1)(b) GDPR. My mailbox is hosted by Apple (iCloud Mail, Apple Distribution International Ltd., Ireland). I delete your message once the matter is settled, unless statutory retention obligations apply."],
  ["h", "8. Links to Instagram"],
  ["p", "This website only contains simple links to my Instagram profiles. No Instagram content is embedded, and merely visiting this website does not transmit any data to Instagram. Only when you click a link are you taken to Instagram (Meta Platforms Ireland Ltd.), where their privacy policy applies."],
  ["h", "9. Your rights"],
@@ -315,23 +316,23 @@ en:[["h", "1. Controller"],
  ["p", "You also have the right to lodge a complaint with a data protection supervisory authority, for example the Hessian Commissioner for Data Protection and Freedom of Information (Germany), https://datenschutz.hessen.de"],
  ["p", "Last updated: November 2026. In case of doubt, the German version prevails."]]};
 
-/* Rechtliches (bewusst kein Impressum nach § 5 DDG, private Portfolio-Seite): gleicher Aufbau wie PRIV */
+/* Rechtliches mit Postanschrift ({addr}, klein gesetzt): gleicher Aufbau wie PRIV */
 const IMP={
 de:[["h", "Kontakt"],
- ["p", "Eva Narváez\nE-Mail: {mail}"],
+ ["p", "Eva Narváez\n{addr}\nE-Mail: {mail}"],
  ["h", "Urheberrecht"],
  ["p", "Alle auf dieser Website gezeigten Werke, Fotos und Texte sind urheberrechtlich geschützt und dürfen ohne meine schriftliche Zustimmung nicht vervielfältigt, verbreitet oder anderweitig verwendet werden."],
  ["h", "Haftung für Links"],
  ["p", "Diese Website enthält Links zu externen Seiten (z. B. Instagram), auf deren Inhalte ich keinen Einfluss habe. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Sollten mir Rechtsverletzungen bekannt werden, entferne ich die betreffenden Links umgehend."]],
 es:[["h", "Contacto"],
- ["p", "Eva Narváez\nCorreo electrónico: {mail}"],
+ ["p", "Eva Narváez\n{addr}, Alemania\nCorreo electrónico: {mail}"],
  ["h", "Derechos de autor"],
  ["p", "Todas las obras, fotos y textos de este sitio web están protegidos por derechos de autor y no pueden reproducirse, distribuirse ni utilizarse de otro modo sin mi autorización por escrito."],
  ["h", "Responsabilidad por enlaces"],
  ["p", "Este sitio web contiene enlaces a páginas externas (p. ej., Instagram) sobre cuyo contenido no tengo influencia. El responsable de dicho contenido es el respectivo proveedor. Si tengo conocimiento de alguna infracción, eliminaré los enlaces correspondientes de inmediato."],
  ["p", "En caso de duda, prevalece la versión alemana."]],
 en:[["h", "Contact"],
- ["p", "Eva Narváez\nEmail: {mail}"],
+ ["p", "Eva Narváez\n{addr}, Germany\nEmail: {mail}"],
  ["h", "Copyright"],
  ["p", "All works, photos and texts shown on this website are protected by copyright and may not be reproduced, distributed or otherwise used without my written permission."],
  ["h", "Liability for links"],
@@ -400,7 +401,7 @@ function setLang(l){
   const mailA='<a class="igl" href="mailto:'+CFG.email+'" aria-label="Email '+esc(CFG.email)+'">'+MAIL+"<span>"+esc(CFG.email)+"</span></a>";
   $("sideContact").innerHTML=igHtml+"<br>"+mailA;
   $("foot").innerHTML=esc(t.fContact)+": Eva Narváez | "+mailA+" | "+ig.join(" · ")+" | "+esc(CFG.city)+' | <a href="#rechtliches">'+esc(t.nImp)+'</a> · <a href="#datenschutz">'+esc(t.nPriv)+'</a> | <span id="copy">© '+new Date().getFullYear()+" Eva Narváez</span>";
-  const legal=arr=>arr.map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
+  const legal=arr=>arr.map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace("{addr}",'<span class="addr">'+esc(CFG.addr)+"</span>").replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
   $("privText").innerHTML=legal(PRIV[l]);
   $("impText").innerHTML=legal(IMP[l]);
   $("mailBtn").href="mailto:"+CFG.email;$("mailBtn").innerHTML=MAIL+esc(CFG.email);
