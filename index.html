@@ -647,7 +647,8 @@ function renderCartoon(){
 function setLang(l){
   if(!L[l])return;
   lang=l;const t=L[l];
-  document.documentElement.lang=l;document.title=t.pageTitle;
+  document.documentElement.lang=l;if(!TUER)document.title=t.pageTitle;   // auf einer Eingangstür bleibt deren Titel
+ 
   document.querySelectorAll("[data-t]").forEach(e=>{e.textContent=t[e.dataset.t]});
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
   $("toTop").setAttribute("aria-label",t.toTop);$("toTop").title=t.toTop;
@@ -679,7 +680,17 @@ function go(h){
   links.forEach(a=>a.setAttribute("aria-current",a.dataset.v===id&&(!a.dataset.sub||a.dataset.sub===(sub[0]||"cartoon"))?"page":"false"));
   window.scrollTo(0,0);const m=document.querySelector("main");if(m)m.scrollTop=0;
 }
-window.addEventListener("hashchange",()=>go(location.hash.slice(1)));
+/* Eingangstüren: eigene Adressen wie /kunst oder /breva. Jede ist eine Kopie dieser Seite (kunst.html usw., erzeugt von
+   tools/tueren.py) mit eigenem Titel für Suchmaschinen; window.TUER.h sagt, was dort aufgeschlagen wird.
+   Wer von dort weiterklickt, bekommt wieder die normale Adresse mit # – zurück zur Tür führt die Zurück-Geste. */
+const TUER0=window.TUER||null,TUER_PFAD=location.pathname,TUER_TITEL=document.title;let TUER=TUER0;
+const tuerH=()=>location.hash.slice(1)||(TUER?TUER.h:"");
+function tuerPruefen(){
+  if(TUER0&&location.pathname===TUER_PFAD&&!location.hash){TUER=TUER0;document.title=TUER_TITEL;return}
+  if(TUER&&location.hash){TUER=null;document.title=L[lang].pageTitle;try{history.replaceState(null,"","/"+location.search+location.hash)}catch(e){}}
+}
+window.addEventListener("hashchange",()=>{tuerPruefen();go(tuerH())});
+window.addEventListener("popstate",()=>{if(TUER0&&location.pathname===TUER_PFAD&&!location.hash){tuerPruefen();go(tuerH())}});
 const tt=$("toTop");
 /* Knopf erscheint nach etwas Scrollen, Ring zeigt den Fortschritt; sobald die Fußzeile im Bild ist, übernimmt dort der Link */
 const ttStand=tt.querySelector(".stand"),ttUmfang=2*Math.PI*12.5;ttStand.style.strokeDasharray=ttUmfang;
@@ -776,7 +787,7 @@ async function load(){
 let l0=null;try{l0=localStorage.getItem("lang")}catch(e){}
 if(!L[l0]){const n=(navigator.language||"de").slice(0,2);l0=L[n]?n:"de"}
 setLang(l0);
-go(location.hash.slice(1));
+go(tuerH());
 load();
 /* Bildschutz: Rechtsklick und Ziehen auf Bildern sperren. Bildschirmfotos lassen sich technisch nicht verhindern. */
 document.addEventListener("contextmenu",e=>{if(e.target.closest&&e.target.closest("img,.zoom,.lb-pic,#lbThumbs"))e.preventDefault()});
