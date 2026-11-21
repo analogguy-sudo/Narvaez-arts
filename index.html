@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="theme-color" content="#faf8f3">
+<script>document.documentElement.dataset.var="c"   /* Gestaltung „C“ (von Eva gewählt): Kopf mittig, Cartoon nach Reihen */</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eva Narváez</title>
 <!-- Vorschau beim Teilen (WhatsApp, iMessage, Facebook …) und Suchmaschinen; URLs zeigen auf narvaez-arts.com -->
@@ -49,13 +50,16 @@ aside{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:22px;
 .name{margin:0;font-size:15px;line-height:1.25;letter-spacing:.16em;text-transform:uppercase;font-weight:400;color:var(--ink)}
 .name span{display:block;margin-top:3px;font-size:10.5px;letter-spacing:.2em;color:var(--muted);font-weight:300;white-space:normal}
 .rule,.contact{display:none}
+.kurz{display:none}
+.nur-var{display:none}
 nav{display:flex;gap:30px;margin-left:auto}
 nav a{color:var(--ink);text-decoration:none;text-transform:uppercase;font-size:12.5px;letter-spacing:.18em;padding:6px 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
 nav a:hover{color:var(--goldtext)}
 nav a[aria-current="page"]{color:var(--goldtext);border-color:var(--goldtext)}
 .langs{display:flex;gap:4px;margin-left:8px;padding-left:22px;border-left:1px solid var(--line)}
 .langs button{background:none;border:0;border-bottom:1px solid transparent;color:var(--muted);font:inherit;font-size:11.5px;letter-spacing:.14em;cursor:pointer;padding:4px 5px}
-.langs button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.langs button[aria-pressed="true"]{color:var(--goldtext);border-color:transparent;font-weight:400}   /* aktive Sprache in Gold statt mit Strich darunter */
+.langs button:hover{color:var(--ink)}
 
 /* Inhalt: viel Raum, keine Kästen */
 main{display:block;width:100%;max-width:1320px;margin:0 auto;padding:clamp(48px,9vh,110px) var(--edge) clamp(64px,10vh,120px)}
@@ -94,8 +98,13 @@ h1{margin:0 0 clamp(40px,7vh,80px);font-size:clamp(26px,3.2vw,44px);font-weight:
 .cover .cv{display:block;aspect-ratio:5/4;overflow:hidden;background:#efebe2;transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s}
 .cover .cv img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.001);transition:transform 1.2s cubic-bezier(.2,.7,.2,1),opacity .6s;opacity:0}
 .cover .cv img.ld{opacity:1}
-.cover:hover .cv,.cover:focus-visible .cv{transform:perspective(900px) rotateX(4deg) rotateY(-6deg) translateY(-6px);box-shadow:0 26px 40px -20px rgba(43,42,38,.5)}
-.cover .cv.ph{display:flex;align-items:center;justify-content:center;aspect-ratio:3/2;height:auto;width:100%;background:var(--page);border:1px solid rgba(139,106,48,.28);color:var(--ink);font-size:19px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;text-align:center;padding:12px}
+.cover:hover .cv,.cover:focus-visible .cv{transform:none;box-shadow:none}
+/* klickbar ohne Pfeil: unter dem Titel wächst beim Überfahren eine feine goldene Linie */
+.cover .cvt::after{content:"";display:block;width:24px;height:1px;margin:10px auto 0;background:var(--gold);transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.cover:hover .cvt::after,.cover:focus-visible .cvt::after{width:64px}
+.cover .cv.ph{display:flex;align-items:center;justify-content:center;aspect-ratio:5/4;height:auto;width:100%;background:#f1ece1;border:0;color:var(--muted);font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:300;text-align:center;padding:12px;transition:background .5s}
+.mos{display:none}
+.cover:hover .cv.ph,.cover:focus-visible .cv.ph{background:#ebe2cf}
 #gCartoon .covers{margin-top:clamp(8px,2vh,20px)}
 #gCartoon{row-gap:clamp(16px,2.5vh,28px)}
 .cover:hover .cv img,.cover:focus-visible .cv img{transform:scale(1.04)}
@@ -149,6 +158,14 @@ h1{margin:0 0 clamp(40px,7vh,80px);font-size:clamp(26px,3.2vw,44px);font-weight:
 @media(prefers-reduced-motion:reduce){#toTop,#toTop .ic,.hoch-link svg{transition:none}}
 footer{margin-top:auto;border-top:1px solid var(--line);color:var(--muted);font-size:12px;letter-spacing:.05em;text-align:center;padding:26px var(--edge);overflow-wrap:anywhere}
 footer a{color:inherit;text-underline-offset:3px}
+/* schlanke Fußzeile: Symbole mit kurzem Wort, darunter eine feine Zeile mit Rechtlichem und © */
+.fuss-links{display:flex;justify-content:center;gap:clamp(26px,5vw,44px)}
+.fuss-links a{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;transition:color .25s}
+.fuss-links a:hover,.fuss-links a:focus-visible{color:var(--goldtext)}
+.fuss-links .ig{width:20px;height:20px}
+.fuss-recht{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 10px;margin:16px 0 0;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.fuss-recht a{text-decoration:none}
+.fuss-recht a:hover{color:var(--goldtext)}
 #copy{cursor:default;user-select:none;-webkit-user-select:none}
 #sideContact,#contactLines{width:fit-content;text-align:left}
 #contactLines{margin-left:auto;margin-right:auto}
@@ -171,6 +188,25 @@ dialog::backdrop{background:var(--page)}
 #lbCap{color:var(--ink);font-size:18px;letter-spacing:.06em;line-height:1.35}
 #lbMeta{color:var(--muted);font-size:12.5px;letter-spacing:.06em}
 #lbDesc{color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:8px}
+/* Touch: Bilder liegen als Band nebeneinander, das Handy scrollt nativ mit Schwung und rastet ein */
+#lbBand{display:none}
+#lb.band #lbImg{display:none}
+#lb.band #lbBand{display:flex;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#lbBand::-webkit-scrollbar{display:none}
+#lbBand .sl{flex:0 0 100%;height:100%;display:flex;flex-direction:column;align-items:center;scroll-snap-align:center;scroll-snap-stop:always}
+#lbBand .sl-bild{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+#lbBand img{max-width:calc(100% - 16px);max-height:100%;object-fit:contain}
+/* Titel und Angaben gehören fest zum Bild und wischen mit – nichts zieht nach */
+#lbBand .sl-text{flex:none;height:92px;width:100%;box-sizing:border-box;padding:14px 56px 0;text-align:center;overflow:hidden}
+#lbBand .sl-cap{color:var(--ink);font-size:15px;letter-spacing:.06em;line-height:1.35}
+#lbBand .sl-meta{color:var(--muted);font-size:12.5px;letter-spacing:.06em;margin-top:4px}
+#lbBand .sl-desc{color:var(--muted);font-size:13px;line-height:1.5;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#lb.band .lb-in{padding-left:0;padding-right:0;justify-content:flex-start;padding-top:calc(env(safe-area-inset-top,0px) + 60px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 12px)}
+#lb.band .lb-pic{width:100%;flex:1;min-height:0}
+#lb.band #lbBand{flex:1;min-height:0}
+#lb.band .lb-info{display:none}
+#lb.band .lb-n{bottom:calc(env(safe-area-inset-bottom,0px) + 48px)}
+#lb.band #lbThumbs{min-height:0}#lb.band.mitDetails #lbThumbs{min-height:54px}
 #lbThumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 #lbThumbs img{width:54px;height:54px;object-fit:cover;opacity:.5;cursor:pointer}
 #lbThumbs img.on{opacity:1;outline:1px solid var(--ink)}
@@ -192,18 +228,38 @@ dialog::backdrop{background:var(--page)}
 @media(max-width:980px){nav{gap:20px}nav a{font-size:12px;letter-spacing:.14em}}
 @media(max-width:820px){
  /* kompakter Kopf: Monogramm/Name und Sprachen in einer Zeile, Menü darunter eng – mehr Platz für die Bilder */
- aside{position:static;flex-wrap:wrap;justify-content:space-between;gap:8px 12px;padding:14px 16px 10px;background:var(--page)}
- .brand{gap:12px}
- .logo{width:32px}
- .name{text-align:left;font-size:13.5px}
- .name span{font-size:9.5px}
- nav{order:3;width:100%;margin:2px 0 0;justify-content:center;flex-wrap:wrap;gap:0 16px}
- nav a{padding:5px 0}
- .langs{order:2;margin-left:auto;padding-left:0;border-left:0}
+ /* Handy: Monogramm und Name präsent links, Sprachen als kleiner eingefasster Umschalter rechts,
+    darunter das Menü in EINER Zeile mit kurzen Namen. Abstand unter der Statusleiste, damit nichts weich ausgeblendet wird. */
+ body{padding-top:0}
+ aside{position:static;display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px 12px;
+  padding:calc(env(safe-area-inset-top,0px) + 20px) 18px 0;background:var(--page);border-bottom:1px solid var(--line);
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+ .brand{gap:12px;min-width:0;grid-column:1;grid-row:1}
+ .logo{width:42px}
+ .name{text-align:left;font-size:15px;letter-spacing:.14em}
+ .name span{font-size:9.5px;letter-spacing:.16em;margin-top:4px}
+ .langs{grid-column:2;grid-row:1;justify-self:end;margin:0;padding:2px;border:1px solid var(--line);border-radius:999px;gap:0;align-self:center}
+ .langs button{padding:5px 8px;font-size:10.5px;letter-spacing:.12em;border:0;border-radius:999px}
+ .langs button[aria-pressed="true"]{background:rgba(193,163,119,.18);color:var(--goldtext)}
+ aside nav{grid-column:1 / -1;grid-row:2;display:flex;justify-content:space-between;flex-wrap:nowrap;gap:0;margin:0;padding:2px 0 0;
+  border-top:1px solid var(--line)}
+ aside nav a{font-size:11px;letter-spacing:.12em;padding:12px 0 11px;white-space:nowrap;border-bottom:1.5px solid transparent}
+ aside nav a[aria-current="page"]{border-color:var(--goldtext)}
+ aside nav .lang{display:none}
+ aside nav .kurz{display:inline}
+ /* Nach-oben-Knopf am Handy: nur der runde Ring mit Pfeil, rechts unten, durchscheinend gold */
+ #toTop{width:44px;height:44px;padding:0;justify-content:center;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+ #toTop [data-t]{display:none}
+ #toTop .kreis,#toTop .ring{width:40px;height:40px}
+ #toTop,#toTop:hover{box-shadow:none}
  /* Fußzeile: jeder Teil in eigener Zeile statt eines langen Satzes mit Trennstrichen */
- footer{line-height:1.6;padding:22px 16px calc(22px + env(safe-area-inset-bottom,0px))}
- footer .sep{display:block;height:7px;overflow:hidden;font-size:0}
- footer .igsep{display:block;height:3px;overflow:hidden;font-size:0}
+ /* unten genug Luft, damit die schwebende Safari-Leiste die letzten Zeilen nicht verdeckt */
+ footer{line-height:1.6;padding:24px 16px calc(40px + env(safe-area-inset-bottom,0px))}
+ .cover{width:100%}   /* Bereiche am Handy über die volle Breite, nicht links klebend */
+ /* flüssiger scrollen am Handy: Werke nur einblenden (ohne Verschieben), Knopf ohne Glas-Unschärfe */
+ .tile{transform:none;transition:opacity .6s ease}
+ #toTop{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(250,248,243,.82)}
+ #toTop:hover{background:rgba(250,248,243,.82);color:var(--goldtext)}
  main{padding:36px 18px 56px}
  #home{min-height:0}
  .fav .zoom img{max-height:62vh}
@@ -217,6 +273,74 @@ dialog::backdrop{background:var(--page)}
  .lb-info{width:auto;max-width:60ch;text-align:center;gap:4px}#lbCap{font-size:15px}#lbDesc{font-size:13.5px;margin-top:2px}
 }
 @media(max-width:420px){.tiles{grid-template-columns:minmax(0,1fr)}}
+
+/* ===== Gestaltung C: Bereiche als ruhige Liste, Kopf am Handy mittig ===== */
+html[data-var="c"] #gCartoon .covers{display:block;max-width:720px;margin:0 auto;border-top:1px solid var(--line)}
+html[data-var="c"] .cover{display:flex;align-items:baseline;justify-content:space-between;gap:16px;width:100%;padding:26px 4px;border-bottom:1px solid var(--line);text-align:left}
+html[data-var="c"] .cover .cv,html[data-var="c"] .cover .mos{display:none}
+html[data-var="c"] .cover .cvt{margin:0;font-size:clamp(24px,3vw,34px);letter-spacing:.14em;font-weight:300;transition:color .3s,letter-spacing .5s cubic-bezier(.2,.7,.2,1)}
+html[data-var="c"] .cover .cvt::after{display:none}
+html[data-var="c"] .cover .cvn{margin:0;white-space:nowrap}
+html[data-var="c"] .cover:hover .cvt,html[data-var="c"] .cover:focus-visible .cvt{color:var(--goldtext);letter-spacing:.18em}
+@media(max-width:820px){
+ /* Handy: Logo führt zur Startseite, dafür Cartoon und Illustration als eigene Punkte */
+ html[data-var] .nur-alt{display:none}
+ html[data-var] aside nav .nur-var{display:inline-block}
+ html[data-var] aside nav a{font-size:10.5px;letter-spacing:.07em}
+ /* Kopf zentriert wie ein Katalogtitel, Sprachen klein in der Ecke */
+ html[data-var="c"] aside{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;padding:calc(env(safe-area-inset-top,0px) + 30px) 14px 0}
+ html[data-var="c"] .brand{flex-direction:column;gap:10px}
+ html[data-var="c"] .logo{width:46px}
+ html[data-var="c"] .name{text-align:center;font-size:15px;letter-spacing:.24em}
+ html[data-var="c"] .name span{letter-spacing:.2em;margin-top:6px}
+ html[data-var="c"] .langs{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;border:0;padding:0}
+ html[data-var="c"] .langs button{font-size:10px;padding:4px 3px}
+ html[data-var="c"] .langs button[aria-pressed="true"]{background:none}
+ html[data-var="c"] aside nav{width:100%;justify-content:center;gap:0 14px;margin-top:4px}
+ html[data-var="c"] .cover{padding:22px 2px}
+}
+/* C „Kapitel“: Cartoon/Illustration zeigen die Werke direkt, je Serie eine feine goldene Kapitelzeile */
+.tiles h2.kapitel{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:clamp(36px,6vh,64px) 0 -6px;font-size:12.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--goldtext)}
+.tiles h2.kapitel::after{content:"";flex:1;height:1px;background:var(--line);order:1}
+.tiles h2.kapitel a,.tiles h2.kapitel button{all:unset;order:2;cursor:pointer;font-size:11px;letter-spacing:.22em;color:var(--goldtext);padding:8px 0 8px 4px;transition:color .3s;white-space:nowrap}
+.tiles h2.kapitel a:hover,.tiles h2.kapitel button:hover{color:var(--ink)}
+.tiles .alle a{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--goldtext);border-bottom:1px solid currentColor;padding-bottom:4px;text-decoration:none}
+.tiles h2.kapitel:first-child{margin-top:0}
+.tiles .note.ruhig{grid-column:1/-1;text-align:center;letter-spacing:.24em;text-transform:uppercase;font-size:12px;color:var(--muted);margin:clamp(30px,8vh,80px) 0}
+.tiles .rest{display:contents}.tiles .rest[hidden]{display:none}
+.tiles .sprung{grid-column:1/-1;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:-12px 0 4px;color:var(--muted)}
+.tiles .sprung a,.tiles .sprung button,.tiles .alle button{all:unset;cursor:pointer;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--goldtext);padding:6px 2px;transition:color .3s}
+.tiles .sprung a:hover,.tiles .sprung button:hover,.tiles .alle button:hover{color:var(--ink)}
+.tiles .sprung a{text-decoration:none;color:var(--muted)}.tiles .sprung a[aria-current="page"]{color:var(--goldtext);border-bottom:1px solid currentColor}
+.tiles .sprung:not(:has([aria-current])) a{color:var(--goldtext)}
+.tiles .alle{grid-column:1/-1;text-align:center;margin:-8px 0 0}
+.tiles .alle button{border-bottom:1px solid currentColor;padding-bottom:4px;letter-spacing:.2em}
+html[data-var="c"] #gCartoon{grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:clamp(36px,5vh,60px) clamp(22px,2.6vw,40px)}
+@media(max-width:820px){
+ html[data-var="c"] #gCartoon{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+ html[data-var="c"] #gCartoon .tile h3{margin:10px 0 2px;font-size:13px;letter-spacing:.05em}
+ html[data-var="c"] #gCartoon .tile .meta{font-size:11.5px}
+ html[data-var="c"] #gCartoon h2.kapitel{margin-top:40px;margin-bottom:-4px}
+ html[data-var="c"] #gCartoon h2.kapitel:first-of-type{margin-top:6px}
+}
+/* C: Schrift wächst am Handy stufenlos mit der Bildschirmbreite (iPhone SE bis Pro Max) – mit Unter- und Obergrenze */
+@media(max-width:820px){
+ html[data-var="c"] .logo{width:clamp(44px,14vw,62px)}
+ html[data-var="c"] .name{font-size:clamp(16px,4.8vw,22px);letter-spacing:.22em}
+ html[data-var="c"] .name span{font-size:clamp(10.5px,3vw,13px);letter-spacing:.16em}
+ html[data-var="c"] aside nav{gap:0 clamp(8px,3vw,18px)}
+ html[data-var="c"] aside nav a{font-size:clamp(11px,3.3vw,14.5px);letter-spacing:.06em}
+ html[data-var="c"] .langs button{font-size:clamp(10.5px,3vw,13px)}
+ html[data-var="c"] #cartoon h1{font-size:clamp(26px,8vw,36px)}
+ html[data-var="c"] .tiles h2.kapitel{font-size:clamp(13px,3.7vw,16px)}
+ html[data-var="c"] .tiles h2.kapitel a{font-size:clamp(11.5px,3.2vw,14px)}
+ html[data-var="c"] .tiles .sprung a,html[data-var="c"] .tiles .alle a{font-size:clamp(12px,3.3vw,14.5px)}
+ html[data-var="c"] #gCartoon .tile h3{font-size:clamp(14px,4vw,17.5px)}
+ html[data-var="c"] #gCartoon .tile .meta{font-size:clamp(12px,3.4vw,14.5px)}
+ html[data-var="c"] #lbCap,html[data-var="c"] #lbBand .sl-cap{font-size:clamp(15px,4.4vw,19px)}
+ html[data-var="c"] #lbMeta,html[data-var="c"] #lbBand .sl-meta{font-size:clamp(12.5px,3.5vw,15px)}
+ html[data-var="c"] #lbDesc{font-size:clamp(13.5px,3.8vw,16px)}
+}
 </style>
 </head>
 <body>
@@ -226,11 +350,13 @@ dialog::backdrop{background:var(--page)}
     <p class="name">Eva Narváez<span data-t="sub"></span></p></a>
     <div class="rule"></div>
     <nav aria-label="Menu">
-      <a href="#home" data-v="home" data-t="nHome"></a>
-      <a href="#kunst" data-v="kunst" data-t="nKunst"></a>
-      <a href="#cartoon" data-v="cartoon" data-t="nCartoon"></a>
-      <a href="#ueber" data-v="ueber" data-t="nUeber"></a>
-      <a href="#kontakt" data-v="kontakt" data-t="nKontakt"></a>
+      <a href="#home" data-v="home" class="nur-alt"><span class="lang" data-t="nHome"></span><span class="kurz" data-t="tHome"></span></a>
+      <a href="#kunst" data-v="kunst"><span class="lang" data-t="nKunst"></span><span class="kurz" data-t="tKunst"></span></a>
+      <a href="#cartoon" data-v="cartoon" class="nur-alt"><span class="lang" data-t="nCartoon"></span><span class="kurz" data-t="tCartoon"></span></a>
+      <a href="#cartoon/cartoon" data-v="cartoon" data-sub="cartoon" class="nur-var"><span data-t="tCartoon"></span></a>
+      <a href="#cartoon/illustration" data-v="cartoon" data-sub="illustration" class="nur-var"><span data-t="tIllu"></span></a>
+      <a href="#ueber" data-v="ueber"><span class="lang" data-t="nUeber"></span><span class="kurz" data-t="tUeber"></span></a>
+      <a href="#kontakt" data-v="kontakt"><span class="lang" data-t="nKontakt"></span><span class="kurz" data-t="tKontakt"></span></a>
     </nav>
     <div class="langs" role="group" aria-label="Sprache / Idioma / Language">
       <button type="button" data-l="de">DE</button><button type="button" data-l="es">ES</button><button type="button" data-l="en">EN</button>
@@ -283,7 +409,7 @@ dialog::backdrop{background:var(--page)}
     <button class="lb-x" id="lbX" type="button" aria-label="Close">×</button>
     <button class="lb-n lb-p" id="lbPrev" type="button" aria-label="Previous">‹</button>
     <button class="lb-n lb-nx" id="lbNext" type="button" aria-label="Next">›</button>
-    <div class="lb-pic"><img id="lbImg" alt=""><div id="lbThumbs"></div></div>
+    <div class="lb-pic"><img id="lbImg" alt=""><div id="lbBand"></div><div id="lbThumbs"></div></div>
     <div class="lb-info">
       <div id="lbCap"></div>
       <div id="lbMeta" hidden></div>
@@ -303,34 +429,34 @@ const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
- toTop:"Nach oben",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
+ toTop:"Nach oben",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tEinzel:"Einzelwerke",tAlle:"Alle ansehen",tZurueck:"Zurück",tWeniger:"Weniger",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
  hKunst:"Bildende Kunst",mEn:"Enkaustik",ctC:"Cartoon",ctI:"Illustration",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",mMore:"Weitere Werke",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
  loading:"Werke werden geladen …",empty:"Hier sind noch keine Werke.",error:"Die Werke konnten nicht geladen werden",
- fContact:"Kontakt",nPriv:"Datenschutz",nImp:"Rechtliches",
+ fContact:"Kontakt",fMail:"E-Mail",nPriv:"Datenschutz",nImp:"Rechtliches",
  about:["Ich heiße Eva Narváez und komme aus Cádiz, Spanien. Ich habe Bildende Kunst an der Universität Alonso Cano in Granada studiert, wo ich meine künstlerischen Fähigkeiten weiterentwickelt und meinen eigenen Stil gefunden habe.",
  "Anschließend verbrachte ich ein Jahr in Dublin, wo ich mich mit Sketching beschäftigte und neue Inspirationen und Eindrücke sammeln konnte.",
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
  "Mit meiner Kunst möchte ich Farben, Emotionen und persönliche Erfahrungen zum Ausdruck bringen und die Betrachter dazu einladen, die Welt aus meiner ganz eigenen Perspektive zu entdecken."]},
 es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plástica\ne ilustradora",
- toTop:"Volver arriba",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
+ toTop:"Volver arriba",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tEinzel:"Obras sueltas",tAlle:"Ver todos",tZurueck:"Volver",tWeniger:"Menos",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
  hKunst:"Bellas Artes",mEn:"Encáustica",ctC:"Cartoon",ctI:"Ilustración",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",mMore:"Otras obras",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
  loading:"Cargando obras …",empty:"Todavía no hay obras aquí.",error:"No se pudieron cargar las obras",
- fContact:"Contacto",nPriv:"Privacidad",nImp:"Información legal",
+ fContact:"Contacto",fMail:"Correo",nPriv:"Privacidad",nImp:"Información legal",
  about:["Me llamo Eva Narváez y soy de Cádiz, España. Estudié Bellas Artes en la Universidad Alonso Cano de Granada, donde desarrollé mis habilidades artísticas y encontré mi propio estilo.",
  "Después pasé un año en Dublín, donde me dediqué al sketching y pude recoger nuevas inspiraciones e impresiones.",
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
  "Con mi arte quiero expresar colores, emociones y experiencias personales, e invitar a quienes lo contemplan a descubrir el mundo desde mi perspectiva muy personal."]},
 en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& illustrator",
- toTop:"Back to top",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
+ toTop:"Back to top",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tEinzel:"Single works",tAlle:"View all",tZurueck:"Back",tWeniger:"Less",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
  hKunst:"Fine Art",mEn:"Encaustic",ctC:"Cartoon",ctI:"Illustration",mAq:"Watercolour",mAc:"Acrylic",mCo:"Collage",mMore:"Other works",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
  loading:"Loading artworks …",empty:"No works here yet.",error:"The artworks could not be loaded",
- fContact:"Contact",nPriv:"Privacy",nImp:"Legal",
+ fContact:"Contact",fMail:"Email",nPriv:"Privacy",nImp:"Legal",
  about:["My name is Eva Narváez and I come from Cádiz, Spain. I studied Fine Arts at the Universidad Alonso Cano in Granada, where I developed my artistic skills and found my own style.",
  "I then spent a year in Dublin, where I focused on sketching and was able to gather new inspiration and impressions.",
  "I have already had the chance to present my work at two exhibition openings in Chiclana de la Frontera: “Color y Vida” and “Perfectamente Imperfecta”. Both exhibitions were a special opportunity for me to share my creativity and my passion for art with other people.",
@@ -441,7 +567,7 @@ const imgAttr=(p,w)=>'src="'+esc(imgW(p,w))+'" onerror="this.onerror=null;this.s
 const meta=a=>[a["technique_"+lang]||a.technique_de,a.size,a.year].filter(Boolean).join(" · ");
 function card(a,i){
   const ti=a["title_"+lang]||a.title_de||"",n=(a.detail_paths||[]).length;
-  return '<article class="tile"><button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img '+imgAttr(a.image_path,900)+' alt="'+esc(ti)+'" loading="lazy" onload="this.classList.add(\'ld\')">'+(n?'<span class="more">+'+n+'</span>':"")+'</button>'+
+  return '<article class="tile"><button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img '+imgAttr(a.image_path,900)+' alt="'+esc(ti)+'" loading="lazy" decoding="async" onload="this.classList.add(\'ld\')">'+(n?'<span class="more">+'+n+'</span>':"")+'</button>'+
    '<h3>'+esc(ti)+'</h3>'+(meta(a)?'<p class="meta">'+esc(meta(a))+'</p>':"")+'</article>';
 }
 function renderFav(){
@@ -453,6 +579,7 @@ function renderFav(){
   box.innerHTML='<button type="button" class="zoom" data-i="'+i+'" aria-label="'+esc(ti)+'"><img '+imgAttr(a.image_path,1600)+' alt="'+esc(ti)+'"></button><p class="favcap">'+esc(ti)+'</p>';
 }
 /* Bildende Kunst nach Technik gliedern (Spalte medium); auf dem Handy aufklappbar */
+const AUSWAHL=4,openC=new Set();
 const MED={aquarell:"mAq",acryl:"mAc",collage:"mCo",enkaustik:"mEn"},CT={cartoon:"ctC",illustration:"ctI"},openG=new Set();
 const cards=l=>l.map(([a,i])=>card(a,i)).join("");
 function renderGallery(){
@@ -473,20 +600,46 @@ let sub=[];
 /* Bildkachel für eine Rubrik oder Reihe: erstes Werk als Titelbild, darunter Name und Anzahl der Werke */
 const WORKS={de:["Werk","Werke"],es:["obra","obras"],en:["work","works"]};
 function cover(list,href,label,lead=list[0]){
-  const n=list.length,w=WORKS[lang]||WORKS.de,a=lead&&lead[0];
-  const pic=a&&a.image_path?'<img '+imgAttr(a.image_path,900)+' alt="" loading="lazy" onload="this.classList.add(\'ld\')">':"";
-  const top=pic?'<span class="cv">'+pic+'</span><span class="cvt">'+esc(label)+'</span>':'<span class="cv ph"><span>'+esc(label)+' →</span></span>';
-  return '<a class="cover" href="'+href+'">'+top+'<span class="cvn">'+n+" "+(n===1?w[0]:w[1])+'</span></a>';
+  const n=list.length,w=WORKS[lang]||WORKS.de;lead=list.find(x=>x[0].image_path)||lead;const a=lead&&lead[0];
+  const pic=a&&a.image_path?'<img '+imgAttr(a.image_path,900)+' alt="" loading="lazy" decoding="async" onload="this.classList.add(\'ld\')">':"";
+  // Bilderbogen: aus jeder Serie ein Bild (zeigt die Vielfalt), dann Einzelwerke – höchstens vier
+  const mitBild=list.filter(x=>x[0].image_path),serien=new Set(),vorn=[],rest=[];
+  mitBild.forEach(x=>{const sr=x[0].series;if(sr&&!serien.has(sr)){serien.add(sr);vorn.push(x)}else rest.push(x)});
+  const mos=vorn.concat(rest).slice(0,4).map(x=>'<img '+imgAttr(x[0].image_path,400)+' alt="" loading="lazy" decoding="async">').join("");
+  const top=(pic?'<span class="cv">'+pic+'</span>':'<span class="cv ph"><span>'+esc(L[lang].tSoon)+'</span></span>')+'<span class="mos">'+mos+'</span><span class="cvt">'+esc(label)+'</span>';
+  return '<a class="cover" href="'+href+'">'+top+'<span class="cvn">'+(n?n+" "+(n===1?w[0]:w[1]):esc(L[lang].tSoon))+'</span></a>';
 }
 function renderCartoon(){
   const t=L[lang],box=$("gCartoon"),empty='<p class="note">'+t.empty+'</p>';
   if(state!=="ok"){box.innerHTML='<p class="note">'+(state==="loading"?t.loading:t.error+" ("+esc(err)+")")+'</p>';return}
   const [type,ser]=sub;
   const ofType=k=>arts.map((a,i)=>[a,i]).filter(([a])=>a.category==="cartoon"&&(CT[a.cartoon_type]?a.cartoon_type:"cartoon")===k);
-  if(!CT[type]){box.innerHTML='<div class="covers">'+Object.keys(CT).map(k=>cover(ofType(k),"#cartoon/"+k,t[CT[k]],null)).join("")+'</div>';return}
+  if(!CT[type]){$("cartoon").querySelector("h1").textContent=t.hCartoon;box.innerHTML='<div class="covers">'+Object.keys(CT).map(k=>cover(ofType(k),"#cartoon/"+k,t[CT[k]],null)).join("")+'</div>';return}
   const inType=ofType(type);
-  const crumbs='<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
+  // Varianten: Cartoon und Illustration sind eigene Menüpunkte – die Überschrift heißt dann genau so, der Pfad beginnt beim Bereich
+  const getrennt=!!document.documentElement.dataset.var,h1=$("cartoon").querySelector("h1");
+  h1.textContent=getrennt?t[CT[type]]:t.hCartoon;
+  const crumbs=getrennt?(ser?'<p class="crumbs"><a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser)+'</p>':''):
+   '<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
+  // Sprungzeile: jede Reihe öffnet sich für sich; in einer Reihe ist die aktuelle markiert
+  const reihen=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y));
+  const sprungC=akt=>reihen.length>1?'<nav class="sprung" aria-label="'+esc(t[CT[type]])+'">'+reihen.map(n=>'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'"'+(n===akt?' aria-current="page"':'')+'>'+esc(n)+'</a>').join('<span aria-hidden="true">·</span>')+'</nav>':'';
+  if(ser&&document.documentElement.dataset.var==="c"){const g=inType.filter(([a])=>a.series===ser),zur='<a href="#cartoon/'+type+'">'+esc(t.tZurueck)+'</a>';
+    box.innerHTML=sprungC(ser)+'<h2 class="kapitel"><span>'+esc(ser)+'</span>'+zur+'</h2>'+(g.length?cards(g):empty)+(g.length>AUSWAHL?'<p class="alle">'+zur+'</p>':'');return}
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
+  if(document.documentElement.dataset.var==="c"){   // Werke direkt zeigen, Serien als Kapitel – keine Zwischenseite „Serie · 4 Werke“
+    const ser2=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),einzeln=inType.filter(([a])=>!a.series);
+    const gruppen=ser2.map(n=>[n,inType.filter(([a])=>a.series===n)]);
+    if(einzeln.length)gruppen.push([ser2.length?t.tEinzel:"",einzeln]);
+    // pro Kapitel zuerst eine Auswahl (Reihenfolge aus dem Admin), der Rest klappt an Ort und Stelle auf
+    const kap=([n,l],k)=>{const offen=openC.has(type+"|"+n),mehr=l.length>AUSWAHL;
+      if(!n)return cards(l);
+      // „Alle ansehen“ öffnet die Reihe für sich – dort kommt danach keine andere Reihe mehr
+      return '<h2 class="kapitel" id="kap'+k+'"><span>'+esc(n)+'</span>'+(mehr?'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'">'+esc(t.tAlle)+'</a>':'')+'</h2>'+cards(l.slice(0,AUSWAHL))};
+    const sprung=sprungC(null);
+    box.innerHTML=sprung+gruppen.map(kap).join("")+(inType.length?'':'<p class="note ruhig">'+esc(t.tSoon)+'</p>');
+    box.querySelectorAll(".rest .tile").forEach(x=>x.classList.add("in"));
+    return}
   const series=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),loose=inType.filter(([a])=>!a.series);
   box.innerHTML=crumbs+(series.length?'<div class="covers">'+series.map(n=>cover(inType.filter(([a])=>a.series===n),"#cartoon/"+type+"/"+encodeURIComponent(n),n)).join("")+'</div>':"")+cards(loose)+(series.length||loose.length?"":empty);
 }
@@ -503,14 +656,10 @@ function setLang(l){
   const igHtml=ig.join("<br>");
   const mailA='<a class="igl" href="mailto:'+CFG.email+'" aria-label="Email '+esc(CFG.email)+'">'+MAIL+"<span>"+esc(CFG.email)+"</span></a>";
   $("sideContact").innerHTML=igHtml+"<br>"+mailA;
-  // Teile mit Trennstrich; am Handy steht jeder Teil in einer eigenen Zeile (CSS .sep)
-  const sep='<span class="sep" aria-hidden="true"> | </span>';
-  // jedes Instagram-Konto samt Klammer am Stück (bricht nicht mitten in „(Cartoon & Illustration)“); am Handy je eine Zeile
-  const igFuss=ig.map(x=>'<span class="nw">'+x+'</span>').join('<span class="igsep"> · </span>');
-  $("foot").innerHTML=[esc(t.fContact)+": Eva Narváez",mailA,igFuss,esc(CFG.city),
-   '<a href="#rechtliches">'+esc(t.nImp)+'</a> · <a href="#datenschutz">'+esc(t.nPriv)+'</a>',
-   '<span id="copy">© '+new Date().getFullYear()+' Eva Narváez</span>',
-   '<button type="button" class="hoch-link">'+esc(t.toTop)+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg></button>'].join(sep);
+  // Fußzeile schlank: oben Mail und die beiden Instagram-Konten als kleine Symbole mit kurzem Wort, darunter eine feine Zeile
+  const igKurz=CFG.insta.map(a=>'<a href="https://instagram.com/'+a.handle.replace(/^@/,"")+'" target="_blank" rel="noopener" title="'+esc(a.handle)+'" aria-label="Instagram '+esc(a.handle)+' ('+esc(t[a.key])+')">'+IG+'<span>'+esc(a.key==="nKunst"?t.tKunst:t.tCartoon)+'</span></a>').join("");
+  $("foot").innerHTML='<div class="fuss-links"><a href="mailto:'+CFG.email+'" title="'+esc(CFG.email)+'" aria-label="E-Mail '+esc(CFG.email)+'">'+MAIL+'<span>'+esc(t.fMail)+'</span></a>'+igKurz+'</div>'+
+   '<p class="fuss-recht"><a href="#rechtliches">'+esc(t.nImp)+'</a><span aria-hidden="true">·</span><a href="#datenschutz">'+esc(t.nPriv)+'</a><span aria-hidden="true">·</span><span id="copy">© '+new Date().getFullYear()+' Eva Narváez</span><span aria-hidden="true">·</span><button type="button" class="hoch-link">'+esc(t.toTop)+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg></button></p>';
   const legal=(arr,l)=>arr.map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace("{addr}",'<span class="addr">'+esc(CFG.street)+"<br>"+esc(CFG.zip+COUNTRY[l])+"</span>").replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
   $("privText").innerHTML=legal(PRIV[l],l);
   $("impText").innerHTML=legal(IMP[l],l);
@@ -527,7 +676,7 @@ function go(h){
   sub=id==="cartoon"?p.slice(1).map(x=>{try{return decodeURIComponent(x)}catch(e){return x}}):[];
   renderCartoon();
   views.forEach(v=>{v.hidden=v.id!==id});
-  links.forEach(a=>a.setAttribute("aria-current",a.dataset.v===id?"page":"false"));
+  links.forEach(a=>a.setAttribute("aria-current",a.dataset.v===id&&(!a.dataset.sub||a.dataset.sub===(sub[0]||"cartoon"))?"page":"false"));
   window.scrollTo(0,0);const m=document.querySelector("main");if(m)m.scrollTop=0;
 }
 window.addEventListener("hashchange",()=>go(location.hash.slice(1)));
@@ -536,30 +685,76 @@ const tt=$("toTop");
 const ttStand=tt.querySelector(".stand"),ttUmfang=2*Math.PI*12.5;ttStand.style.strokeDasharray=ttUmfang;
 let ttPlan=false;
 const ttPruefen=()=>{ttPlan=false;const max=document.documentElement.scrollHeight-innerHeight,f=$("foot").getBoundingClientRect().top;
- const on=scrollY>400&&f>innerHeight-20;
+ const hl=$("foot").querySelector(".hoch-link"),hb=hl?hl.getBoundingClientRect().top:f;
+ const on=scrollY>400&&hb>innerHeight-10;   // erst wenn der „Nach oben“-Link der Fußzeile selbst sichtbar ist, tritt der Knopf zurück
  if(on!==tt.classList.contains("on")){tt.classList.toggle("on",on);tt.tabIndex=on?0:-1;tt.setAttribute("aria-hidden",!on)}
  ttStand.style.strokeDashoffset=ttUmfang*(1-(max>0?Math.min(1,scrollY/max):0))};
 addEventListener("scroll",()=>{if(!ttPlan){ttPlan=true;requestAnimationFrame(ttPruefen)}},{passive:true});
 const nachOben=()=>scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
 tt.onclick=nachOben;
+$("gCartoon").addEventListener("click",e=>{
+  const s=e.target.closest(".sprung button");if(s){const h=$("kap"+s.dataset.k);if(h)window.scrollTo({top:h.getBoundingClientRect().top+scrollY-kapAbstand(),behavior:"smooth"});return}
+  const b=e.target.closest(".kapitel button[data-g]");if(!b)return;const g=b.dataset.g,o=!openC.has(g),id=b.closest("h2").id;o?openC.add(g):openC.delete(g);
+  renderCartoon();
+  // beim Zuklappen bleibt die Kapitelzeile dort, wo man sie angetippt hat
+  if(!o){const n=$(id);if(n&&n.getBoundingClientRect().top<0)window.scrollTo({top:n.getBoundingClientRect().top+scrollY-kapAbstand()})}});
+const kapAbstand=()=>{const a=document.querySelector("aside");return (a&&getComputedStyle(a).position==="sticky"?a.offsetHeight:0)+24};
 $("foot").addEventListener("click",e=>{if(e.target.closest(".hoch-link"))nachOben()});
 /* Versteckter Zugang: Doppelklick auf © im Footer öffnet den Adminbereich */
 $("foot").addEventListener("dblclick",e=>{if(e.target.id==="copy")location.href="admin.html"});
 
 /* Vergrößerung mit Detailfotos */
-const lb={a:null,i:0};
+const lb={a:null,i:0,list:[],pos:0};
 const photos=a=>[a.image_path].concat(a.detail_paths||[]);
-function showLB(){
+function showLB(ausBand){
   const a=lb.a,ph=photos(a),ti=a["title_"+lang]||a.title_de||"";
-  {const li=$("lbImg"),orig=imgURL(ph[lb.i]);li.onerror=()=>{li.onerror=null;li.src=orig};li.src=imgW(ph[lb.i],2000)}$("lbImg").alt=ti;
-  $("lbCap").textContent=ti+(ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
+  if(lbBandAn){if(!ausBand){const j=flach.findIndex(f=>f[1]===lb.pos&&f[2]===lb.i);if(j>=0&&j!==cur)bandGehe(j,true)}}
+  else{const li=$("lbImg"),orig=imgURL(ph[lb.i]);li.onerror=()=>{li.onerror=null;li.src=orig};li.src=imgW(ph[lb.i],2000)}$("lbImg").alt=ti;
+  $("lbCap").textContent=ti+(lb.list.length>1?"  ·  "+(lb.pos+1)+" / "+lb.list.length:ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
   $("lbMeta").textContent=meta(a);$("lbMeta").hidden=!meta(a);
   const de=a["description_"+lang]||a.description_de||"";$("lbDesc").textContent=de;$("lbDesc").hidden=!de;
-  $("lbPrev").hidden=$("lbNext").hidden=ph.length<2;
+  $("lbPrev").hidden=$("lbNext").hidden=ph.length<2&&lb.list.length<2;
+  // Nachbarbild vorladen, damit das Weiterwischen ohne Wartezeit kommt
+  if(lb.list.length>1){const nx=arts[lb.list[(lb.pos+1)%lb.list.length]];if(nx&&nx.image_path)new Image().src=imgW(nx.image_path,2000)}
+  if(ausBand&&lb._tA===a){$("lbThumbs").querySelectorAll("img").forEach((x,k)=>x.classList.toggle("on",k===lb.i));return}lb._tA=a;
   $("lbThumbs").innerHTML=ph.length>1?ph.map((p,k)=>'<img '+imgAttr(p,240)+' data-k="'+k+'" class="'+(k===lb.i?"on":"")+'" alt="" loading="lazy">').join(""):"";
 }
-function step(d){const n=photos(lb.a).length;lb.i=(lb.i+d+n)%n;showLB()}
-document.querySelector("main").addEventListener("click",e=>{const b=e.target.closest(".zoom");if(!b)return;lb.a=arts[+b.dataset.i];lb.i=0;showLB();$("lb").showModal()});
+/* Weiter/Zurück: erst durch die Detailfotos eines Werks, dann zum nächsten Werk derselben Gruppe (Reihe bzw. Bereich) */
+function step(d){
+  if(lbBandAn){const n=flach.length,v=ziel>=0?ziel:cur;if(n>1)bandGehe(((v+d)%n+n)%n,v+d>=0&&v+d<n);return}
+  const n=photos(lb.a).length;
+  if(lb.i+d>=0&&lb.i+d<n){lb.i+=d;showLB();return}
+  if(lb.list.length<2){lb.i=(lb.i+d+n)%n;showLB();return}
+  lb.pos=(lb.pos+d+lb.list.length)%lb.list.length;lb.a=arts[lb.list[lb.pos]];lb.i=d<0?photos(lb.a).length-1:0;showLB()}
+function lbGruppe(b){
+  const box=b.closest(".tiles");if(!box)return[+b.dataset.i];
+  let l=[...box.querySelectorAll(".zoom[data-i]")].map(x=>+x.dataset.i);
+  const a=arts[+b.dataset.i];
+  if(box.id==="gCartoon"&&document.documentElement.dataset.var==="c")l=l.filter(i=>(arts[i].series||"")===(a.series||""));
+  return l}
+document.querySelector("main").addEventListener("click",e=>{const b=e.target.closest(".zoom");if(!b)return;lb.a=arts[+b.dataset.i];lb.i=0;lb.list=lbGruppe(b);lb.pos=Math.max(0,lb.list.indexOf(+b.dataset.i));
+  lbBandAn=matchMedia("(pointer:coarse)").matches;$("lb").classList.toggle("band",lbBandAn);lb._tA=null;
+  if(lbBandAn){bandBauen();$("lb").showModal();const j=flach.findIndex(f=>f[1]===lb.pos&&f[2]===0);cur=j;bandLaden(j);bandGehe(j,false);showLB(true)}
+  else{showLB();$("lb").showModal()}});
+/* Bildband für Touch */
+let lbBandAn=false,flach=[],cur=-1,ziel=-1;const band=$("lbBand");
+function bandBauen(){
+  flach=[];(lb.list.length?lb.list:[arts.indexOf(lb.a)]).forEach((ai,pos)=>photos(arts[ai]).forEach((ph,k)=>flach.push([ai,pos,k,ph])));
+  $("lb").classList.toggle("mitDetails",flach.some(f=>f[2]>0));
+  const N=lb.list.length;
+  band.innerHTML=flach.map((f,j)=>{const a=arts[f[0]],ti=a["title_"+lang]||a.title_de||"",n=photos(a).length,de=a["description_"+lang]||a.description_de||"";
+    const nr=N>1?"  ·  "+(f[1]+1)+" / "+N:n>1?"  ·  "+(f[2]+1)+" / "+n:"";
+    return '<div class="sl"><div class="sl-bild"><img data-j="'+j+'" alt="'+esc(ti)+'" draggable="false"></div><div class="sl-text"><div class="sl-cap">'+esc(ti+nr)+'</div>'+(meta(a)?'<div class="sl-meta">'+esc(meta(a))+'</div>':'')+(de?'<div class="sl-desc">'+esc(de)+'</div>':'')+'</div></div>'}).join("")}
+function bandLaden(j){for(const x of [j,j+1,j-1,j+2,j+3,j-2]){const f=flach[x],im=f&&band.children[x].querySelector("img");if(im&&!im.getAttribute("src")){im.decoding="async";im.onerror=()=>{im.onerror=null;im.src=imgURL(f[3])};im.src=imgW(f[3],1200)}}}
+function bandGehe(j,weich){bandLaden(j);ziel=weich?j:-1;band.scrollTo({left:j*band.clientWidth,behavior:weich?"smooth":"instant"})}
+/* Während des Wischens nichts am Layout ändern (Safari rastet sonst aufs alte Bild zurück) – Titel erst tauschen, wenn das Band steht */
+let ruhe=0;
+function bandSteht(){clearTimeout(ruhe);const w=band.clientWidth;if(!w||!flach.length)return;const j=Math.round(band.scrollLeft/w);if(j===ziel)ziel=-1;if(j===cur||!flach[j])return;
+  cur=j;const f=flach[j];lb.a=arts[f[0]];lb.pos=f[1];lb.i=f[2];bandLaden(j);showLB(true)}
+band.addEventListener("scroll",()=>{clearTimeout(ruhe);ruhe=setTimeout(bandSteht,120)},{passive:true});   // während des Wischens: nichts tun
+band.addEventListener("scrollend",bandSteht);
+$("lb").addEventListener("close",()=>{if(lbBandAn&&!$("lb").open){band.innerHTML="";flach=[];cur=-1}});
+
 $("lbX").onclick=()=>$("lb").close();
 $("lbPrev").onclick=()=>step(-1);$("lbNext").onclick=()=>step(1);
 $("lbThumbs").addEventListener("click",e=>{const k=e.target.dataset.k;if(k!==undefined){lb.i=+k;showLB()}});
