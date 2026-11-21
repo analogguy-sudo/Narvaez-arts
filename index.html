@@ -119,6 +119,12 @@ h1{margin:0 0 clamp(40px,7vh,80px);font-size:clamp(26px,3.2vw,44px);font-weight:
 .tile.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.tile{opacity:1;transform:none;transition:none}}
 
+/* Schwebender Knopf „Nach oben“, erscheint nach etwas Scrollen */
+#toTop{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;width:54px;height:54px;padding:0;border-radius:50%;
+ border:0;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+ box-shadow:0 4px 14px rgba(139,106,48,.35);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .25s,transform .25s,color .2s,border-color .2s}
+#toTop.on{opacity:1;transform:none;pointer-events:auto}
+#toTop:hover{background:var(--goldtext)}
 footer{margin-top:auto;border-top:1px solid var(--line);color:var(--muted);font-size:12px;letter-spacing:.05em;text-align:center;padding:26px var(--edge);overflow-wrap:anywhere}
 footer a{color:inherit;text-underline-offset:3px}
 #copy{cursor:default;user-select:none;-webkit-user-select:none}
@@ -240,6 +246,7 @@ dialog::backdrop{background:var(--page)}
   </main>
 </div>
 <footer id="foot"></footer>
+<button id="toTop" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
 <dialog id="lb" aria-label="Bildansicht">
   <div class="lb-in">
@@ -266,7 +273,7 @@ const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
- nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
+ toTop:"Nach oben",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
  hKunst:"Bildende Kunst",mEn:"Enkaustik",ctC:"Cartoon",ctI:"Illustration",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",mMore:"Weitere Werke",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
@@ -277,7 +284,7 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
  "Mit meiner Kunst möchte ich Farben, Emotionen und persönliche Erfahrungen zum Ausdruck bringen und die Betrachter dazu einladen, die Welt aus meiner ganz eigenen Perspektive zu entdecken."]},
 es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plástica\ne ilustradora",
- nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
+ toTop:"Volver arriba",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
  hKunst:"Bellas Artes",mEn:"Encáustica",ctC:"Cartoon",ctI:"Ilustración",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",mMore:"Otras obras",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
@@ -288,7 +295,7 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
  "Con mi arte quiero expresar colores, emociones y experiencias personales, e invitar a quienes lo contemplan a descubrir el mundo desde mi perspectiva muy personal."]},
 en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& illustrator",
- nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
+ toTop:"Back to top",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
  hKunst:"Fine Art",mEn:"Encaustic",ctC:"Cartoon",ctI:"Illustration",mAq:"Watercolour",mAc:"Acrylic",mCo:"Collage",mMore:"Other works",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
@@ -456,6 +463,7 @@ function setLang(l){
   document.documentElement.lang=l;document.title=t.pageTitle;
   document.querySelectorAll("[data-t]").forEach(e=>{e.textContent=t[e.dataset.t]});
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
+  $("toTop").setAttribute("aria-label",t.toTop);$("toTop").title=t.toTop;
   $("aboutText").innerHTML=t.about.map(p=>"<p>"+esc(p)+"</p>").join("");
   const ig=CFG.insta.map(a=>'<a class="igl" href="https://instagram.com/'+a.handle.replace(/^@/,"")+'" target="_blank" rel="noopener" aria-label="Instagram '+esc(a.handle)+'">'+IG+"<span>"+esc(a.handle)+"</span></a> ("+esc(t[a.key])+")");
   const igHtml=ig.join("<br>");
@@ -482,6 +490,9 @@ function go(h){
   window.scrollTo(0,0);const m=document.querySelector("main");if(m)m.scrollTop=0;
 }
 window.addEventListener("hashchange",()=>go(location.hash.slice(1)));
+const tt=$("toTop");
+addEventListener("scroll",()=>{const on=scrollY>400;if(on!==tt.classList.contains("on")){tt.classList.toggle("on",on);tt.tabIndex=on?0:-1;tt.setAttribute("aria-hidden",!on)}},{passive:true});
+tt.onclick=()=>scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
 /* Versteckter Zugang: Doppelklick auf © im Footer öffnet den Adminbereich */
 $("foot").addEventListener("dblclick",e=>{if(e.target.id==="copy")location.href="admin.html"});
 
