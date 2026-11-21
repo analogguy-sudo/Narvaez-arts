@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="theme-color" content="#faf8f3">
-<script>try{if(/vorschau\.html$/.test(location.pathname)){var v=new URLSearchParams(location.search).get("v");if(v==="a"||v==="b")document.documentElement.dataset.var=v}}catch(e){}</script>
+<script>try{if(/vorschau\.html$/.test(location.pathname)){var v=new URLSearchParams(location.search).get("v");if(v==="a"||v==="b"||v==="c")document.documentElement.dataset.var=v}}catch(e){}</script>
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eva Narváez</title>
@@ -253,13 +253,13 @@ dialog::backdrop{background:var(--page)}
 
 /* ===== Varianten zum Ausprobieren (nur auf vorschau.html?v=a|b) ===== */
 /* A „Galerie“: Verzeichnis statt Kacheln, Fußzeile nur mit Symbolen */
-html[data-var="a"] #gCartoon .covers{display:block;max-width:720px;margin:0 auto;border-top:1px solid var(--line)}
-html[data-var="a"] .cover{display:flex;align-items:baseline;justify-content:space-between;gap:16px;width:100%;padding:26px 4px;border-bottom:1px solid var(--line);text-align:left}
-html[data-var="a"] .cover .cv,html[data-var="a"] .cover .mos{display:none}
-html[data-var="a"] .cover .cvt{margin:0;font-size:clamp(24px,3vw,34px);letter-spacing:.14em;font-weight:300;transition:color .3s,letter-spacing .5s cubic-bezier(.2,.7,.2,1)}
-html[data-var="a"] .cover .cvt::after{display:none}
-html[data-var="a"] .cover .cvn{margin:0;white-space:nowrap}
-html[data-var="a"] .cover:hover .cvt,html[data-var="a"] .cover:focus-visible .cvt{color:var(--goldtext);letter-spacing:.18em}
+html[data-var="a"] #gCartoon .covers,html[data-var="c"] #gCartoon .covers{display:block;max-width:720px;margin:0 auto;border-top:1px solid var(--line)}
+html[data-var="a"] .cover,html[data-var="c"] .cover{display:flex;align-items:baseline;justify-content:space-between;gap:16px;width:100%;padding:26px 4px;border-bottom:1px solid var(--line);text-align:left}
+html[data-var="a"] .cover .cv,html[data-var="a"] .cover .mos,html[data-var="c"] .cover .cv,html[data-var="c"] .cover .mos{display:none}
+html[data-var="a"] .cover .cvt,html[data-var="c"] .cover .cvt{margin:0;font-size:clamp(24px,3vw,34px);letter-spacing:.14em;font-weight:300;transition:color .3s,letter-spacing .5s cubic-bezier(.2,.7,.2,1)}
+html[data-var="a"] .cover .cvt::after,html[data-var="c"] .cover .cvt::after{display:none}
+html[data-var="a"] .cover .cvn,html[data-var="c"] .cover .cvn{margin:0;white-space:nowrap}
+html[data-var="a"] .cover:hover .cvt,html[data-var="a"] .cover:focus-visible .cvt,html[data-var="c"] .cover:hover .cvt,html[data-var="c"] .cover:focus-visible .cvt{color:var(--goldtext);letter-spacing:.18em}
 html[data-var="a"] .fuss-links span{display:none}
 html[data-var="a"] .fuss-links{gap:36px}
 html[data-var="a"] .fuss-links .ig{width:22px;height:22px}
@@ -275,17 +275,22 @@ html[data-var="b"] .cover:hover .mos img{opacity:.86}
  html[data-var] aside nav .nur-var{display:inline-block}
  html[data-var] aside nav a{font-size:10.5px;letter-spacing:.07em}
  /* A: alles zentriert wie ein Katalogtitel, Sprachen klein in der Ecke */
- html[data-var="a"] aside{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;padding:calc(env(safe-area-inset-top,0px) + 30px) 14px 0}
- html[data-var="a"] .brand{flex-direction:column;gap:10px}
- html[data-var="a"] .logo{width:46px}
- html[data-var="a"] .name{text-align:center;font-size:15px;letter-spacing:.24em}
- html[data-var="a"] .name span{letter-spacing:.2em;margin-top:6px}
- html[data-var="a"] .langs{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;border:0;padding:0}
- html[data-var="a"] .langs button{font-size:10px;padding:4px 3px}
- html[data-var="a"] .langs button[aria-pressed="true"]{background:none}
- html[data-var="a"] aside nav{width:100%;justify-content:center;gap:0 14px;margin-top:4px}
- html[data-var="a"] .cover{padding:22px 2px}
+ html[data-var="a"] aside, html[data-var="c"] aside{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;padding:calc(env(safe-area-inset-top,0px) + 30px) 14px 0}
+ html[data-var="a"] .brand, html[data-var="c"] .brand{flex-direction:column;gap:10px}
+ html[data-var="a"] .logo, html[data-var="c"] .logo{width:46px}
+ html[data-var="a"] .name, html[data-var="c"] .name{text-align:center;font-size:15px;letter-spacing:.24em}
+ html[data-var="a"] .name span, html[data-var="c"] .name span{letter-spacing:.2em;margin-top:6px}
+ html[data-var="a"] .langs, html[data-var="c"] .langs{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;border:0;padding:0}
+ html[data-var="a"] .langs button, html[data-var="c"] .langs button{font-size:10px;padding:4px 3px}
+ html[data-var="a"] .langs button[aria-pressed="true"], html[data-var="c"] .langs button[aria-pressed="true"]{background:none}
+ html[data-var="a"] aside nav, html[data-var="c"] aside nav{width:100%;justify-content:center;gap:0 14px;margin-top:4px}
+ html[data-var="a"] .cover, html[data-var="c"] .cover{padding:22px 2px}
 }
+/* C „Kapitel“: Cartoon/Illustration zeigen die Werke direkt, je Serie eine feine goldene Kapitelzeile */
+.tiles h2.kapitel{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:clamp(36px,6vh,64px) 0 -6px;font-size:12.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--goldtext)}
+.tiles h2.kapitel::after{content:"";flex:1;height:1px;background:var(--line)}
+.tiles h2.kapitel:first-child{margin-top:0}
+.tiles .note.ruhig{grid-column:1/-1;text-align:center;letter-spacing:.24em;text-transform:uppercase;font-size:12px;color:var(--muted);margin:clamp(30px,8vh,80px) 0}
 /* Umschalter der Testseite */
 .var-wahl{position:fixed;z-index:60;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);display:flex;gap:2px;padding:3px;border-radius:999px;
  background:rgba(43,42,38,.88);font:400 11px/1 var(--font);letter-spacing:.12em;text-transform:uppercase}
@@ -379,7 +384,7 @@ const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
- toTop:"Nach oben",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
+ toTop:"Nach oben",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tEinzel:"Einzelwerke",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
  hKunst:"Bildende Kunst",mEn:"Enkaustik",ctC:"Cartoon",ctI:"Illustration",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",mMore:"Weitere Werke",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
@@ -390,7 +395,7 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
  "Mit meiner Kunst möchte ich Farben, Emotionen und persönliche Erfahrungen zum Ausdruck bringen und die Betrachter dazu einladen, die Welt aus meiner ganz eigenen Perspektive zu entdecken."]},
 es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plástica\ne ilustradora",
- toTop:"Volver arriba",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
+ toTop:"Volver arriba",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tEinzel:"Obras sueltas",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
  hKunst:"Bellas Artes",mEn:"Encáustica",ctC:"Cartoon",ctI:"Ilustración",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",mMore:"Otras obras",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
@@ -401,7 +406,7 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
  "Con mi arte quiero expresar colores, emociones y experiencias personales, e invitar a quienes lo contemplan a descubrir el mundo desde mi perspectiva muy personal."]},
 en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& illustrator",
- toTop:"Back to top",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
+ toTop:"Back to top",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tEinzel:"Single works",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
  hKunst:"Fine Art",mEn:"Encaustic",ctC:"Cartoon",ctI:"Illustration",mAq:"Watercolour",mAc:"Acrylic",mCo:"Collage",mMore:"Other works",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
@@ -571,6 +576,12 @@ function renderCartoon(){
   const crumbs=getrennt?(ser?'<p class="crumbs"><a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser)+'</p>':''):
    '<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
+  if(document.documentElement.dataset.var==="c"){   // Werke direkt zeigen, Serien als Kapitel – keine Zwischenseite „Serie · 4 Werke“
+    const ser2=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),einzeln=inType.filter(([a])=>!a.series);
+    box.innerHTML=ser2.map(n=>'<h2 class="kapitel">'+esc(n)+'</h2>'+cards(inType.filter(([a])=>a.series===n))).join("")+
+     (einzeln.length?(ser2.length?'<h2 class="kapitel">'+esc(t.tEinzel)+'</h2>':'')+cards(einzeln):'')+
+     (inType.length?'':'<p class="note ruhig">'+esc(t.tSoon)+'</p>');
+    return}
   const series=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),loose=inType.filter(([a])=>!a.series);
   box.innerHTML=crumbs+(series.length?'<div class="covers">'+series.map(n=>cover(inType.filter(([a])=>a.series===n),"#cartoon/"+type+"/"+encodeURIComponent(n),n)).join("")+'</div>':"")+cards(loose)+(series.length||loose.length?"":empty);
 }
@@ -613,7 +624,7 @@ function go(h){
 window.addEventListener("hashchange",()=>go(location.hash.slice(1)));
 /* Testseite: Umschalter zwischen aktueller Fassung und den Varianten */
 if(/vorschau\.html$/.test(location.pathname)){const cur=document.documentElement.dataset.var||"";const w=document.createElement("nav");w.className="var-wahl";
- [["","Aktuell"],["a","A Galerie"],["b","B Atelier"]].forEach(([k,t])=>{const a=document.createElement("a");a.href="vorschau.html"+(k?"?v="+k:"")+location.hash;a.textContent=t;if(k===cur)a.setAttribute("aria-current","true");
+ [["","Aktuell"],["a","A"],["b","B"],["c","C Kapitel"]].forEach(([k,t])=>{const a=document.createElement("a");a.href="vorschau.html"+(k?"?v="+k:"")+location.hash;a.textContent=t;if(k===cur)a.setAttribute("aria-current","true");
   a.onclick=e=>{e.preventDefault();location.href="vorschau.html"+(k?"?v="+k:"")+location.hash};w.appendChild(a)});document.body.appendChild(w)}
 const tt=$("toTop");
 /* Knopf erscheint nach etwas Scrollen, Ring zeigt den Fortschritt; sobald die Fußzeile im Bild ist, übernimmt dort der Link */
