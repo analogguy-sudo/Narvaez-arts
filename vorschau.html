@@ -311,8 +311,10 @@ html[data-var="b"] .cover:hover .mos img{opacity:.86}
 .tiles .note.ruhig{grid-column:1/-1;text-align:center;letter-spacing:.24em;text-transform:uppercase;font-size:12px;color:var(--muted);margin:clamp(30px,8vh,80px) 0}
 .tiles .rest{display:contents}.tiles .rest[hidden]{display:none}
 .tiles .sprung{grid-column:1/-1;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:-12px 0 4px;color:var(--muted)}
-.tiles .sprung button,.tiles .alle button{all:unset;cursor:pointer;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--goldtext);padding:6px 2px;transition:color .3s}
-.tiles .sprung button:hover,.tiles .alle button:hover{color:var(--ink)}
+.tiles .sprung a,.tiles .sprung button,.tiles .alle button{all:unset;cursor:pointer;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--goldtext);padding:6px 2px;transition:color .3s}
+.tiles .sprung a:hover,.tiles .sprung button:hover,.tiles .alle button:hover{color:var(--ink)}
+.tiles .sprung a{text-decoration:none;color:var(--muted)}.tiles .sprung a[aria-current="page"]{color:var(--goldtext);border-bottom:1px solid currentColor}
+.tiles .sprung:not(:has([aria-current])) a{color:var(--goldtext)}
 .tiles .alle{grid-column:1/-1;text-align:center;margin:-8px 0 0}
 .tiles .alle button{border-bottom:1px solid currentColor;padding-bottom:4px;letter-spacing:.2em}
 html[data-var="c"] #gCartoon{grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:clamp(36px,5vh,60px) clamp(22px,2.6vw,40px)}
@@ -608,8 +610,11 @@ function renderCartoon(){
   h1.textContent=getrennt?t[CT[type]]:t.hCartoon;
   const crumbs=getrennt?(ser?'<p class="crumbs"><a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser)+'</p>':''):
    '<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
+  // Sprungzeile: jede Reihe öffnet sich für sich; in einer Reihe ist die aktuelle markiert
+  const reihen=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y));
+  const sprungC=akt=>reihen.length>1?'<nav class="sprung" aria-label="'+esc(t[CT[type]])+'">'+reihen.map(n=>'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'"'+(n===akt?' aria-current="page"':'')+'>'+esc(n)+'</a>').join('<span aria-hidden="true">·</span>')+'</nav>':'';
   if(ser&&document.documentElement.dataset.var==="c"){const g=inType.filter(([a])=>a.series===ser),zur='<a href="#cartoon/'+type+'">'+esc(t.tZurueck)+'</a>';
-    box.innerHTML='<h2 class="kapitel"><span>'+esc(ser)+'</span>'+zur+'</h2>'+(g.length?cards(g):empty)+(g.length>AUSWAHL?'<p class="alle">'+zur+'</p>':'');return}
+    box.innerHTML=sprungC(ser)+'<h2 class="kapitel"><span>'+esc(ser)+'</span>'+zur+'</h2>'+(g.length?cards(g):empty)+(g.length>AUSWAHL?'<p class="alle">'+zur+'</p>':'');return}
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
   if(document.documentElement.dataset.var==="c"){   // Werke direkt zeigen, Serien als Kapitel – keine Zwischenseite „Serie · 4 Werke“
     const ser2=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),einzeln=inType.filter(([a])=>!a.series);
@@ -620,7 +625,7 @@ function renderCartoon(){
       if(!n)return cards(l);
       // „Alle ansehen“ öffnet die Reihe für sich – dort kommt danach keine andere Reihe mehr
       return '<h2 class="kapitel" id="kap'+k+'"><span>'+esc(n)+'</span>'+(mehr?'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'">'+esc(t.tAlle)+'</a>':'')+'</h2>'+cards(l.slice(0,AUSWAHL))};
-    const sprung=ser2.length>1?'<nav class="sprung" aria-label="'+esc(t[CT[type]])+'">'+gruppen.map(([n],k)=>n?'<button type="button" data-k="'+k+'">'+esc(n)+'</button>':'').join('<span aria-hidden="true">·</span>')+'</nav>':'';
+    const sprung=sprungC(null);
     box.innerHTML=sprung+gruppen.map(kap).join("")+(inType.length?'':'<p class="note ruhig">'+esc(t.tSoon)+'</p>');
     box.querySelectorAll(".rest .tile").forEach(x=>x.classList.add("in"));
     return}
