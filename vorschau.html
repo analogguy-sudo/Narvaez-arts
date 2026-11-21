@@ -551,7 +551,10 @@ const WORKS={de:["Werk","Werke"],es:["obra","obras"],en:["work","works"]};
 function cover(list,href,label,lead=list[0]){
   const n=list.length,w=WORKS[lang]||WORKS.de;lead=list.find(x=>x[0].image_path)||lead;const a=lead&&lead[0];
   const pic=a&&a.image_path?'<img '+imgAttr(a.image_path,900)+' alt="" loading="lazy" decoding="async" onload="this.classList.add(\'ld\')">':"";
-  const mos=list.filter(x=>x[0].image_path).slice(0,4).map(x=>'<img '+imgAttr(x[0].image_path,400)+' alt="" loading="lazy" decoding="async">').join("");
+  // Bilderbogen: aus jeder Serie ein Bild (zeigt die Vielfalt), dann Einzelwerke – höchstens vier
+  const mitBild=list.filter(x=>x[0].image_path),serien=new Set(),vorn=[],rest=[];
+  mitBild.forEach(x=>{const sr=x[0].series;if(sr&&!serien.has(sr)){serien.add(sr);vorn.push(x)}else rest.push(x)});
+  const mos=vorn.concat(rest).slice(0,4).map(x=>'<img '+imgAttr(x[0].image_path,400)+' alt="" loading="lazy" decoding="async">').join("");
   const top=(pic?'<span class="cv">'+pic+'</span>':'<span class="cv ph"><span>'+esc(L[lang].tSoon)+'</span></span>')+'<span class="mos">'+mos+'</span><span class="cvt">'+esc(label)+'</span>';
   return '<a class="cover" href="'+href+'">'+top+'<span class="cvn">'+(n?n+" "+(n===1?w[0]:w[1]):esc(L[lang].tSoon))+'</span></a>';
 }
@@ -560,9 +563,13 @@ function renderCartoon(){
   if(state!=="ok"){box.innerHTML='<p class="note">'+(state==="loading"?t.loading:t.error+" ("+esc(err)+")")+'</p>';return}
   const [type,ser]=sub;
   const ofType=k=>arts.map((a,i)=>[a,i]).filter(([a])=>a.category==="cartoon"&&(CT[a.cartoon_type]?a.cartoon_type:"cartoon")===k);
-  if(!CT[type]){box.innerHTML='<div class="covers">'+Object.keys(CT).map(k=>cover(ofType(k),"#cartoon/"+k,t[CT[k]],null)).join("")+'</div>';return}
+  if(!CT[type]){$("cartoon").querySelector("h1").textContent=t.hCartoon;box.innerHTML='<div class="covers">'+Object.keys(CT).map(k=>cover(ofType(k),"#cartoon/"+k,t[CT[k]],null)).join("")+'</div>';return}
   const inType=ofType(type);
-  const crumbs='<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
+  // Varianten: Cartoon und Illustration sind eigene Menüpunkte – die Überschrift heißt dann genau so, der Pfad beginnt beim Bereich
+  const getrennt=!!document.documentElement.dataset.var,h1=$("cartoon").querySelector("h1");
+  h1.textContent=getrennt?t[CT[type]]:t.hCartoon;
+  const crumbs=getrennt?(ser?'<p class="crumbs"><a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser)+'</p>':''):
+   '<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
   const series=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),loose=inType.filter(([a])=>!a.series);
   box.innerHTML=crumbs+(series.length?'<div class="covers">'+series.map(n=>cover(inType.filter(([a])=>a.series===n),"#cartoon/"+type+"/"+encodeURIComponent(n),n)).join("")+'</div>':"")+cards(loose)+(series.length||loose.length?"":empty);
