@@ -194,10 +194,19 @@ dialog::backdrop{background:var(--page)}
 #lb.band #lbImg{display:none}
 #lb.band #lbBand{display:flex;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 #lbBand::-webkit-scrollbar{display:none}
-#lbBand .sl{flex:0 0 100%;height:calc(100svh - 250px);display:flex;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always}
+#lbBand .sl{flex:0 0 100%;height:100%;display:flex;flex-direction:column;align-items:center;scroll-snap-align:center;scroll-snap-stop:always}
+#lbBand .sl-bild{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
 #lbBand img{max-width:calc(100% - 16px);max-height:100%;object-fit:contain}
-#lb.band .lb-in{padding-left:0;padding-right:0;justify-content:flex-start;padding-top:calc(env(safe-area-inset-top,0px) + 64px)}#lb.band .lb-pic{width:100%;flex:none}
-#lb.band .lb-info{flex:none;height:96px;overflow:hidden;padding:0 56px}
+/* Titel und Angaben gehören fest zum Bild und wischen mit – nichts zieht nach */
+#lbBand .sl-text{flex:none;height:92px;width:100%;box-sizing:border-box;padding:14px 56px 0;text-align:center;overflow:hidden}
+#lbBand .sl-cap{color:var(--ink);font-size:15px;letter-spacing:.06em;line-height:1.35}
+#lbBand .sl-meta{color:var(--muted);font-size:12.5px;letter-spacing:.06em;margin-top:4px}
+#lbBand .sl-desc{color:var(--muted);font-size:13px;line-height:1.5;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#lb.band .lb-in{padding-left:0;padding-right:0;justify-content:flex-start;padding-top:calc(env(safe-area-inset-top,0px) + 60px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 12px)}
+#lb.band .lb-pic{width:100%;flex:1;min-height:0}
+#lb.band #lbBand{flex:1;min-height:0}
+#lb.band .lb-info{display:none}
+#lb.band .lb-n{bottom:calc(env(safe-area-inset-bottom,0px) + 48px)}
 #lb.band #lbThumbs{min-height:0}#lb.band.mitDetails #lbThumbs{min-height:54px}
 #lbThumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 #lbThumbs img{width:54px;height:54px;object-fit:cover;opacity:.5;cursor:pointer}
@@ -339,8 +348,8 @@ html[data-var="c"] #gCartoon{grid-template-columns:repeat(auto-fill,minmax(min(2
  html[data-var="c"] .tiles .sprung a,html[data-var="c"] .tiles .alle a{font-size:clamp(12px,3.3vw,14.5px)}
  html[data-var="c"] #gCartoon .tile h3{font-size:clamp(14px,4vw,17.5px)}
  html[data-var="c"] #gCartoon .tile .meta{font-size:clamp(12px,3.4vw,14.5px)}
- html[data-var="c"] #lbCap{font-size:clamp(15px,4.4vw,19px)}
- html[data-var="c"] #lbMeta{font-size:clamp(12.5px,3.5vw,15px)}
+ html[data-var="c"] #lbCap,html[data-var="c"] #lbBand .sl-cap{font-size:clamp(15px,4.4vw,19px)}
+ html[data-var="c"] #lbMeta,html[data-var="c"] #lbBand .sl-meta{font-size:clamp(12.5px,3.5vw,15px)}
  html[data-var="c"] #lbDesc{font-size:clamp(13.5px,3.8vw,16px)}
 }
 /* Umschalter der Testseite */
@@ -752,14 +761,17 @@ let lbBandAn=false,flach=[],cur=-1,ziel=-1;const band=$("lbBand");
 function bandBauen(){
   flach=[];(lb.list.length?lb.list:[arts.indexOf(lb.a)]).forEach((ai,pos)=>photos(arts[ai]).forEach((ph,k)=>flach.push([ai,pos,k,ph])));
   $("lb").classList.toggle("mitDetails",flach.some(f=>f[2]>0));
-  band.innerHTML=flach.map((f,j)=>'<div class="sl"><img data-j="'+j+'" alt="" draggable="false"></div>').join("")}
-function bandLaden(j){for(let x=j-2;x<=j+2;x++){const f=flach[x],im=f&&band.children[x].firstChild;if(im&&!im.getAttribute("src")){im.decoding="async";im.onerror=()=>{im.onerror=null;im.src=imgURL(f[3])};im.src=imgW(f[3],1200)}}}
+  const N=lb.list.length;
+  band.innerHTML=flach.map((f,j)=>{const a=arts[f[0]],ti=a["title_"+lang]||a.title_de||"",n=photos(a).length,de=a["description_"+lang]||a.description_de||"";
+    const nr=N>1?"  ·  "+(f[1]+1)+" / "+N:n>1?"  ·  "+(f[2]+1)+" / "+n:"";
+    return '<div class="sl"><div class="sl-bild"><img data-j="'+j+'" alt="'+esc(ti)+'" draggable="false"></div><div class="sl-text"><div class="sl-cap">'+esc(ti+nr)+'</div>'+(meta(a)?'<div class="sl-meta">'+esc(meta(a))+'</div>':'')+(de?'<div class="sl-desc">'+esc(de)+'</div>':'')+'</div></div>'}).join("")}
+function bandLaden(j){for(const x of [j,j+1,j-1,j+2,j+3,j-2]){const f=flach[x],im=f&&band.children[x].querySelector("img");if(im&&!im.getAttribute("src")){im.decoding="async";im.onerror=()=>{im.onerror=null;im.src=imgURL(f[3])};im.src=imgW(f[3],1200)}}}
 function bandGehe(j,weich){bandLaden(j);ziel=weich?j:-1;band.scrollTo({left:j*band.clientWidth,behavior:weich?"smooth":"instant"})}
 /* Während des Wischens nichts am Layout ändern (Safari rastet sonst aufs alte Bild zurück) – Titel erst tauschen, wenn das Band steht */
 let ruhe=0;
 function bandSteht(){clearTimeout(ruhe);const w=band.clientWidth;if(!w||!flach.length)return;const j=Math.round(band.scrollLeft/w);if(j===ziel)ziel=-1;if(j===cur||!flach[j])return;
-  cur=j;const f=flach[j];lb.a=arts[f[0]];lb.pos=f[1];lb.i=f[2];showLB(true)}
-band.addEventListener("scroll",()=>{const w=band.clientWidth;if(w)bandLaden(Math.round(band.scrollLeft/w));clearTimeout(ruhe);ruhe=setTimeout(bandSteht,160)},{passive:true});
+  cur=j;const f=flach[j];lb.a=arts[f[0]];lb.pos=f[1];lb.i=f[2];bandLaden(j);showLB(true)}
+band.addEventListener("scroll",()=>{clearTimeout(ruhe);ruhe=setTimeout(bandSteht,120)},{passive:true});   // während des Wischens: nichts tun
 band.addEventListener("scrollend",bandSteht);
 $("lb").addEventListener("close",()=>{if(lbBandAn&&!$("lb").open){band.innerHTML="";flach=[];cur=-1}});
 
