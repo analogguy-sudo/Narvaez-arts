@@ -304,8 +304,9 @@ html[data-var="b"] .cover:hover .mos img{opacity:.86}
 /* C „Kapitel“: Cartoon/Illustration zeigen die Werke direkt, je Serie eine feine goldene Kapitelzeile */
 .tiles h2.kapitel{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:clamp(36px,6vh,64px) 0 -6px;font-size:12.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--goldtext)}
 .tiles h2.kapitel::after{content:"";flex:1;height:1px;background:var(--line);order:1}
-.tiles h2.kapitel button{all:unset;order:2;cursor:pointer;font-size:11px;letter-spacing:.22em;color:var(--goldtext);padding:8px 0 8px 4px;transition:color .3s;white-space:nowrap}
-.tiles h2.kapitel button:hover{color:var(--ink)}
+.tiles h2.kapitel a,.tiles h2.kapitel button{all:unset;order:2;cursor:pointer;font-size:11px;letter-spacing:.22em;color:var(--goldtext);padding:8px 0 8px 4px;transition:color .3s;white-space:nowrap}
+.tiles h2.kapitel a:hover,.tiles h2.kapitel button:hover{color:var(--ink)}
+.tiles .alle a{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--goldtext);border-bottom:1px solid currentColor;padding-bottom:4px;text-decoration:none}
 .tiles h2.kapitel:first-child{margin-top:0}
 .tiles .note.ruhig{grid-column:1/-1;text-align:center;letter-spacing:.24em;text-transform:uppercase;font-size:12px;color:var(--muted);margin:clamp(30px,8vh,80px) 0}
 .tiles .rest{display:contents}.tiles .rest[hidden]{display:none}
@@ -415,7 +416,7 @@ const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
- toTop:"Nach oben",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tEinzel:"Einzelwerke",tAlle:"Alle ansehen",tWeniger:"Weniger",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
+ toTop:"Nach oben",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tEinzel:"Einzelwerke",tAlle:"Alle ansehen",tZurueck:"Zurück",tWeniger:"Weniger",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
  hKunst:"Bildende Kunst",mEn:"Enkaustik",ctC:"Cartoon",ctI:"Illustration",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",mMore:"Weitere Werke",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
@@ -426,7 +427,7 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
  "Mit meiner Kunst möchte ich Farben, Emotionen und persönliche Erfahrungen zum Ausdruck bringen und die Betrachter dazu einladen, die Welt aus meiner ganz eigenen Perspektive zu entdecken."]},
 es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plástica\ne ilustradora",
- toTop:"Volver arriba",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tEinzel:"Obras sueltas",tAlle:"Ver todos",tWeniger:"Menos",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
+ toTop:"Volver arriba",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tEinzel:"Obras sueltas",tAlle:"Ver todos",tZurueck:"Volver",tWeniger:"Menos",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
  hKunst:"Bellas Artes",mEn:"Encáustica",ctC:"Cartoon",ctI:"Ilustración",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",mMore:"Otras obras",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
@@ -437,7 +438,7 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
  "Con mi arte quiero expresar colores, emociones y experiencias personales, e invitar a quienes lo contemplan a descubrir el mundo desde mi perspectiva muy personal."]},
 en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& illustrator",
- toTop:"Back to top",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tEinzel:"Single works",tAlle:"View all",tWeniger:"Less",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
+ toTop:"Back to top",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tEinzel:"Single works",tAlle:"View all",tZurueck:"Back",tWeniger:"Less",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
  hKunst:"Fine Art",mEn:"Encaustic",ctC:"Cartoon",ctI:"Illustration",mAq:"Watercolour",mAc:"Acrylic",mCo:"Collage",mMore:"Other works",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
@@ -607,6 +608,8 @@ function renderCartoon(){
   h1.textContent=getrennt?t[CT[type]]:t.hCartoon;
   const crumbs=getrennt?(ser?'<p class="crumbs"><a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser)+'</p>':''):
    '<p class="crumbs"><a href="#cartoon">'+esc(t.hCartoon)+'</a> › '+(ser?'<a href="#cartoon/'+type+'">'+esc(t[CT[type]])+'</a> › '+esc(ser):esc(t[CT[type]]))+'</p>';
+  if(ser&&document.documentElement.dataset.var==="c"){const g=inType.filter(([a])=>a.series===ser),zur='<a href="#cartoon/'+type+'">'+esc(t.tZurueck)+'</a>';
+    box.innerHTML='<h2 class="kapitel"><span>'+esc(ser)+'</span>'+zur+'</h2>'+(g.length?cards(g):empty)+(g.length>AUSWAHL?'<p class="alle">'+zur+'</p>':'');return}
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
   if(document.documentElement.dataset.var==="c"){   // Werke direkt zeigen, Serien als Kapitel – keine Zwischenseite „Serie · 4 Werke“
     const ser2=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),einzeln=inType.filter(([a])=>!a.series);
@@ -615,8 +618,8 @@ function renderCartoon(){
     // pro Kapitel zuerst eine Auswahl (Reihenfolge aus dem Admin), der Rest klappt an Ort und Stelle auf
     const kap=([n,l],k)=>{const offen=openC.has(type+"|"+n),mehr=l.length>AUSWAHL;
       if(!n)return cards(l);
-      return '<h2 class="kapitel" id="kap'+k+'"><span>'+esc(n)+'</span>'+(mehr?'<button type="button" data-g="'+esc(type+"|"+n)+'" aria-expanded="'+offen+'">'+esc(offen?t.tWeniger:t.tAlle)+'</button>':'')+'</h2>'+
-       cards(l.slice(0,AUSWAHL))+(mehr?'<div class="rest"'+(offen?'':' hidden')+'>'+cards(l.slice(AUSWAHL))+'</div>':'')};
+      // „Alle ansehen“ öffnet die Reihe für sich – dort kommt danach keine andere Reihe mehr
+      return '<h2 class="kapitel" id="kap'+k+'"><span>'+esc(n)+'</span>'+(mehr?'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'">'+esc(t.tAlle)+'</a>':'')+'</h2>'+cards(l.slice(0,AUSWAHL))};
     const sprung=ser2.length>1?'<nav class="sprung" aria-label="'+esc(t[CT[type]])+'">'+gruppen.map(([n],k)=>n?'<button type="button" data-k="'+k+'">'+esc(n)+'</button>':'').join('<span aria-hidden="true">·</span>')+'</nav>':'';
     box.innerHTML=sprung+gruppen.map(kap).join("")+(inType.length?'':'<p class="note ruhig">'+esc(t.tSoon)+'</p>');
     box.querySelectorAll(".rest .tile").forEach(x=>x.classList.add("in"));
