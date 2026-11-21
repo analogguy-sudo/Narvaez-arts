@@ -239,14 +239,19 @@ dialog::backdrop{background:var(--page)}
  aside nav a[aria-current="page"]{border-color:var(--goldtext)}
  aside nav .lang{display:none}
  aside nav .kurz{display:inline}
- #toTop{display:none}
+ /* Nach-oben-Knopf am Handy: nur der runde Ring mit Pfeil, rechts unten, durchscheinend gold */
+ #toTop{width:44px;height:44px;padding:0;justify-content:center;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+ #toTop [data-t]{display:none}
+ #toTop .kreis,#toTop .ring{width:40px;height:40px}
+ #toTop,#toTop:hover{box-shadow:none}
  /* Fußzeile: jeder Teil in eigener Zeile statt eines langen Satzes mit Trennstrichen */
  /* unten genug Luft, damit die schwebende Safari-Leiste die letzten Zeilen nicht verdeckt */
  footer{line-height:1.6;padding:24px 16px calc(40px + env(safe-area-inset-bottom,0px))}
  .cover{width:100%}   /* Bereiche am Handy über die volle Breite, nicht links klebend */
  /* flüssiger scrollen am Handy: Werke nur einblenden (ohne Verschieben), Knopf ohne Glas-Unschärfe */
  .tile{transform:none;transition:opacity .6s ease}
- #toTop{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(250,248,243,.9)}
+ #toTop{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(250,248,243,.82)}
+ #toTop:hover{background:rgba(250,248,243,.82);color:var(--goldtext)}
  main{padding:36px 18px 56px}
  #home{min-height:0}
  .fav .zoom img{max-height:62vh}
@@ -665,7 +670,8 @@ const tt=$("toTop");
 const ttStand=tt.querySelector(".stand"),ttUmfang=2*Math.PI*12.5;ttStand.style.strokeDasharray=ttUmfang;
 let ttPlan=false;
 const ttPruefen=()=>{ttPlan=false;const max=document.documentElement.scrollHeight-innerHeight,f=$("foot").getBoundingClientRect().top;
- const on=scrollY>400&&f>innerHeight-20;
+ const hl=$("foot").querySelector(".hoch-link"),hb=hl?hl.getBoundingClientRect().top:f;
+ const on=scrollY>400&&hb>innerHeight-10;   // erst wenn der „Nach oben“-Link der Fußzeile selbst sichtbar ist, tritt der Knopf zurück
  if(on!==tt.classList.contains("on")){tt.classList.toggle("on",on);tt.tabIndex=on?0:-1;tt.setAttribute("aria-hidden",!on)}
  ttStand.style.strokeDashoffset=ttUmfang*(1-(max>0?Math.min(1,scrollY/max):0))};
 addEventListener("scroll",()=>{if(!ttPlan){ttPlan=true;requestAnimationFrame(ttPruefen)}},{passive:true});
