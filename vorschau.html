@@ -669,19 +669,40 @@ $("foot").addEventListener("click",e=>{if(e.target.closest(".hoch-link"))nachObe
 $("foot").addEventListener("dblclick",e=>{if(e.target.id==="copy")location.href="admin.html"});
 
 /* Vergrößerung mit Detailfotos */
-const lb={a:null,i:0};
+const lb={a:null,i:0,list:[],pos:0};
 const photos=a=>[a.image_path].concat(a.detail_paths||[]);
 function showLB(){
   const a=lb.a,ph=photos(a),ti=a["title_"+lang]||a.title_de||"";
   {const li=$("lbImg"),orig=imgURL(ph[lb.i]);li.onerror=()=>{li.onerror=null;li.src=orig};li.src=imgW(ph[lb.i],2000)}$("lbImg").alt=ti;
-  $("lbCap").textContent=ti+(ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
+  $("lbCap").textContent=ti+(lb.list.length>1?"  ·  "+(lb.pos+1)+" / "+lb.list.length:ph.length>1?"  ·  "+(lb.i+1)+" / "+ph.length:"");
   $("lbMeta").textContent=meta(a);$("lbMeta").hidden=!meta(a);
   const de=a["description_"+lang]||a.description_de||"";$("lbDesc").textContent=de;$("lbDesc").hidden=!de;
-  $("lbPrev").hidden=$("lbNext").hidden=ph.length<2;
+  $("lbPrev").hidden=$("lbNext").hidden=ph.length<2&&lb.list.length<2;
+  // Nachbarbild vorladen, damit das Weiterwischen ohne Wartezeit kommt
+  if(lb.list.length>1){const nx=arts[lb.list[(lb.pos+1)%lb.list.length]];if(nx&&nx.image_path)new Image().src=imgW(nx.image_path,2000)}
   $("lbThumbs").innerHTML=ph.length>1?ph.map((p,k)=>'<img '+imgAttr(p,240)+' data-k="'+k+'" class="'+(k===lb.i?"on":"")+'" alt="" loading="lazy">').join(""):"";
 }
-function step(d){const n=photos(lb.a).length;lb.i=(lb.i+d+n)%n;showLB()}
-document.querySelector("main").addEventListener("click",e=>{const b=e.target.closest(".zoom");if(!b)return;lb.a=arts[+b.dataset.i];lb.i=0;showLB();$("lb").showModal()});
+/* Weiter/Zurück: erst durch die Detailfotos eines Werks, dann zum nächsten Werk derselben Gruppe (Reihe bzw. Bereich) */
+function step(d){
+  const n=photos(lb.a).length;
+  if(lb.i+d>=0&&lb.i+d<n){lb.i+=d;showLB();return}
+  if(lb.list.length<2){lb.i=(lb.i+d+n)%n;showLB();return}
+  lb.pos=(lb.pos+d+lb.list.length)%lb.list.length;lb.a=arts[lb.list[lb.pos]];lb.i=d<0?photos(lb.a).length-1:0;showLB()}
+function lbGruppe(b){
+  const box=b.closest(".tiles");if(!box)return[+b.dataset.i];
+  let l=[...box.querySelectorAll(".zoom[data-i]")].map(x=>+x.dataset.i);
+  const a=arts[+b.dataset.i];
+  if(box.id==="gCartoon"&&document.documentElement.dataset.var==="c")l=l.filter(i=>(arts[i].series||"")===(a.series||""));
+  return l}
+document.querySelector("main").addEventListener("click",e=>{const b=e.target.closest(".zoom");if(!b)return;lb.a=arts[+b.dataset.i];lb.i=0;lb.list=lbGruppe(b);lb.pos=Math.max(0,lb.list.indexOf(+b.dataset.i));{const im=$("lbImg");im.style.transition=im.style.transform=im.style.opacity=""}showLB();$("lb").showModal()});
+/* Wischen auf dem Handy: das Bild folgt leicht dem Finger, ab 50px geht es weiter */
+{let x0=null,y0=0,dx=0;const im=$("lbImg");
+ $("lb").addEventListener("touchstart",e=>{if(e.touches.length!==1)return;x0=e.touches[0].clientX;y0=e.touches[0].clientY;dx=0;im.style.transition="none"},{passive:true});
+ $("lb").addEventListener("touchmove",e=>{if(x0===null)return;dx=e.touches[0].clientX-x0;const dy=e.touches[0].clientY-y0;if(Math.abs(dy)>Math.abs(dx)){dx=0;return}im.style.transform="translateX("+dx*.5+"px)"},{passive:true});
+ $("lb").addEventListener("touchend",()=>{if(x0===null)return;x0=null;
+   if(Math.abs(dx)>50){const d=dx<0?1:-1;im.style.transform="translateX("+(-d*24)+"px)";im.style.opacity="0";step(d);
+     void im.offsetWidth;im.style.transition="transform .28s ease,opacity .28s ease";im.style.transform="";im.style.opacity=""}
+   else{im.style.transition="transform .2s ease";im.style.transform=""}});}
 $("lbX").onclick=()=>$("lb").close();
 $("lbPrev").onclick=()=>step(-1);$("lbNext").onclick=()=>step(1);
 $("lbThumbs").addEventListener("click",e=>{const k=e.target.dataset.k;if(k!==undefined){lb.i=+k;showLB()}});
