@@ -1,8 +1,22 @@
 [
+ "es/index",
+ "en/index",
  "kunst",
+ "es/bellas-artes",
+ "en/fine-art",
  "cartoon",
+ "es/cartoon",
+ "en/cartoon",
  "illustration",
+ "es/ilustracion",
+ "en/illustration",
  "ueber-mich",
+ "es/sobre-mi",
+ "en/about",
  "kontakt",
- "breva"
+ "es/contacto",
+ "en/contact",
+ "breva",
+ "es/breva",
+ "en/breva"
 ]

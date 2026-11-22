@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- Eingangstür, erzeugt von tools/tueren.py – nicht von Hand bearbeiten -->
-<script>window.TUER={"h": "ueber"}</script>
+<script>window.TUER={"h": "ueber", "l": "de"}</script>
 <meta name="theme-color" content="#faf8f3">
 <script>document.documentElement.dataset.var="c"   /* Gestaltung „C“ (von Eva gewählt): Kopf mittig, Cartoon nach Reihen */</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,6 +11,7 @@
 <!-- Vorschau beim Teilen (WhatsApp, iMessage, Facebook …) und Suchmaschinen; URLs zeigen auf narvaez-arts.com -->
 <meta name="description" content="Eva Narváez, bildende Künstlerin und Illustratorin: wer sie ist, wie sie arbeitet und was sie antreibt.">
 <link rel="canonical" href="https://narvaez-arts.com/ueber-mich">
+<!--sprachen--><link rel="alternate" hreflang="de" href="https://narvaez-arts.com/ueber-mich"><link rel="alternate" hreflang="es" href="https://narvaez-arts.com/es/sobre-mi"><link rel="alternate" hreflang="en" href="https://narvaez-arts.com/en/about"><link rel="alternate" hreflang="x-default" href="https://narvaez-arts.com/ueber-mich"><!--/sprachen-->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Eva Narváez","alternateName":"Breva","url":"https://narvaez-arts.com/","jobTitle":"Bildende Künstlerin und Illustratorin","image":"https://narvaez-arts.com/og-image.jpg","alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad Alonso Cano, Granada"},"knowsAbout":["Malerei","Aquarell","Acryl","Collage","Enkaustik","Cartoon","Illustration"],"sameAs":["https://instagram.com/evanarvaez_arts","https://instagram.com/brevavineta"]}
 </script>
@@ -27,15 +28,15 @@
 <meta property="og:locale:alternate" content="es_ES">
 <meta property="og:locale:alternate" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="apple-mobile-web-app-title" content="Eva Narváez">
-<link rel="preload" href="fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Oswald (SIL Open Font License), lokal eingebunden statt über Google Fonts */
-@font-face{font-family:"Oswald";font-style:normal;font-weight:300 400;font-display:swap;src:url(fonts/oswald-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Oswald";font-style:normal;font-weight:300 400;font-display:swap;src:url(fonts/oswald-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Oswald";font-style:normal;font-weight:300 400;font-display:swap;src:url(/fonts/oswald-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Oswald";font-style:normal;font-weight:300 400;font-display:swap;src:url(/fonts/oswald-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* ===== Entwurf „Galerie“: ruhige, helle Bühne – die Werke stehen im Mittelpunkt ===== */
 :root{--side:#191919;--gold:#c1a377;--goldtext:#8b6a30;--cream:#f6f1dd;--page:#faf8f3;--ink:#2b2a26;--muted:#6a655a;--line:rgba(43,42,38,.12);
  --font:"Oswald","Arial Narrow",Arial,sans-serif;--edge:clamp(20px,5vw,80px)}
@@ -485,7 +486,7 @@ de:[["h", "1. Verantwortliche"],
  ["p", "Die gezeigten Werke, Fotos und Werkangaben werden aus einer Datenbank und einem Dateispeicher des Dienstes Supabase (Supabase Inc.) geladen. Die Daten liegen in einem Rechenzentrum in Irland (EU). Beim Laden wird technisch bedingt Ihre IP-Adresse an Supabase übermittelt und kurzzeitig in Protokollen gespeichert."],
  ["p", "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt darin, meine Werke darstellen und selbst pflegen zu können. Soweit Supabase Daten außerhalb der EU verarbeitet, geschieht dies auf Grundlage der Standardvertragsklauseln der EU-Kommission (Art. 46 DSGVO). Weitere Informationen: https://supabase.com/privacy"],
  ["h", "5. Spracheinstellung"],
- ["p", "Die von Ihnen gewählte Sprache wird im lokalen Speicher (localStorage) Ihres Browsers abgelegt, damit sie beim nächsten Besuch erhalten bleibt. Diese Angabe bleibt auf Ihrem Gerät und wird nicht an mich oder Dritte übertragen. Sie können sie jederzeit über die Einstellungen Ihres Browsers löschen. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG, da die Speicherung für die von Ihnen gewünschte Sprachauswahl unbedingt erforderlich ist."],
+ ["p", "Die Sprache ergibt sich aus der aufgerufenen Adresse: Deutsch ohne Zusatz, Spanisch unter /es/, Englisch unter /en/. Dafür wird nichts in Ihrem Browser gespeichert."],
  ["h", "6. Schriftarten"],
  ["p", "Die verwendete Schrift ist direkt auf dieser Website gespeichert. Es besteht keine Verbindung zu Google Fonts oder anderen Schriftanbietern."],
  ["h", "7. Kontakt per E-Mail"],
@@ -507,7 +508,7 @@ es:[["h", "1. Responsable"],
  ["p", "Las obras, fotos y datos mostrados se cargan desde una base de datos y un almacenamiento de archivos del servicio Supabase (Supabase Inc.). Los datos se encuentran en un centro de datos en Irlanda (UE). Al cargarlos, por razones técnicas se transmite su dirección IP a Supabase, que la guarda brevemente en registros."],
  ["p", "La base jurídica es el art. 6, apdo. 1, letra f del RGPD; mi interés legítimo consiste en poder presentar y gestionar yo misma mis obras. En la medida en que Supabase trate datos fuera de la UE, lo hace sobre la base de las cláusulas contractuales tipo de la Comisión Europea (art. 46 RGPD). Más información: https://supabase.com/privacy"],
  ["h", "5. Preferencia de idioma"],
- ["p", "El idioma que usted elige se guarda en el almacenamiento local (localStorage) de su navegador para que se mantenga en su próxima visita. Este dato permanece en su dispositivo y no se transmite ni a mí ni a terceros. Puede borrarlo en cualquier momento desde la configuración de su navegador. La base jurídica es el art. 25, apdo. 2, n.º 2 de la ley alemana TDDDG, ya que el almacenamiento es estrictamente necesario para la selección de idioma que usted solicita."],
+ ["p", "El idioma depende de la dirección que visite: alemán sin añadido, español en /es/ e inglés en /en/. Para ello no se guarda nada en su navegador."],
  ["h", "6. Tipografías"],
  ["p", "La tipografía utilizada está guardada directamente en este sitio web. No hay ninguna conexión con Google Fonts ni con otros proveedores de tipografías."],
  ["h", "7. Contacto por correo electrónico"],
@@ -529,7 +530,7 @@ en:[["h", "1. Controller"],
  ["p", "The artworks, photos and details shown are loaded from a database and file storage of the service Supabase (Supabase Inc.). The data is stored in a data centre in Ireland (EU). When loading, your IP address is technically transmitted to Supabase and briefly stored in logs."],
  ["p", "The legal basis is Art. 6(1)(f) GDPR; my legitimate interest lies in being able to present and manage my works myself. Where Supabase processes data outside the EU, this is based on the European Commission's standard contractual clauses (Art. 46 GDPR). More information: https://supabase.com/privacy"],
  ["h", "5. Language setting"],
- ["p", "The language you choose is saved in your browser's local storage (localStorage) so that it is kept for your next visit. This setting stays on your device and is not transmitted to me or to third parties. You can delete it at any time in your browser settings. The legal basis is Section 25(2) no. 2 of the German TDDDG, as storing it is strictly necessary for the language selection you request."],
+ ["p", "The language follows the address you open: German without an addition, Spanish under /es/, English under /en/. Nothing is stored in your browser for this."],
  ["h", "6. Fonts"],
  ["p", "The font used is stored directly on this website. There is no connection to Google Fonts or any other font provider."],
  ["h", "7. Contact by email"],
@@ -664,7 +665,7 @@ function renderCartoon(){
 function setLang(l){
   if(!L[l])return;
   lang=l;const t=L[l];
-  document.documentElement.lang=l;if(!TUER)document.title=t.pageTitle;else if(letzteId)pfadSync(letzteId);   // auf einer Eingangstür: deren Titel in der neuen Sprache
+  document.documentElement.lang=l;document.title=t.pageTitle;if(letzteId)pfadSync(letzteId);   // Adresse und Titel der neuen Sprache (z. B. /kunst → /es/bellas-artes)
  
   document.querySelectorAll("[data-t]").forEach(e=>{e.textContent=t[e.dataset.t]});
   document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
@@ -683,7 +684,6 @@ function setLang(l){
   $("impText").innerHTML=legal(IMP[l],l);
   $("mailBtn").href="mailto:"+CFG.email;$("mailBtn").innerHTML=MAIL+esc(CFG.email);
   $("contactLines").innerHTML=igHtml;
-  try{localStorage.setItem("lang",l)}catch(e){}
   renderGallery();
 }
 
@@ -708,20 +708,30 @@ const TYP_WORT={cartoon:"Cartoons",illustration:"Illustrationen"};
 const TUER_NAME={kunst:"nKunst",cartoon:"tCartoon",illustration:"tIllu","ueber-mich":"nUeber",kontakt:"nKontakt"};
 const REIHE_WORT={de:{cartoon:"Cartoons von",illustration:"Illustrationen von"},es:{cartoon:"Cartoons de",illustration:"Ilustraciones de"},en:{cartoon:"Cartoons by",illustration:"Illustrations by"}};
 let letzteId=null;
+/* Adressen je Sprache: Deutsch ohne Zusatz (/kunst), Spanisch unter /es/ (/es/bellas-artes), Englisch unter /en/ (/en/fine-art).
+   Reihen (z. B. Breva) heißen in allen Sprachen gleich. Muss zu SLUGS in tools/tueren.py passen. */
+const SLUGS={es:{kunst:"bellas-artes",cartoon:"cartoon",illustration:"ilustracion","ueber-mich":"sobre-mi",kontakt:"contacto"},
+             en:{kunst:"fine-art",cartoon:"cartoon",illustration:"illustration","ueber-mich":"about",kontakt:"contact"}};
+const sprachVorsatz=l=>l==="de"?"":"/"+l;
+const slugIn=(l,k)=>l==="de"?k:SLUGS[l][k];
+const pfadSprache=()=>{const m=location.pathname.match(/^\/(es|en)(\/|\.html$|$)/);return m?m[1]:"de"};
 const TUER_START=window.TUER||null,TUER_START_PFAD=location.pathname;let TUER=TUER_START;
 const tuerH=()=>location.hash.slice(1)||(TUER?TUER.h:"");
 function tuerAusPfad(){   // welche Tür passt zur Adresse (ohne #)?
   if(location.hash)return null;
-  const sl=decodeURIComponent(location.pathname).replace(/^\/+|\/+$/g,"").replace(/\.html$/,"");
+  const l=pfadSprache();
+  let sl=decodeURIComponent(location.pathname).replace(/^\/+|\/+$/g,"").replace(/\.html$/,"");
+  if(l!=="de")sl=sl.replace(/^(es|en)(\/|$)/,"");
   if(!sl||sl==="index")return null;
-  if(TUEREN[sl])return{h:TUEREN[sl][0]};
+  const k=Object.keys(TUEREN).find(k=>slugIn(l,k)===sl);
+  if(k)return{h:TUEREN[k][0]};
   const w=arts.find(a=>a.category==="cartoon"&&a.series&&kurzname(a.series)===sl);
   if(w)return{h:"cartoon/"+(CT[w.cartoon_type]?w.cartoon_type:"cartoon")+"/"+w.series};
   return location.pathname===TUER_START_PFAD?TUER_START:null;
 }
 function tuerPruefen(){   // nach Klick (#…) oder Zurück-Geste: was gilt jetzt?
-  if(location.hash){TUER=null;if(location.pathname!=="/"){try{history.replaceState(null,"","/"+location.search+location.hash)}catch(e){}}}
-  else TUER=tuerAusPfad();
+  if(location.hash){TUER=null;const start=sprachVorsatz(lang)+"/";if(location.pathname!==start){try{history.replaceState(null,"",start+location.search+location.hash)}catch(e){}}}
+  else{TUER=tuerAusPfad();const pl=pfadSprache();if(pl!==lang)setLang(pl)}   // Zurück-Geste in eine andere Sprache
 }
 /* nach jedem Seitenwechsel: schöne Adresse (ohne neuen Verlaufseintrag) und passender Titel */
 function pfadSync(id){
@@ -733,7 +743,7 @@ function pfadSync(id){
     else sl=typ}
   else{const k=Object.keys(TUEREN).find(k=>TUEREN[k][0]===id);if(k)sl=k}
   if(typeof sl==="string"){
-    const ziel="/"+sl;
+    const ziel=sprachVorsatz(lang)+"/"+(sl&&TUEREN[sl]?slugIn(lang,sl):sl);
     if(ziel!==location.pathname||location.hash){try{history.replaceState(null,"",ziel+location.search)}catch(e){}}
     TUER=sl?{h:id==="cartoon"?"cartoon/"+sub[0]+(sub[1]?"/"+sub[1]:""):TUEREN[sl][0]}:null;
     if(!titel&&sl)titel=L[lang][TUER_NAME[sl]]+" – Eva Narváez";
@@ -764,7 +774,7 @@ $("gCartoon").addEventListener("click",e=>{
 const kapAbstand=()=>{const a=document.querySelector("aside");return (a&&getComputedStyle(a).position==="sticky"?a.offsetHeight:0)+24};
 $("foot").addEventListener("click",e=>{if(e.target.closest(".hoch-link"))nachOben()});
 /* Versteckter Zugang: Doppelklick auf © im Footer öffnet den Adminbereich */
-$("foot").addEventListener("dblclick",e=>{if(e.target.id==="copy")location.href="admin.html"});
+$("foot").addEventListener("dblclick",e=>{if(e.target.id==="copy")location.href="/admin.html"});
 
 /* Vergrößerung mit Detailfotos */
 const lb={a:null,i:0,list:[],pos:0};
@@ -837,9 +847,8 @@ async function load(){
   renderGallery();
 }
 
-let l0=null;try{l0=localStorage.getItem("lang")}catch(e){}
-if(!L[l0]){const n=(navigator.language||"de").slice(0,2);l0=L[n]?n:"de"}
-setLang(l0);
+try{localStorage.removeItem("lang")}catch(e){}   // alte gespeicherte Sprachwahl aufräumen: die Sprache steht jetzt in der Adresse
+setLang(pfadSprache());   // die Adresse bestimmt die Sprache (/es/…, /en/…, sonst Deutsch) – keine automatische Umleitung
 go(tuerH());
 load();
 /* Bildschutz: Rechtsklick und Ziehen auf Bildern sperren. Bildschirmfotos lassen sich technisch nicht verhindern. */
