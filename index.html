@@ -7,12 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eva Narváez</title>
 <!-- Vorschau beim Teilen (WhatsApp, iMessage, Facebook …) und Suchmaschinen; URLs zeigen auf narvaez-arts.com -->
-<meta name="description" content="Eva Narváez – Bildende Künstlerin und Illustratorin aus Frankfurt. Malerei, Cartoon und Illustration: Farbe, Emotion und persönliche Erfahrung.">
+<meta name="description" content="Eva Narváez – Bildende Künstlerin und Illustratorin. Malerei, Cartoon und Illustration: Farbe, Emotion und persönliche Erfahrung.">
 <link rel="canonical" href="https://narvaez-arts.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eva Narváez">
 <meta property="og:title" content="Eva Narváez – Bildende Kunst, Cartoon & Illustration">
-<meta property="og:description" content="Eva Narváez – Bildende Künstlerin und Illustratorin aus Frankfurt. Malerei, Cartoon und Illustration: Farbe, Emotion und persönliche Erfahrung.">
+<meta property="og:description" content="Eva Narváez – Bildende Künstlerin und Illustratorin. Malerei, Cartoon und Illustration: Farbe, Emotion und persönliche Erfahrung.">
 <meta property="og:url" content="https://narvaez-arts.com/">
 <meta property="og:image" content="https://narvaez-arts.com/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -607,7 +607,7 @@ function cover(list,href,label,lead=list[0]){
   mitBild.forEach(x=>{const sr=x[0].series;if(sr&&!serien.has(sr)){serien.add(sr);vorn.push(x)}else rest.push(x)});
   const mos=vorn.concat(rest).slice(0,4).map(x=>'<img '+imgAttr(x[0].image_path,400)+' alt="" loading="lazy" decoding="async">').join("");
   const top=(pic?'<span class="cv">'+pic+'</span>':'<span class="cv ph"><span>'+esc(L[lang].tSoon)+'</span></span>')+'<span class="mos">'+mos+'</span><span class="cvt">'+esc(label)+'</span>';
-  return '<a class="cover" href="'+href+'">'+top+'<span class="cvn">'+(n?n+" "+(n===1?w[0]:w[1]):esc(L[lang].tSoon))+'</span></a>';
+  return '<a class="cover" href="'+href+'">'+top+'<span class="cvn">'+(n?'':esc(L[lang].tSoon))+'</span></a>';   // keine Werkzahl, nur „In Arbeit“, solange ein Bereich leer ist
 }
 function renderCartoon(){
   const t=L[lang],box=$("gCartoon"),empty='<p class="note">'+t.empty+'</p>';
@@ -679,18 +679,48 @@ function go(h){
   views.forEach(v=>{v.hidden=v.id!==id});
   links.forEach(a=>a.setAttribute("aria-current",a.dataset.v===id&&(!a.dataset.sub||a.dataset.sub===(sub[0]||"cartoon"))?"page":"false"));
   window.scrollTo(0,0);const m=document.querySelector("main");if(m)m.scrollTop=0;
+  pfadSync(id);
 }
-/* Eingangstüren: eigene Adressen wie /kunst oder /breva. Jede ist eine Kopie dieser Seite (kunst.html usw., erzeugt von
-   tools/tueren.py) mit eigenem Titel für Suchmaschinen; window.TUER.h sagt, was dort aufgeschlagen wird.
-   Wer von dort weiterklickt, bekommt wieder die normale Adresse mit # – zurück zur Tür führt die Zurück-Geste. */
-const TUER0=window.TUER||null,TUER_PFAD=location.pathname,TUER_TITEL=document.title;let TUER=TUER0;
+/* Eingangstüren und echte Adressen: /kunst, /breva usw. statt #kunst. Jede Tür ist eine Kopie dieser Seite (kunst.html usw.,
+   erzeugt von tools/tueren.py) mit eigenem Titel für Suchmaschinen; window.TUER.h sagt dort, was aufgeschlagen wird.
+   Beim Klicken schreibt die Seite dieselben Adressen in die Adresszeile (ohne neu zu laden) – wer sie teilt, teilt die Tür. */
+const kurzname=t=>String(t||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+const TUEREN={kunst:["kunst","Bildende Kunst"],cartoon:["cartoon/cartoon","Cartoon"],illustration:["cartoon/illustration","Illustration"],"ueber-mich":["ueber","Über mich"],kontakt:["kontakt","Kontakt"]};
+const TYP_WORT={cartoon:"Cartoons",illustration:"Illustrationen"};
+const TUER_START=window.TUER||null,TUER_START_PFAD=location.pathname;let TUER=TUER_START;
 const tuerH=()=>location.hash.slice(1)||(TUER?TUER.h:"");
-function tuerPruefen(){
-  if(TUER0&&location.pathname===TUER_PFAD&&!location.hash){TUER=TUER0;document.title=TUER_TITEL;return}
-  if(TUER&&location.hash){TUER=null;document.title=L[lang].pageTitle;try{history.replaceState(null,"","/"+location.search+location.hash)}catch(e){}}
+function tuerAusPfad(){   // welche Tür passt zur Adresse (ohne #)?
+  if(location.hash)return null;
+  const sl=decodeURIComponent(location.pathname).replace(/^\/+|\/+$/g,"").replace(/\.html$/,"");
+  if(!sl||sl==="index")return null;
+  if(TUEREN[sl])return{h:TUEREN[sl][0]};
+  const w=arts.find(a=>a.category==="cartoon"&&a.series&&kurzname(a.series)===sl);
+  if(w)return{h:"cartoon/"+(CT[w.cartoon_type]?w.cartoon_type:"cartoon")+"/"+w.series};
+  return location.pathname===TUER_START_PFAD?TUER_START:null;
+}
+function tuerPruefen(){   // nach Klick (#…) oder Zurück-Geste: was gilt jetzt?
+  if(location.hash){TUER=null;if(location.pathname!=="/"){try{history.replaceState(null,"","/"+location.search+location.hash)}catch(e){}}}
+  else TUER=tuerAusPfad();
+}
+/* nach jedem Seitenwechsel: schöne Adresse (ohne neuen Verlaufseintrag) und passender Titel */
+function pfadSync(id){
+  let sl=null,titel=null;
+  if(id==="home"){sl=""}
+  else if(id==="cartoon"&&!CT[sub[0]]){}   // Übersicht „Cartoon & Illustration“ (am Mac) hat keine eigene Tür: bleibt /#cartoon
+  else if(id==="cartoon"){const typ=sub[0];
+    if(sub[1]){sl=kurzname(sub[1]);titel=sub[1]+" – "+TYP_WORT[typ]+" von Eva Narváez"}
+    else sl=typ}
+  else{const k=Object.keys(TUEREN).find(k=>TUEREN[k][0]===id);if(k)sl=k}
+  if(typeof sl==="string"){
+    const ziel="/"+sl;
+    if(ziel!==location.pathname||location.hash){try{history.replaceState(null,"",ziel+location.search)}catch(e){}}
+    TUER=sl?{h:id==="cartoon"?"cartoon/"+sub[0]+(sub[1]?"/"+sub[1]:""):TUEREN[sl][0]}:null;
+    if(!titel&&sl)titel=TUEREN[sl][1]+" – Eva Narváez";
+  }
+  document.title=TUER&&titel?titel:L[lang].pageTitle;
 }
 window.addEventListener("hashchange",()=>{tuerPruefen();go(tuerH())});
-window.addEventListener("popstate",()=>{if(TUER0&&location.pathname===TUER_PFAD&&!location.hash){tuerPruefen();go(tuerH())}});
+window.addEventListener("popstate",()=>{if(!location.hash){tuerPruefen();go(tuerH())}});   // zwischen Adressen ohne # (z. B. /kunst → /breva)
 const tt=$("toTop");
 /* Knopf erscheint nach etwas Scrollen, Ring zeigt den Fortschritt; sobald die Fußzeile im Bild ist, übernimmt dort der Link */
 const ttStand=tt.querySelector(".stand"),ttUmfang=2*Math.PI*12.5;ttStand.style.strokeDasharray=ttUmfang;
