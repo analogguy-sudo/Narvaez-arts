@@ -349,6 +349,10 @@ html[data-var="c"] #gCartoon{grid-template-columns:repeat(auto-fill,minmax(min(2
  html[data-var="c"] #lbMeta,html[data-var="c"] #lbBand .sl-meta{font-size:clamp(12.5px,3.5vw,15px)}
  html[data-var="c"] #lbDesc{font-size:clamp(13.5px,3.8vw,16px)}
 }
+/* Instagram-Einladung am Ende eines Bereichs */
+.ig-einladung{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:6px 16px;margin:clamp(40px,7vh,72px) auto 0;padding-top:22px;border-top:1px solid var(--line);width:100%;max-width:560px;text-align:center;color:var(--muted);font-size:14px;letter-spacing:.04em}
+.ig-einladung a{color:var(--goldtext);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;font-size:12.5px;border-bottom:1px solid currentColor;padding-bottom:3px}
+.ig-einladung a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -437,7 +441,7 @@ const MAIL='<svg class="ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y
 
 const L={
 de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Künstlerin\n& Illustratorin",
- toTop:"Nach oben",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tEinzel:"Einzelwerke",tAlle:"Alle ansehen",tZurueck:"Zurück",tWeniger:"Weniger",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
+ toTop:"Nach oben",tIg:"Mehr davon – neue Bilder zuerst auf Instagram",tHome:"Home",tIllu:"Illustration",tSoon:"In Arbeit",tEinzel:"Einzelwerke",tAlle:"Alle ansehen",tZurueck:"Zurück",tWeniger:"Weniger",tKunst:"Kunst",tCartoon:"Cartoon",tUeber:"Über mich",tKontakt:"Kontakt",nHome:"Home",nKunst:"Bildende Kunst",nCartoon:"Cartoon & Illustration",nUeber:"Über mich",nKontakt:"Kontakt",
  homeTitle:"Farbe, Emotion und persönliche Erfahrung",homeIntro:"Bildende Kunst, Cartoon und Illustration.",
  hKunst:"Bildende Kunst",mEn:"Enkaustik",ctC:"Cartoon",ctI:"Illustration",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",mMore:"Weitere Werke",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
@@ -448,7 +452,7 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
  "Mit meiner Kunst möchte ich Farben, Emotionen und persönliche Erfahrungen zum Ausdruck bringen und die Betrachter dazu einladen, die Welt aus meiner ganz eigenen Perspektive zu entdecken."]},
 es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plástica\ne ilustradora",
- toTop:"Volver arriba",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tEinzel:"Obras sueltas",tAlle:"Ver todos",tZurueck:"Volver",tWeniger:"Menos",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
+ toTop:"Volver arriba",tIg:"Más como esto – lo nuevo, primero en Instagram",tHome:"Inicio",tIllu:"Ilustración",tSoon:"En proceso",tEinzel:"Obras sueltas",tAlle:"Ver todos",tZurueck:"Volver",tWeniger:"Menos",tKunst:"Arte",tCartoon:"Cartoon",tUeber:"Sobre mí",tKontakt:"Contacto",nHome:"Inicio",nKunst:"Bellas Artes",nCartoon:"Cartoon e ilustración",nUeber:"Sobre mí",nKontakt:"Contacto",
  homeTitle:"Color, emoción y experiencia personal",homeIntro:"Bellas Artes, cartoon e ilustración.",
  hKunst:"Bellas Artes",mEn:"Encáustica",ctC:"Cartoon",ctI:"Ilustración",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",mMore:"Otras obras",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
@@ -459,7 +463,7 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
  "Con mi arte quiero expresar colores, emociones y experiencias personales, e invitar a quienes lo contemplan a descubrir el mundo desde mi perspectiva muy personal."]},
 en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& illustrator",
- toTop:"Back to top",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tEinzel:"Single works",tAlle:"View all",tZurueck:"Back",tWeniger:"Less",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
+ toTop:"Back to top",tIg:"More of this – new work first on Instagram",tHome:"Home",tIllu:"Illustration",tSoon:"In progress",tEinzel:"Single works",tAlle:"View all",tZurueck:"Back",tWeniger:"Less",tKunst:"Art",tCartoon:"Cartoon",tUeber:"About",tKontakt:"Contact",nHome:"Home",nKunst:"Fine Art",nCartoon:"Cartoon & Illustration",nUeber:"About me",nKontakt:"Contact",
  homeTitle:"Colour, emotion and personal experience",homeIntro:"Fine art, cartoon and illustration.",
  hKunst:"Fine Art",mEn:"Encaustic",ctC:"Cartoon",ctI:"Illustration",mAq:"Watercolour",mAc:"Acrylic",mCo:"Collage",mMore:"Other works",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
@@ -590,6 +594,9 @@ function renderFav(){
 const AUSWAHL=4,openC=new Set();
 const MED={aquarell:"mAq",acryl:"mAc",collage:"mCo",enkaustik:"mEn"},CT={cartoon:"ctC",illustration:"ctI"},openG=new Set();
 const cards=l=>l.map(([a,i])=>card(a,i)).join("");
+/* Am Ende eines Bereichs: leise Einladung zu Instagram – nur ein Link, kein eingebetteter Feed (keine Daten an Meta) */
+const igEinl=key=>{const a=CFG.insta.find(x=>x.key===key);if(!a)return"";const h=a.handle.replace(/^@/,"");
+  return '<p class="ig-einladung"><span>'+esc(L[lang].tIg)+'</span><a href="https://instagram.com/'+h+'" target="_blank" rel="noopener">@'+esc(h)+' →</a></p>'};
 function renderGallery(){
   renderFav();
   const t=L[lang],box=$("gKunst");
@@ -603,6 +610,7 @@ function renderGallery(){
         return '<h2 class="sub"><span class="acc">'+esc(t[m?MED[m]:"mMore"])+'<span class="cnt">'+g.length+'</span></span></h2><div class="tiles grp'+(o?" alle":"")+'" id="grp-'+(m||"mehr")+'">'+kacheln+
           (mehr?'<button type="button" class="alle-btn" data-m="'+m+'" aria-expanded="'+o+'" aria-controls="grp-'+(m||"mehr")+'">'+esc(o?t.tWeniger:t.tAlle+" ("+g.length+")")+'</button>':"")+'</div>'}).join("")
       :cards(list);
+  if(state==="ok"&&list.length)box.insertAdjacentHTML("beforeend",igEinl("nKunst"));
   renderCartoon();
 }
 $("gKunst").addEventListener("click",e=>{const b=e.target.closest(".alle-btn");if(!b)return;const g=b.parentNode,o=!g.classList.contains("alle"),t=L[lang];
@@ -640,7 +648,7 @@ function renderCartoon(){
   const reihen=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y));
   const sprungC=akt=>reihen.length>1?'<nav class="sprung" aria-label="'+esc(t[CT[type]])+'">'+reihen.map(n=>'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'"'+(n===akt?' aria-current="page"':'')+'>'+esc(n)+'</a>').join('<span aria-hidden="true">·</span>')+'</nav>':'';
   if(ser&&document.documentElement.dataset.var==="c"){const g=inType.filter(([a])=>a.series===ser),zur='<a href="#cartoon/'+type+'">'+esc(t.tZurueck)+'</a>';
-    box.innerHTML=sprungC(ser)+'<h2 class="kapitel"><span>'+esc(ser)+'</span>'+zur+'</h2>'+(g.length?cards(g):empty)+(g.length>AUSWAHL?'<p class="alle">'+zur+'</p>':'');return}
+    box.innerHTML=sprungC(ser)+'<h2 class="kapitel"><span>'+esc(ser)+'</span>'+zur+'</h2>'+(g.length?cards(g):empty)+(g.length>AUSWAHL?'<p class="alle">'+zur+'</p>':'')+(g.length?igEinl("nCartoon"):'');return}
   if(ser){const g=inType.filter(([a])=>a.series===ser);box.innerHTML=crumbs+(g.length?cards(g):empty);return}
   if(document.documentElement.dataset.var==="c"){   // Werke direkt zeigen, Serien als Kapitel – keine Zwischenseite „Serie · 4 Werke“
     const ser2=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),einzeln=inType.filter(([a])=>!a.series);
@@ -652,7 +660,7 @@ function renderCartoon(){
       // „Alle ansehen“ öffnet die Reihe für sich – dort kommt danach keine andere Reihe mehr
       return '<h2 class="kapitel" id="kap'+k+'"><span>'+esc(n)+'</span>'+(mehr?'<a href="#cartoon/'+type+'/'+encodeURIComponent(n)+'">'+esc(t.tAlle)+'</a>':'')+'</h2>'+cards(l.slice(0,AUSWAHL))};
     const sprung=sprungC(null);
-    box.innerHTML=sprung+gruppen.map(kap).join("")+(inType.length?'':'<p class="note ruhig">'+esc(t.tSoon)+'</p>');
+    box.innerHTML=sprung+gruppen.map(kap).join("")+(inType.length?igEinl("nCartoon"):'<p class="note ruhig">'+esc(t.tSoon)+'</p>');
     box.querySelectorAll(".rest .tile").forEach(x=>x.classList.add("in"));
     return}
   const series=[...new Set(inType.map(([a])=>a.series).filter(Boolean))].sort((x,y)=>x.localeCompare(y)),loose=inType.filter(([a])=>!a.series);
