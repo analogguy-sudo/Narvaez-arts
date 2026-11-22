@@ -199,7 +199,7 @@ dialog::backdrop{background:var(--page)}
 #lb.band #lbImg{display:none}
 #lb.band #lbBand{display:flex;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 #lbBand::-webkit-scrollbar{display:none}
-#lbBand .sl{flex:0 0 100%;height:100%;display:flex;flex-direction:column;align-items:center;scroll-snap-align:center;scroll-snap-stop:always}
+#lbBand .sl{flex:0 0 100%;height:100%;display:flex;flex-direction:column;align-items:center;scroll-snap-align:center;scroll-snap-stop:always;contain:layout paint}   /* jede Folie für sich zeichnen: ruhigeres Wischen */
 #lbBand .sl-bild{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
 #lbBand img{max-width:calc(100% - 16px);max-height:100%;object-fit:contain}
 /* Titel und Angaben gehören fest zum Bild und wischen mit – nichts zieht nach */
@@ -823,8 +823,20 @@ function bandBauen(){
   band.innerHTML=flach.map((f,j)=>{const a=arts[f[0]],ti=a["title_"+lang]||a.title_de||"",n=photos(a).length,de=a["description_"+lang]||a.description_de||"";
     const nr=N>1?"  ·  "+(f[1]+1)+" / "+N:n>1?"  ·  "+(f[2]+1)+" / "+n:"";
     return '<div class="sl"><div class="sl-bild"><img data-j="'+j+'" alt="'+esc(ti)+'" draggable="false"></div><div class="sl-text"><div class="sl-cap">'+esc(ti+nr)+'</div>'+(meta(a)?'<div class="sl-meta">'+esc(meta(a))+'</div>':'')+(de?'<div class="sl-desc">'+esc(de)+'</div>':'')+'</div></div>'}).join("")}
-function bandLaden(j){for(const x of [j,j+1,j-1,j+2,j+3,j-2]){const f=flach[x],im=f&&band.children[x].querySelector("img");if(im&&!im.getAttribute("src")){im.decoding="async";im.onerror=()=>{im.onerror=null;im.src=imgURL(f[3])};im.src=imgW(f[3],1200)}}}
-function bandGehe(j,weich){bandLaden(j);ziel=weich?j:-1;band.scrollTo({left:j*band.clientWidth,behavior:weich?"smooth":"instant"})}
+function bandLaden(j){for(const x of [j,j+1,j-1,j+2,j+3,j-2]){const f=flach[x],im=f&&band.children[x].querySelector("img");if(im&&!im.getAttribute("src")){im.decoding="async";im.onerror=()=>{im.onerror=null;im.src=imgURL(f[3])};im.src=imgW(f[3],1200);if(im.decode)im.decode().catch(()=>{})}}}   // vorab entschlüsseln: kein Ruckeln, wenn das Bild ins Bild gleitet
+/* Zum Bild j: ohne Animation (Öffnen) oder weich (Pfeile). Das weiche Gleiten macht die Seite selbst: scrollTo(smooth) bleibt in
+   Safari/Chrome am Handy an der Einrast-Funktion (scroll-snap) hängen – die Pfeile taten dann nichts. Während der Animation ist das
+   Einrasten kurz aus, danach wieder an. */
+let gleit=0;
+function bandGehe(j,weich){bandLaden(j);ziel=weich?j:-1;const zielX=j*band.clientWidth;cancelAnimationFrame(gleit);
+  if(!weich||matchMedia("(prefers-reduced-motion: reduce)").matches){band.style.scrollSnapType="";band.scrollTo({left:zielX,behavior:"instant"});if(weich)bandSteht();return}
+  const vonX=band.scrollLeft,weg=zielX-vonX,dauer=Math.min(480,260+Math.abs(weg)/band.clientWidth*90),t0=performance.now();
+  band.style.scrollSnapType="none";
+  const schritt=t=>{const x=Math.min(1,(t-t0)/dauer),e=1-Math.pow(1-x,3);band.scrollLeft=vonX+weg*e;
+    if(x<1)gleit=requestAnimationFrame(schritt);else{band.scrollLeft=zielX;band.style.scrollSnapType="";bandSteht()}};
+  gleit=requestAnimationFrame(schritt)}
+/* Wischen bricht eine laufende Pfeil-Animation ab, damit sich nichts in die Quere kommt */
+band.addEventListener("touchstart",()=>{if(band.style.scrollSnapType==="none"){cancelAnimationFrame(gleit);band.style.scrollSnapType=""}},{passive:true});
 /* Während des Wischens nichts am Layout ändern (Safari rastet sonst aufs alte Bild zurück) – Titel erst tauschen, wenn das Band steht */
 let ruhe=0;
 function bandSteht(){clearTimeout(ruhe);const w=band.clientWidth;if(!w||!flach.length)return;const j=Math.round(band.scrollLeft/w);if(j===ziel)ziel=-1;if(j===cur||!flach[j])return;
