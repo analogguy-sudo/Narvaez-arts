@@ -109,7 +109,9 @@ def main():
     json.dump(neu, open(LISTE, "w"), indent=1)
 
     zeilen = [f"  <url><loc>{SEITE}/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>"]
-    zeilen += [f"  <url><loc>{SEITE}/{s}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>" for s in neu]
+    # leere Bereiche (z. B. „Illustration“, solange es keine gibt) nicht bei Google anmelden – die Tür selbst bleibt, damit alte Links funktionieren
+    leer = set() if any(w.get("category") == "cartoon" and w.get("cartoon_type") == "illustration" for w in werke) else {"illustration"}
+    zeilen += [f"  <url><loc>{SEITE}/{s}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>" for s in neu if s not in leer]
     with open(os.path.join(WURZEL, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(zeilen) + "\n</urlset>\n")
     print("Türen:", ", ".join(neu))
