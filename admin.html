@@ -123,8 +123,10 @@ button:disabled{opacity:.5;cursor:wait}
 
 <p id="status" role="status" aria-live="polite"></p>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
-<script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"><\/script>')</script>
+<!-- Supabase-Bibliothek liegt direkt auf dieser Seite (offizielle Datei aus npm, Version 2.49.4, Prüfsumme geprüft) – keine fremden Server nötig.
+     Nur falls sie einmal nicht lädt, kommt sie ersatzweise von jsdelivr. -->
+<script src="vendor/supabase-js-2.49.4/supabase.js"></script>
+<script>window.supabase||document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"><\/script>')</script>
 <script>
 const L={
 de:{mEn:"Enkaustik",lCt:"Rubrik *",ctC:"Cartoon",ctI:"Illustration",lSeries:"Reihe (optional, z. B. Breva)",ctGroup:"Rubrik",seriesL:"Reihe",needCt:"Bitte bei Cartoon & Illustration wählen: Cartoon oder Illustration.",lMed:"Technik-Gruppe *",medN:"– bitte wählen –",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",medGroup:"Technik-Gruppe",needMed:"Bitte bei Bildender Kunst die Technik-Gruppe wählen (Aquarell, Acryl oder Collage).",pageTitle:"Admin – Eva Narváez",title:"Werke verwalten",intro:"Neue Werke erscheinen sofort auf der Homepage.",back:"← Zurück zur Homepage",login:"Anmelden",email:"E-Mail",pw:"Passwort",loginBtn:"Anmelden",magic:"Anmeldelink per E-Mail senden",logout:"Abmelden",hPortrait:"Portrait auf der Kontaktseite",lPortrait:"Portraitfoto (Hochformat)",bPortrait:"Portrait ersetzen",hNew:"Neues Werk",lCat:"Kategorie *",catK:"Bildende Kunst",catC:"Cartoon & Illustration",nImg:"Das Foto wird automatisch auf höchstens 1600 Pixel verkleinert.",lDet:"Detailfotos (optional, mehrere möglich)",hTitle:"Titel",hTech:"Technik (optional)",lFmt:"Format (optional)",lYr:"Jahr (optional)",hDesc:"Beschreibung (optional, freier Text)",phDesc:"z. B. Gedanken zum Werk",lPrice:"Preis in € (optional, leer = kein Preis sichtbar)",lAvail:"Status",avN:"Keine Angabe",avT:"Verfügbar",avF:"Verkauft",lSort:"Reihenfolge",nFill:"Spanisch und Englisch werden mit dem deutschen Text gefüllt, wenn du sie leer lässt. Kleinere Reihenfolge-Zahlen stehen weiter vorn.",go:"Veröffentlichen",hList:"Bereits veröffentlicht",loading:"Wird geladen …",
