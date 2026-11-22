@@ -95,6 +95,8 @@ nav a[hidden]{display:none!important}   /* z. B. „Illustration“, solange es 
 .tiles .grp{grid-column:1/-1}
 .acc{all:unset;display:flex;align-items:baseline;gap:10px;width:100%;cursor:default}
 .acc .cnt{display:none}
+.alle-btn{all:unset;display:none;grid-column:1/-1;justify-self:center;margin:6px 0 0;padding:12px 20px;border:1px solid var(--line);cursor:pointer;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--goldtext)}
+.alle-btn:hover,.alle-btn:focus-visible{border-color:var(--goldtext)}
 .fields{grid-column:1/-1;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:24px;width:100%;max-width:820px;margin:0 auto 12px}
 .field{display:flex;align-items:center;justify-content:center;min-height:170px;padding:24px;border:1px solid var(--line);color:var(--ink);text-decoration:none;text-transform:uppercase;font-size:clamp(15px,1.6vw,19px);font-weight:300;letter-spacing:.2em;text-align:center;transition:border-color .3s,color .3s}
 .field:hover,.field:focus-visible{border-color:var(--goldtext);color:var(--goldtext)}
@@ -270,9 +272,11 @@ dialog::backdrop{background:var(--page)}
  #home{min-height:0}
  .fav .zoom img{max-height:62vh}
  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 16px}
- .acc{cursor:pointer}.acc .cnt{display:inline;font-size:12px;color:var(--muted)}.acc::after{content:"+";margin-left:auto;font-size:22px;line-height:1}
+ .acc .cnt{display:inline;font-size:12px;color:var(--muted)}
  .tiles h2.sub{margin:4px 0 -14px;padding:12px 0}
- .tiles h2.sub.open .acc::after{content:"–"}.tiles h2.sub:not(.open)+.grp{display:none}
+ /* Rubriken am Handy: immer offen, die ersten 4 Werke als Vorschau, der Rest hinter „Alle ansehen (n)“ */
+ .grp:not(.alle) .tile.extra{display:none}
+ .alle-btn{display:block}
  .field{min-height:110px}
  .lb-in{flex-direction:column;gap:12px;padding:52px 8px 16px}.lb-n{top:auto;bottom:70px;transform:none}
  .lb-pic{max-width:100%}#lbImg{max-height:calc(100vh - 250px)}
@@ -586,21 +590,27 @@ function renderFav(){
 }
 /* Bildende Kunst nach Technik gliedern (Spalte medium); auf dem Handy aufklappbar */
 const AUSWAHL=4,openC=new Set();
-const MED={aquarell:"mAq",acryl:"mAc",collage:"mCo",enkaustik:"mEn"},CT={cartoon:"ctC",illustration:"ctI"},openG=new Set();let openInit=false;
+const MED={aquarell:"mAq",acryl:"mAc",collage:"mCo",enkaustik:"mEn"},CT={cartoon:"ctC",illustration:"ctI"},openG=new Set();
 const cards=l=>l.map(([a,i])=>card(a,i)).join("");
 function renderGallery(){
   renderFav();
   const t=L[lang],box=$("gKunst");
   const list=arts.map((a,i)=>[a,i]).filter(([a])=>(a.category||"kunst")==="kunst");
-  if(!openInit&&state==="ok"){openInit=true;if(list.length<=12)[...Object.keys(MED),""].forEach(m=>openG.add(m))}   // bis 12 Werke: alles gleich sichtbar
   box.innerHTML=state!=="ok"?'<p class="note">'+(state==="loading"?t.loading:t.error+" ("+esc(err)+")")+'</p>'
     :!list.length?'<p class="note">'+t.empty+'</p>'
     :list.some(([a])=>MED[a.medium])
-      ?[...Object.keys(MED),""].map(m=>{const g=list.filter(([a])=>(MED[a.medium]?a.medium:"")===m),o=openG.has(m);return g.length?'<h2 class="sub'+(o?" open":"")+'"><button type="button" class="acc" data-m="'+m+'" aria-expanded="'+o+'">'+esc(t[m?MED[m]:"mMore"])+'<span class="cnt">'+g.length+'</span></button></h2><div class="tiles grp">'+cards(g)+'</div>':""}).join("")
+      ?[...Object.keys(MED),""].map(m=>{const g=list.filter(([a])=>(MED[a.medium]?a.medium:"")===m),o=openG.has(m),mehr=g.length>AUSWAHL;
+        if(!g.length)return"";
+        const kacheln=g.map(([a,i],k)=>{const c=card(a,i);return k<AUSWAHL?c:c.replace('class="tile"','class="tile extra"')}).join("");
+        return '<h2 class="sub"><span class="acc">'+esc(t[m?MED[m]:"mMore"])+'<span class="cnt">'+g.length+'</span></span></h2><div class="tiles grp'+(o?" alle":"")+'" id="grp-'+(m||"mehr")+'">'+kacheln+
+          (mehr?'<button type="button" class="alle-btn" data-m="'+m+'" aria-expanded="'+o+'" aria-controls="grp-'+(m||"mehr")+'">'+esc(o?t.tWeniger:t.tAlle+" ("+g.length+")")+'</button>':"")+'</div>'}).join("")
       :cards(list);
   renderCartoon();
 }
-$("gKunst").addEventListener("click",e=>{const b=e.target.closest(".acc");if(!b)return;const h=b.parentNode,o=!h.classList.contains("open");h.classList.toggle("open",o);b.setAttribute("aria-expanded",o);o?openG.add(b.dataset.m):openG.delete(b.dataset.m)});
+$("gKunst").addEventListener("click",e=>{const b=e.target.closest(".alle-btn");if(!b)return;const g=b.parentNode,o=!g.classList.contains("alle"),t=L[lang];
+  g.classList.toggle("alle",o);b.setAttribute("aria-expanded",o);o?openG.add(b.dataset.m):openG.delete(b.dataset.m);
+  b.textContent=o?t.tWeniger:t.tAlle+" ("+g.querySelectorAll(".tile").length+")";
+  if(!o)g.previousElementSibling.scrollIntoView({block:"start"})});   // bei „Weniger“ zurück zur Rubrik, statt mitten in der Liste zu stehen
 
 /* Cartoon & Illustration: erst Felder (Cartoon/Illustration), dann Reihen (z. B. Breva), dann Bilder */
 let sub=[];
