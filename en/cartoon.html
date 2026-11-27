@@ -82,11 +82,11 @@ h1{margin:0 0 clamp(40px,7vh,80px);font-size:clamp(26px,3.2vw,44px);font-weight:
 .text{max-width:640px;width:100%;font-size:17px;line-height:1.85}
 .text p{margin:0 0 18px}
 .portrait{margin:40px auto;height:min(36vh,340px);width:auto;max-width:100%;display:block}
-#privText,#impText{font-size:15.5px;overflow-wrap:anywhere}
+#privText,#impText,#rightsText{font-size:15.5px;overflow-wrap:anywhere}
 nav a[hidden]{display:none!important}   /* z. B. „Illustration“, solange es noch keine gibt */
-#privText .addr,#impText .addr{display:inline-block;color:#6e695e}   /* Anschrift in normaler Größe: das Impressum muss gut lesbar sein */
-#privText h2,#impText h2{margin:34px 0 8px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:400;color:var(--ink)}
-#privText a,#impText a,#contactLines a{color:var(--goldtext)}
+#privText .addr,#impText .addr,#rightsText .addr{display:inline-block;color:#6e695e}   /* Anschrift in normaler Größe: das Impressum muss gut lesbar sein */
+#privText h2,#impText h2,#rightsText h2{margin:34px 0 8px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:400;color:var(--ink)}
+#privText a,#impText a,#rightsText a,#contactLines a{color:var(--goldtext)}
 
 /* Werkübersicht: großzügiges Raster, Angaben klein und ruhig */
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:clamp(48px,7vh,88px) clamp(28px,3.5vw,56px);width:100%;align-items:start}
@@ -357,6 +357,7 @@ html[data-var="c"] #gCartoon{grid-template-columns:repeat(auto-fill,minmax(min(2
 .ig-einladung a{color:var(--goldtext);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;font-size:12.5px;border-bottom:1px solid currentColor;padding-bottom:3px}
 .ig-einladung a:hover{color:var(--ink)}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ImageGallery", "name": "Cartoon – Eva Narváez", "url": "https://narvaez-arts.com/en/cartoon", "inLanguage": "en", "author": {"@type": "Person", "name": "Eva Narváez", "url": "https://narvaez-arts.com/"}, "image": [{"@type": "ImageObject", "contentUrl": "https://owbbsnujnkhyyqvagtai.supabase.co/storage/v1/render/image/public/artworks/8e54b3f9-c15f-41c3-b2c7-50f07e6987e1-Kunstwerk_2730.jpg?width=1600&height=4800&resize=contain&quality=80", "name": "mother's love", "creator": {"@type": "Person", "name": "Eva Narváez", "url": "https://narvaez-arts.com/"}, "creditText": "Eva Narváez", "copyrightNotice": "© Eva Narváez – All rights reserved", "license": "https://narvaez-arts.com/en/image-rights", "acquireLicensePage": "https://narvaez-arts.com/en/image-rights", "dateCreated": "2023"}, {"@type": "ImageObject", "contentUrl": "https://owbbsnujnkhyyqvagtai.supabase.co/storage/v1/render/image/public/artworks/5cada310-f283-4d4e-aabb-3994938ebcbd-Kunstwerk_2732.jpg?width=1600&height=4800&resize=contain&quality=80", "name": "I'm gonna kill you!", "creator": {"@type": "Person", "name": "Eva Narváez", "url": "https://narvaez-arts.com/"}, "creditText": "Eva Narváez", "copyrightNotice": "© Eva Narváez – All rights reserved", "license": "https://narvaez-arts.com/en/image-rights", "acquireLicensePage": "https://narvaez-arts.com/en/image-rights", "caption": "marker", "dateCreated": "2016"}, {"@type": "ImageObject", "contentUrl": "https://owbbsnujnkhyyqvagtai.supabase.co/storage/v1/render/image/public/artworks/7393a0a9-8e08-4ade-9a77-871ff088f130-Kunstwerk_2731.jpg?width=1600&height=4800&resize=contain&quality=80", "name": "liitle whirlwind", "creator": {"@type": "Person", "name": "Eva Narváez", "url": "https://narvaez-arts.com/"}, "creditText": "Eva Narváez", "copyrightNotice": "© Eva Narváez – All rights reserved", "license": "https://narvaez-arts.com/en/image-rights", "acquireLicensePage": "https://narvaez-arts.com/en/image-rights", "dateCreated": "2023"}, {"@type": "ImageObject", "contentUrl": "https://owbbsnujnkhyyqvagtai.supabase.co/storage/v1/render/image/public/artworks/c49526e0-41cc-4fd4-af90-35af5e4f6531-a9e7c7c1c254426ea7bedc7c0ed1dc8d.jpg?width=1600&height=4800&resize=contain&quality=80", "name": "Magenvirus", "creator": {"@type": "Person", "name": "Eva Narváez", "url": "https://narvaez-arts.com/"}, "creditText": "Eva Narváez", "copyrightNotice": "© Eva Narváez – All rights reserved", "license": "https://narvaez-arts.com/en/image-rights", "acquireLicensePage": "https://narvaez-arts.com/en/image-rights", "caption": "digital"}]}</script>
 </head>
 <body>
 <div class="wrap">
@@ -414,6 +415,10 @@ html[data-var="c"] #gCartoon{grid-template-columns:repeat(auto-fill,minmax(min(2
       <h1 data-t="nImp"></h1>
       <div class="text" id="impText"></div>
     </section>
+    <section class="view" id="bildrechte" hidden>
+      <h1 data-t="nRights"></h1>
+      <div class="text" id="rightsText"></div>
+    </section>
   </main>
 </div>
 <footer id="foot"></footer>
@@ -449,7 +454,7 @@ de:{pageTitle:"Eva Narváez – Bildende Kunst & Illustration",sub:"Bildende Kü
  hKunst:"Bildende Kunst",mEn:"Enkaustik",ctC:"Cartoon",ctI:"Illustration",mAq:"Aquarell",mAc:"Acryl",mCo:"Collage",mMore:"Weitere Werke",hCartoon:"Cartoon & Illustration",hUeber:"Über mich",hKontakt:"Kontakt",
  contactText:"Ich freue mich über Ihre Nachricht.",
  loading:"Werke werden geladen …",empty:"Hier sind noch keine Werke.",error:"Die Werke konnten nicht geladen werden",
- fContact:"Kontakt",fMail:"E-Mail",nPriv:"Datenschutz",nImp:"Impressum",
+ fContact:"Kontakt",fMail:"E-Mail",nPriv:"Datenschutz",nImp:"Impressum",nRights:"Bildrechte",
  about:["Ich heiße Eva Narváez und komme aus Cádiz, Spanien. Ich habe Bildende Kunst an der Universität Alonso Cano in Granada studiert, wo ich meine künstlerischen Fähigkeiten weiterentwickelt und meinen eigenen Stil gefunden habe.",
  "Anschließend verbrachte ich ein Jahr in Dublin, wo ich mich mit Sketching beschäftigte und neue Inspirationen und Eindrücke sammeln konnte.",
  "Meine Arbeiten durfte ich bereits bei zwei Vernissagen in Chiclana de la Frontera präsentieren: „Color y Vida“ und „Perfectamente Imperfecta“. Beide Ausstellungen waren für mich eine besondere Gelegenheit, meine Kreativität und meine Leidenschaft für die Kunst mit anderen Menschen zu teilen.",
@@ -460,7 +465,7 @@ es:{pageTitle:"Eva Narváez – Bellas Artes e ilustración",sub:"Artista plást
  hKunst:"Bellas Artes",mEn:"Encáustica",ctC:"Cartoon",ctI:"Ilustración",mAq:"Acuarela",mAc:"Acrílico",mCo:"Collage",mMore:"Otras obras",hCartoon:"Cartoon e ilustración",hUeber:"Sobre mí",hKontakt:"Contacto",
  contactText:"Me alegrará recibir su mensaje.",
  loading:"Cargando obras …",empty:"Todavía no hay obras aquí.",error:"No se pudieron cargar las obras",
- fContact:"Contacto",fMail:"Correo",nPriv:"Privacidad",nImp:"Aviso legal",
+ fContact:"Contacto",fMail:"Correo",nPriv:"Privacidad",nImp:"Aviso legal",nRights:"Derechos de imagen",
  about:["Me llamo Eva Narváez y soy de Cádiz, España. Estudié Bellas Artes en la Universidad Alonso Cano de Granada, donde desarrollé mis habilidades artísticas y encontré mi propio estilo.",
  "Después pasé un año en Dublín, donde me dediqué al sketching y pude recoger nuevas inspiraciones e impresiones.",
  "Ya he podido presentar mi trabajo en dos exposiciones en Chiclana de la Frontera: “Color y Vida” y “Perfectamente Imperfecta”. Ambas fueron para mí una ocasión especial para compartir mi creatividad y mi pasión por el arte con otras personas.",
@@ -471,7 +476,7 @@ en:{pageTitle:"Eva Narváez – Fine Art & Illustration",sub:"Visual artist\n& i
  hKunst:"Fine Art",mEn:"Encaustic",ctC:"Cartoon",ctI:"Illustration",mAq:"Watercolour",mAc:"Acrylic",mCo:"Collage",mMore:"Other works",hCartoon:"Cartoon & Illustration",hUeber:"About me",hKontakt:"Contact",
  contactText:"I look forward to hearing from you.",
  loading:"Loading artworks …",empty:"No works here yet.",error:"The artworks could not be loaded",
- fContact:"Contact",fMail:"Email",nPriv:"Privacy",nImp:"Legal notice",
+ fContact:"Contact",fMail:"Email",nPriv:"Privacy",nImp:"Legal notice",nRights:"Image rights",
  about:["My name is Eva Narváez and I come from Cádiz, Spain. I studied Fine Arts at the Universidad Alonso Cano in Granada, where I developed my artistic skills and found my own style.",
  "I then spent a year in Dublin, where I focused on sketching and was able to gather new inspiration and impressions.",
  "I have already had the chance to present my work at two exhibition openings in Chiclana de la Frontera: “Color y Vida” and “Perfectamente Imperfecta”. Both exhibitions were a special opportunity for me to share my creativity and my passion for art with other people.",
@@ -568,6 +573,29 @@ en:[["h", "Contact"],
  ["h", "Liability for links"],
  ["p", "This website contains links to external sites (e.g. Instagram) whose content I have no control over. The respective provider is responsible for that content. If I become aware of any infringement, I will remove the links concerned immediately."],
  ["p", "In case of doubt, the German version prevails."]]};
+/* Bildrechte: alle Rechte vorbehalten, keine freie Lizenz; Anfragen per E-Mail. Die Angaben für Suchmaschinen (license) verweisen hierher. */
+const RIGHTS={
+de:[["h", "Urheberrecht und Bildnutzung"],
+ ["p", "© Eva Narváez – Alle Rechte vorbehalten."],
+ ["p", "Sämtliche Werke, Fotos der Werke und Texte auf dieser Website sind urheberrechtlich geschützt. Eine Nutzung, Vervielfältigung, Bearbeitung, Verbreitung oder erneute Veröffentlichung durch Dritte ist ohne meine vorherige ausdrückliche Zustimmung nicht gestattet, soweit keine gesetzliche Erlaubnis besteht."],
+ ["p", "Das gilt insbesondere für die Übernahme auf andere Websites, in soziale Netzwerke, in Printmedien, für Drucke und Merchandising oder für kommerzielle Zwecke. Die öffentliche Darstellung meiner Werke stellt keine Erlaubnis zur Weiterverwendung dar."],
+ ["h", "Anfragen zu Nutzungsrechten"],
+ ["p", "Für Anfragen zu Nutzungsrechten schreiben Sie mir bitte an {mail}. Eine Anfrage oder Kontaktaufnahme allein begründet noch keine Nutzungserlaubnis."],
+ ["p", "Stand: November 2026"]],
+es:[["h", "Derechos de autor y uso de imágenes"],
+ ["p", "© Eva Narváez – Todos los derechos reservados."],
+ ["p", "Todas las obras, las fotografías de las obras y los textos de este sitio web están protegidos por derechos de autor. No se permite su uso, reproducción, modificación, distribución ni nueva publicación por terceros sin mi autorización previa y expresa, salvo que la ley lo permita."],
+ ["p", "Esto se aplica en particular a su uso en otros sitios web, en redes sociales, en medios impresos, para impresiones y merchandising o con fines comerciales. Que mis obras se muestren públicamente no supone ningún permiso para reutilizarlas."],
+ ["h", "Solicitudes de derechos de uso"],
+ ["p", "Para solicitar derechos de uso, escríbame a {mail}. Una solicitud o un contacto por sí solos no otorgan ningún permiso de uso."],
+ ["p", "Actualizado: noviembre de 2026. En caso de duda, prevalece la versión alemana."]],
+en:[["h", "Copyright and use of images"],
+ ["p", "© Eva Narváez – All rights reserved."],
+ ["p", "All artworks, photographs of the artworks and texts on this website are protected by copyright. Third parties may not use, reproduce, edit, distribute or republish them without my prior express consent, unless permitted by law."],
+ ["p", "This applies in particular to use on other websites, on social networks, in print media, for prints and merchandise or for commercial purposes. Showing my works publicly does not grant permission to reuse them."],
+ ["h", "Requests for usage rights"],
+ ["p", "For requests concerning usage rights, please write to me at {mail}. A request or getting in touch does not in itself grant any permission to use a work."],
+ ["p", "Last updated: November 2026. In case of doubt, the German version prevails."]]};
 
 const $=id=>document.getElementById(id);
 let lang="de",arts=[],state="loading",err="";
@@ -686,10 +714,11 @@ function setLang(l){
   // Fußzeile schlank: oben Mail und die beiden Instagram-Konten als kleine Symbole mit kurzem Wort, darunter eine feine Zeile
   const igKurz=CFG.insta.map(a=>'<a href="https://instagram.com/'+a.handle.replace(/^@/,"")+'" target="_blank" rel="noopener" title="'+esc(a.handle)+'" aria-label="Instagram '+esc(a.handle)+' ('+esc(t[a.key])+')">'+IG+'<span>'+esc(a.key==="nKunst"?t.tKunst:t.tCartoon)+'</span></a>').join("");
   $("foot").innerHTML='<div class="fuss-links"><a href="mailto:'+CFG.email+'" title="'+esc(CFG.email)+'" aria-label="E-Mail '+esc(CFG.email)+'">'+MAIL+'<span>'+esc(t.fMail)+'</span></a>'+igKurz+'</div>'+
-   '<p class="fuss-recht"><a href="#rechtliches">'+esc(t.nImp)+'</a><span aria-hidden="true">·</span><a href="#datenschutz">'+esc(t.nPriv)+'</a><span aria-hidden="true">·</span><span id="copy">© '+new Date().getFullYear()+' Eva Narváez</span><span aria-hidden="true">·</span><button type="button" class="hoch-link">'+esc(t.toTop)+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg></button></p>';
+   '<p class="fuss-recht"><a href="#rechtliches">'+esc(t.nImp)+'</a><span aria-hidden="true">·</span><a href="#datenschutz">'+esc(t.nPriv)+'</a><span aria-hidden="true">·</span><a href="#bildrechte">'+esc(t.nRights)+'</a><span aria-hidden="true">·</span><span id="copy">© '+new Date().getFullYear()+' Eva Narváez</span><span aria-hidden="true">·</span><button type="button" class="hoch-link">'+esc(t.toTop)+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg></button></p>';
   const legal=(arr,l)=>arr.map(([k,x])=>k==="h"?"<h2>"+esc(x)+"</h2>":"<p>"+esc(x).replace("{mail}",'<a href="mailto:'+CFG.email+'">'+CFG.email+"</a>").replace("{addr}",'<span class="addr">'+esc(CFG.street)+"<br>"+esc(CFG.zip+COUNTRY[l])+"</span>").replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,u=>'<a href="'+u+'" target="_blank" rel="noopener">'+u+"</a>")+"</p>").join("");
   $("privText").innerHTML=legal(PRIV[l],l);
   $("impText").innerHTML=legal(IMP[l],l);
+  $("rightsText").innerHTML=legal(RIGHTS[l],l);
   $("mailBtn").href="mailto:"+CFG.email;$("mailBtn").innerHTML=MAIL+esc(CFG.email);
   $("contactLines").innerHTML=igHtml;
   renderGallery();
@@ -710,16 +739,16 @@ function go(h){
    erzeugt von tools/tueren.py) mit eigenem Titel für Suchmaschinen; window.TUER.h sagt dort, was aufgeschlagen wird.
    Beim Klicken schreibt die Seite dieselben Adressen in die Adresszeile (ohne neu zu laden) – wer sie teilt, teilt die Tür. */
 const kurzname=t=>String(t||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
-const TUEREN={kunst:["kunst","Bildende Kunst"],cartoon:["cartoon/cartoon","Cartoon"],illustration:["cartoon/illustration","Illustration"],"ueber-mich":["ueber","Über mich"],kontakt:["kontakt","Kontakt"]};
+const TUEREN={kunst:["kunst","Bildende Kunst"],cartoon:["cartoon/cartoon","Cartoon"],illustration:["cartoon/illustration","Illustration"],"ueber-mich":["ueber","Über mich"],kontakt:["kontakt","Kontakt"],bildrechte:["bildrechte","Bildrechte"]};
 const TYP_WORT={cartoon:"Cartoons",illustration:"Illustrationen"};
 /* Tab-Titel der Türen in allen drei Sprachen (Namen aus L) */
-const TUER_NAME={kunst:"nKunst",cartoon:"tCartoon",illustration:"tIllu","ueber-mich":"nUeber",kontakt:"nKontakt"};
+const TUER_NAME={kunst:"nKunst",cartoon:"tCartoon",illustration:"tIllu","ueber-mich":"nUeber",kontakt:"nKontakt",bildrechte:"nRights"};
 const REIHE_WORT={de:{cartoon:"Cartoons von",illustration:"Illustrationen von"},es:{cartoon:"Cartoons de",illustration:"Ilustraciones de"},en:{cartoon:"Cartoons by",illustration:"Illustrations by"}};
 let letzteId=null;
 /* Adressen je Sprache: Deutsch ohne Zusatz (/kunst), Spanisch unter /es/ (/es/bellas-artes), Englisch unter /en/ (/en/fine-art).
    Reihen (z. B. Breva) heißen in allen Sprachen gleich. Muss zu SLUGS in tools/tueren.py passen. */
-const SLUGS={es:{kunst:"bellas-artes",cartoon:"cartoon",illustration:"ilustracion","ueber-mich":"sobre-mi",kontakt:"contacto"},
-             en:{kunst:"fine-art",cartoon:"cartoon",illustration:"illustration","ueber-mich":"about",kontakt:"contact"}};
+const SLUGS={es:{kunst:"bellas-artes",cartoon:"cartoon",illustration:"ilustracion","ueber-mich":"sobre-mi",kontakt:"contacto",bildrechte:"derechos-de-imagen"},
+             en:{kunst:"fine-art",cartoon:"cartoon",illustration:"illustration","ueber-mich":"about",kontakt:"contact",bildrechte:"image-rights"}};
 const sprachVorsatz=l=>l==="de"?"":"/"+l;
 const slugIn=(l,k)=>l==="de"?k:SLUGS[l][k];
 const pfadSprache=()=>{const m=location.pathname.match(/^\/(es|en)(\/|\.html$|$)/);return m?m[1]:"de"};

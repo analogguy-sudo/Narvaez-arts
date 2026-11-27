@@ -48,6 +48,16 @@ BEREICHE = {
         "es": ("contacto", f"Contacto – {NAME}", "Contacto con Eva Narváez: correo e Instagram para consultas sobre obras, encargos y exposiciones."),
         "en": ("contact", f"Contact – {NAME}", "Contact Eva Narváez: email and Instagram for enquiries about artworks, commissions and exhibitions.")}),
 }
+BEREICHE["bildrechte"] = ("bildrechte", {
+    "de": ("bildrechte", f"Bildrechte – {NAME}", "Bildrechte und Nutzungsbedingungen: Alle Werke von Eva Narváez sind urheberrechtlich geschützt, alle Rechte vorbehalten."),
+    "es": ("derechos-de-imagen", f"Derechos de imagen – {NAME}", "Derechos de imagen y condiciones de uso: todas las obras de Eva Narváez están protegidas por derechos de autor, todos los derechos reservados."),
+    "en": ("image-rights", f"Image rights – {NAME}", "Image rights and terms of use: all works by Eva Narváez are protected by copyright, all rights reserved.")})
+
+# Angaben für Suchmaschinen zu jedem Werk: alle Rechte vorbehalten, keine freie Lizenz; license und acquireLicensePage zeigen auf die
+# Bildrechte-Seite der jeweiligen Sprache (dort steht der Weg für individuelle Anfragen per E-Mail).
+VORBEHALT = {"de": "Alle Rechte vorbehalten", "es": "Todos los derechos reservados", "en": "All rights reserved"}
+KUENSTLERIN = {"@type": "Person", "name": NAME, "url": SEITE + "/"}
+
 STARTSEITE = {   # Titel und Beschreibung der Startseiten /es/ und /en/ (die deutsche ist index.html selbst)
     "es": (f"{NAME} – Bellas Artes e ilustración", "Eva Narváez – artista plástica e ilustradora. Pintura, cartoon e ilustración: color, emoción y experiencia personal."),
     "en": (f"{NAME} – Fine Art & Illustration", "Eva Narváez – visual artist and illustrator. Painting, cartoon and illustration: colour, emotion and personal experience."),
@@ -88,7 +98,29 @@ def url_von(pfad):   # Dateipfad ohne .html → öffentliche Adresse
     return f"{SEITE}/{pfad}"
 
 
-def seite(vorlage, pfad, sprache, titel, beschreibung, ziel, fassungen, bild=None):
+def galerie_daten(werke, sprache, titel, url, rechte_url):
+    """ImageGallery mit einem ImageObject je Werk (Hauptbild), Texte in der Sprache der Seite."""
+    objekte = []
+    for w in werke:
+        if not w.get("image_path"):
+            continue
+        name = w.get(f"title_{sprache}") or w.get("title_de") or ""
+        o = {"@type": "ImageObject", "contentUrl": bild_url(w["image_path"], 1600), "name": name,
+             "creator": KUENSTLERIN, "creditText": NAME, "copyrightNotice": f"© {NAME} – {VORBEHALT[sprache]}",
+             "license": rechte_url, "acquireLicensePage": rechte_url}
+        angaben = " · ".join(str(x) for x in (w.get(f"technique_{sprache}") or w.get("technique_de"), w.get("size")) if x)
+        if angaben:
+            o["caption"] = angaben
+        if w.get("year"):
+            o["dateCreated"] = str(w["year"])
+        objekte.append(o)
+    if not objekte:
+        return None
+    return {"@context": "https://schema.org", "@type": "ImageGallery", "name": titel, "url": url, "inLanguage": sprache,
+            "author": KUENSTLERIN, "image": objekte}
+
+
+def seite(vorlage, pfad, sprache, titel, beschreibung, ziel, fassungen, bild=None, galerie=None):
     """Eine Tür: pfad = Datei ohne .html (z. B. 'es/bellas-artes'), fassungen = {Sprache: pfad} für hreflang."""
     a = lambda x: html.escape(x, quote=True)
     url = url_von(pfad)
@@ -113,6 +145,9 @@ def seite(vorlage, pfad, sprache, titel, beschreibung, ziel, fassungen, bild=Non
         s = setze(s, r'<meta property="og:image" content="[^"]*">', f'<meta property="og:image" content="{a(bild)}">')
         s = re.sub(r'<meta name="twitter:image" content="[^"]*">', f'<meta name="twitter:image" content="{a(bild)}">', s, count=1)
         s = re.sub(r'\s*<meta property="og:image:(width|height|alt)" content="[^"]*">', "", s)
+    if galerie:
+        daten = json.dumps(galerie, ensure_ascii=False).replace("</", "<\\/")
+        s = setze(s, r"</head>", f'<script type="application/ld+json">{daten}</script>\n</head>')
     marke = "<!-- Eingangstür, erzeugt von tools/tueren.py – nicht von Hand bearbeiten -->"
     s = setze(s, r'<meta charset="utf-8">', f'<meta charset="utf-8">\n{marke}\n<script>window.TUER={json.dumps({"h": ziel, "l": sprache}, ensure_ascii=False)}</script>')
     return s
@@ -120,7 +155,14 @@ def seite(vorlage, pfad, sprache, titel, beschreibung, ziel, fassungen, bild=Non
 
 def main():
     vorlage = open(os.path.join(WURZEL, "index.html"), encoding="utf-8").read()
-    werke = holen("artworks?select=category,cartoon_type,series,image_path&published=eq.true&order=sort.asc,created_at.desc")
+    werke = holen("artworks?select=category,cartoon_type,series,image_path,title_de,title_es,title_en,technique_de,technique_es,technique_en,size,year"
+                  "&published=eq.true&order=sort.asc,created_at.desc")
+    typ_von = lambda w: w.get("cartoon_type") if w.get("cartoon_type") in ("cartoon", "illustration") else "cartoon"
+    WERKE_ZU = {   # welche Werke auf welcher Tür als Bildergalerie gemeldet werden
+        "kunst": lambda w: (w.get("category") or "kunst") == "kunst",
+        "cartoon/cartoon": lambda w: w.get("category") == "cartoon" and typ_von(w) == "cartoon",
+        "cartoon/illustration": lambda w: w.get("category") == "cartoon" and typ_von(w) == "illustration",
+    }
     gruppen = []   # je Inhalt eine Gruppe: (ziel, bild, {Sprache: (pfad, titel, beschreibung)})
     # Startseiten /es/ und /en/ (Deutsch = index.html, wird nicht überschrieben, steht aber in den Verweisen)
     gruppen.append(("", None, {"de": ("index", None, None), **{l: (f"{l}/index", *STARTSEITE[l]) for l in ("es", "en")}}))
@@ -148,18 +190,22 @@ def main():
             "en": (f"en/{slug}", f"{reihe} – {TYP_WORT['en'][typ].capitalize()} by {NAME}", f"{reihe}: a series of {TYP_WORT['en'][typ]} by {NAME}" + (", alias Breva." if typ == "cartoon" else ".")),
         }
         gruppen.append((f"cartoon/{typ}/{reihe}", bild_url(erstes) if erstes else None, texte))
+        WERKE_ZU[f"cartoon/{typ}/{reihe}"] = (lambda r: lambda w: w.get("category") == "cartoon" and w.get("series") == r)(reihe)
 
     os.makedirs(os.path.join(WURZEL, "es"), exist_ok=True)
     os.makedirs(os.path.join(WURZEL, "en"), exist_ok=True)
     neu = []
+    rechte = {l: url_von(BEREICHE["bildrechte"][1][l][0] if l == "de" else f"{l}/{BEREICHE['bildrechte'][1][l][0]}") for l in SPRACHEN}
     for ziel, bild, texte in gruppen:
         fassungen = {l: texte[l][0] for l in SPRACHEN}
+        auswahl = [w for w in werke if WERKE_ZU[ziel](w)] if ziel in WERKE_ZU else []
         for l in SPRACHEN:
             pfad, titel, text = texte[l]
             if pfad == "index":
                 continue   # die deutsche Startseite ist die Vorlage selbst
+            gal = galerie_daten(auswahl, l, titel, url_von(pfad), rechte[l]) if auswahl else None
             with open(os.path.join(WURZEL, pfad + ".html"), "w", encoding="utf-8") as f:
-                f.write(seite(vorlage, pfad, l, titel, text, ziel, fassungen, bild))
+                f.write(seite(vorlage, pfad, l, titel, text, ziel, fassungen, bild, gal))
             neu.append(pfad)
 
     # Türen, die es nicht mehr gibt, entfernen (nur solche, die dieses Skript selbst angelegt hat)
